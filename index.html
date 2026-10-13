@@ -9,7 +9,6 @@ body{font-family:Arial,sans-serif;margin:0;padding:15px;background:#f7f7f7;color
 .sticky{position:sticky;top:0;background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:999;margin-bottom:15px;}
 h1{margin-top:0;font-size:1.4rem;text-align:center;font-weight:800;color:#111;}
 h2{font-size:1.2rem;margin-top:20px;border-bottom:2px solid #ddd;padding-bottom:5px;font-weight:700;}
-.category-header{background:#e2e8f0;color:#334155;padding:6px 12px;border-radius:6px;margin-top:15px;margin-bottom:8px;font-size:0.95rem;font-weight:bold;}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;}
 button{padding:10px 12px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;flex:1;min-width:80px;font-size:14px;}
 .btn-random{background:#e0f2fe;color:#0369a1;}
@@ -31,17 +30,10 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 .info-row{display:flex;justify-content:space-between;margin-bottom:4px;font-size:14px;}
 .rules-container{margin-top:10px;padding:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;}
 .rule-item{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
-
-/* NY STYLING: Begränsar höjden på förarlistan och lägger till en intern scrollbar */
-.scrollable-drivers-container {
-    max-height: 450px;
-    overflow-y: auto;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 10px;
-    background: #f1f5f9;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-}
+.category-accordion{background:#e2e8f0;color:#334155;padding:10px 12px;border-radius:6px;margin-top:10px;font-size:0.95rem;font-weight:bold;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.category-content{display:none;padding-top:8px;padding-left:5px;}
+.accordion-arrow{font-size:0.8rem;transition:transform 0.2s;}
+.active .accordion-arrow{transform:rotate(90deg);}
 </style>
 </head>
 <body>
@@ -65,90 +57,12 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 <div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
 
 <h2>Tillgängliga förare</h2>
-<!-- Här lägger vi till den nya scrollbara containern runt förarlistan -->
-<div class="scrollable-drivers-container">
-    <div id="drivers"></div>
-</div>
+<div id="accordion-container"></div>
 
+<!-- Här länkar vi in alla dina 3 externa filer i exakt rätt ordning -->
 <script src="drivers.js"></script>
+<script src="random.js"></script>
+<script src="app.js"></script>
 
-<script>
-const BUDGET = 10.750, MAX_PLAYERS = 7;
-const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
-let myTeam = Array();
-
-function renderDrivers() {
-    const s = document.getElementById('search').value.toLowerCase();
-    const c = document.getElementById('drivers'); c.innerHTML = '';
-    let av = drivers.filter(d => !myTeam.some(t => t.id === d.id) && d.name.toLowerCase().includes(s));
-    if(av.length===0){c.innerHTML='<p style="text-align:center;color:#666;">Inga förare hittades</p>';return;}
-    av.sort((a,b)=>b.avg-a.avg);
-    const g = {"US":Array(),"SS":Array(),"UU21":Array(),"SU21":Array()};
-    av.forEach(d => { if(g[d.category]) g[d.category].push(d); });
-    const categoryOrder = Array("US","SS","UU21","SU21");
-    categoryOrder.forEach(cat => {
-        if(g[cat].length>0){
-            const h = document.createElement('div'); h.className='category-header'; h.innerText=`${categoryNames[cat]} (${g[cat].length} st)`; c.appendChild(h);
-            g[cat].forEach(d => {
-                const div = document.createElement('div'); div.className=`driver ${d.category}`;
-                div.innerHTML=`<div><strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br><small>Ingångssnitt: ${d.avg.toFixed(3)}</small></div><button class="btn-pick" onclick="addDriver(${d.id})">Välj</button>`;
-                c.appendChild(div);
-            });
-        }
-    });
-    sendHeight();
-}
-
-function renderTeam() {
-    const c = document.getElementById('team'); c.innerHTML = '';
-    if(myTeam.length===0){c.innerHTML='<i>Inga förare valda än. Klicka på "Välj" nedan!</i>';updateStatus();return;}
-    let finalOrderedTeam = Array();
-    if(myTeam.length>2){
-        let s = [...myTeam].sort((a,b)=>a.avg-b.avg);
-        let res = Array(s,s), main = s.slice(2);
-        main.sort((a,b)=>b.avg-a.avg); res.sort((a,b)=>b.avg-a.avg);
-        finalOrderedTeam = [...main,...res];
-    } else { finalOrderedTeam = [...myTeam].sort((a,b)=>a.avg-b.avg); }
-    finalOrderedTeam.forEach((d, i) => {
-        const div = document.createElement('div'); div.className=`team-member ${d.category}`;
-        const p = i+1, isR = p>=6, nCl = isR?'position-number reserve-position':'position-number', lbl = isR?`Plats ${p} (R)`:`Plats ${p}`;
-        div.innerHTML=`<div><span class="${nCl}">${p}</span><strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br><small style="margin-left:32px;">Snitt: ${d.avg.toFixed(3)} (${lbl})</small></div><button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>`;
-        c.appendChild(div);
-    });
-    updateStatus();
-}
-
-function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
-function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
-
-function updateStatus() {
-    const tot = myTeam.reduce((sum,d)=>sum+d.avg,0), rem = BUDGET-tot;
-    const bEl = document.getElementById('budget'); bEl.innerText = `${tot.toFixed(3)} / ${BUDGET.toFixed(3)}`;
-    bEl.className = tot>BUDGET?'invalid':'valid';
-    document.getElementById('remaining').innerText = rem.toFixed(3);
-    document.getElementById('team-count').innerText = `${myTeam.length} / ${MAX_PLAYERS}`;
-    const ss = myTeam.filter(d=>d.category==="SS").length, su = myTeam.filter(d=>d.category==="SU21").length, totU = su+myTeam.filter(d=>d.category==="UU21").length;
-    const rEl = document.getElementById('rules');
-    let h = '';
-    h += tot>BUDGET?`<div class="rule-item invalid">❌ Snitt-tak överskridet (${tot.toFixed(3)} > 10.750)</div>`:(myTeam.length>0?`<div class="rule-item valid">✅ Snitt-tak ok (${tot.toFixed(3)} / 10.750)</div>`:`<div class="rule-item" style="color:#666;">⚪ Snitt-tak (Max 10.750)</div>`);
-    h += ss>=2?`<div class="rule-item valid">✅ Minst två svenska seniorer (${ss}/2)</div>`:`<div class="rule-item invalid">❌ Kräver minst två svenska seniorer (${ss}/2)</div>`;
-    h += (totU>=2&&su>=1)?`<div class="rule-item valid">✅ U21-krav uppfyllt (Totalt: ${totU}/2, Svenska: ${su}/1)</div>`:`<div class="rule-item invalid">❌ Kräver minst två U21 (${totU}/2) varav minst en svensk (${su}/1)</div>`;
-    rEl.innerHTML = h; sendHeight();
-}
-
-function clearTeam(){ myTeam=Array();renderTeam();renderDrivers(); }
-function randomTeam(){ clearTeam();let att=0;while(myTeam.length<MAX_PLAYERS&&att<500){const r=drivers[Math.floor(Math.random()*drivers.length)];if(!myTeam.some(x=>x.id===r.id)&&(myTeam.reduce((sum,x)=>sum+x.avg,0)+r.avg<=BUDGET)){myTeam.push(r);}att++;}renderTeam();renderDrivers(); }
-
-function shareTeam() {
-    if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
-    const tot=myTeam.reduce((sum,d)=>sum+d.avg,0), ss=myTeam.filter(d=>d.category==="SS").length, su=myTeam.filter(d=>d.category==="SU21").length, totU=su+myTeam.filter(d=>d.category==="UU21").length;
-    if(tot>BUDGET||ss<2||totU<2||su<1){alert("Ditt lag uppfyller inte alla lagregler ännu!");return;}
-    const txt = `Jag byggde min speedwaysjua med VT-sporten! Mitt totalsnitt blev ${tot.toFixed(3)}! Mitt lag: ${myTeam.map(d=>d.name).join(", ")}. Bygg ditt eget lag här! 🏁`;
-    if(navigator.share){navigator.share({title:'Min Speedwaysjua',text:txt});}else{navigator.clipboard.writeText(txt);alert("Laguppställningen kopierad!");}
-}
-
-function sendHeight(){ setTimeout(()=>{const h=document.documentElement.scrollHeight||document.body.scrollHeight;window.parent.postMessage({type:'resize-iframe',height:h},'*');},100); }
-window.onload=()=>{renderDrivers();window.addEventListener('resize',sendHeight);};
-</script>
 </body>
 </html>
