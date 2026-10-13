@@ -64,7 +64,7 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 
 <script src="drivers.js"></script>
 <script>
-const BUDGET = 10.750, MAX_PLAYERS = 7, MIN_BUDGET = 9.800;
+const BUDGET = 10.750, MAX_PLAYERS = 7, MIN_BUDGET = 9.200;
 const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
 
 const flags = {
@@ -315,7 +315,7 @@ function renderTeam() {
     if (aussies >= 4) {
         return {
             title: "🇦🇺 Kangaroo Crew",
-            text: "Australisk fighting spirit är grunden i ditt lag."
+            text: "Australisk fighting spirit är grunden i ditt lag. Är du Mark Lemon?"
         };
     }
 
@@ -329,13 +329,13 @@ function renderTeam() {
     if (nations >= 6) {
         return {
             title: "🌍 FN-laget",
-            text: "Du har samlat speedwaytalang från hela världen."
+            text: "Du har samlat speedwaytalang från hela världen. Lycka till att få ihop det!"
         };
     }
     if (elites >= 3) {
     return {
         title: "🏆 GP-eliten",
-        text: "Tre förare över 2,000 i snitt. Det här laget saknar inte toppklass."
+        text: "Tre förare över 2,000 i snitt. Det här laget saknar inte toppklass. Reservkampen då?"
     };
 }
     // Åldersprofiler
@@ -343,14 +343,14 @@ function renderTeam() {
     if (avgAge > 35 && ageDrivers.length >= 4) {
         return {
             title: "Det finns rutin där ute",
-            text: "Laget blir bara bättre med åren. Erfarenhet är en underskattad superkraft."
+            text: "Laget blir bara bättre med åren. Erfarenhet är en underskattad superkraft. Eller så kroknar ni i juli."
         };
     }
 
     if (avgAge < 28 && ageDrivers.length >= 4) {
         return {
             title: "🚀 Unga gardet",
-            text: "Du bygger för framtiden. Ungt, hungrigt och fartfyllt."
+            text: "Du bygger för framtiden. Ungt, hungrigt och fartfyllt. Och kanske naivt?"
         };
     }
 
@@ -363,7 +363,7 @@ function renderTeam() {
         };
     }
 
-    if (total < 10.000) {
+    if (total < 9.500) {
         return {
             title: "🤯 Chansaren",
             text: "Budgeten finns där för att användas. Du har andra planer."
@@ -442,7 +442,7 @@ function renderTeam() {
         };
     }
 
-    if (cheap >= 3 && total >= 10.40) {
+    if (cheap >= 3 && total >= 10.00) {
         return {
             title: "💎 Fyndlaget",
             text: "Du har hittat värde där andra kanske inte letar."
