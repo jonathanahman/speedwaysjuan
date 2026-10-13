@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bygg din speedwaysjua</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 15px;
+    background: #f7f7f7;
+    color: #333;
+}
+
+.sticky{
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    z-index: 999;
+    margin-bottom: 15px;
+}
+
+h1{ margin-top: 0; font-size: 1.5rem; text-align: center; }
+h2{ font-size: 1.2rem; margin-top: 20px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
+
+.actions{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+button{
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    flex: 1;
+    min-width: 80px;
+}
+.btn-random { background: #e0f2fe; color: #0369a1; }
+.btn-clear { background: #fee2e2; color: #b91c1c; }
+.btn-share { background: #dcfce7; color: #15803d; }
+.btn-pick { background: #0284c7; color: #fff; padding: 6px 12px; }
+.btn-remove { background: #ef4444; color: #fff; padding: 6px 12px; }
+
+.driver, .team-member{
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.SS{border-left:8px solid #1976d2;}
+.US{border-left:8px solid #2e7d32;}
+.SU21{border-left:8px solid #ef6c00;}
+.UU21{border-left:8px solid #8e24aa;}
+
+.category-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #eee;
+    margin-left: 8px;
+    font-weight: bold;
+}
+
+input{
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.valid{ color: green; font-weight: bold; }
+.invalid{ color: red; font-weight: bold; }
+.info-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 14px; }
+</style>
+</head>
+
+<body>
+
+<div class="sticky">
+    <h1>🏁 BYGG DIN SPEEDWAYSJUA</h1>
+    <div class="info-row">
+        <span>Totalt snitt:</span>
+        <span id="budget" class="valid">0.000 / 10.750</span>
+    </div>
+    <div class="info-row">
+        <span>Kvar att nyttja:</span>
+        <span id="remaining">10.750</span>
+    </div>
+    <div class="info-row">
+        <span>Antal förare:</span>
+        <span id="team-count">0 / 7</span>
+    </div>
+    <div id="rules" style="font-size: 12px; margin-top: 5px;"></div>
+
+    <div class="actions">
+        <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
+        <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
+        <button class="btn-share" onclick="shareTeam()">📤 Dela</button>
+    </div>
+</div>
+
+<h3>⭐ Mest valda just nu</h3>
+<ol style="font-size: 14px; padding-left: 20px; margin-bottom: 20px;">
+    <li>Kim Nilsson</li>
+    <li>Robert Lambert</li>
+    <li>Adam Bednar</li>
+    <li>Harry Lundahl</li>
+    <li>Bartosz Zmarzlik</li>
+</ol>
+
+<input id="search" placeholder="🔍 Sök förare..." onkeyup="renderDrivers()" />
+
+<h2>Ditt lag</h2>
+<div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
+
+<h2>Tillgängliga förare</h2>
+<div id="drivers"></div>
+
+<script>
+const BUDGET = 10.750;
+const MAX_PLAYERS = 7;
+
+// Här är din databas. Du kan lägga till fler förare här i framtiden!
+const drivers = [
+    {id:1, name:"Kim Nilsson", avg:2.027, category:"SS"},
+    {id:2, name:"Fredrik Lindgren", avg:1.589, category:"SS"},
+    {id:3, name:"Jacob Thorssell", avg:1.548, category:"SS"},
+    {id:4, name:"Oliver Berntzon", avg:1.533, category:"SS"},
+    {id:5, name:"Harry Lundahl", avg:0.759, category:"SU21"},
+    {id:6, name:"Leo Klasson", avg:0.652, category:"SU21"},
+    {id:7, name:"Isak Lundquist", avg:0.505, category:"SU21"},
+    {id:8, name:"Tyr Söderblom", avg:0.500, category:"SU21"},
+    {id:9, name:"Adam Bednar", avg:1.679, category:"UU21"},
+    {id:10, name:"Maksymilian Pawelczak", avg:1.614, category:"UU21"},
+    {id:11, name:"Kevin Malkiewicz", avg:1.494, category:"UU21"},
+    {id:12, name:"Mikkel Andersen", avg:1.448, category:"UU21"}
+];
+
+let myTeam = [];
+
+function renderDrivers() {
+    const searchVal = document.getElementById('search').value.toLowerCase();
+    const container = document.getElementById('drivers');
+    container.innerHTML = '';
+
+    // Filtrera bort förare som redan är valda samt matchar sökning
+    const available = drivers.filter(d => !myTeam.some(t => t.id === d.id) && d.name.toLowerCase().includes(searchVal));
+
+    if(available.length === 0) {
+        container.innerHTML = '<p style="text-align:center;color:#666;">Inga förare hittades</p>';
+        return;
+    }
+
+    available.forEach(d => {
+        const div = document.createElement('div');
+        div.className = `driver ${d.category}`;
+        div.innerHTML = `
+            <div>
+                <strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br>
+                <small>Snitt: ${d.avg.toFixed(3)}</small>
+            </div>
+            <button class="btn-pick" onclick="addDriver(${d.id})">Välj</button>
+        `;
+        container.appendChild(div);
+    });
+    sendHeight();
+}
+
+function renderTeam() {
+    const container = document.getElementById('team');
+    container.innerHTML = '';
+
+    if (myTeam.length === 0) {
+        container.innerHTML = '<i>Inga förare valda än. Klicka på "Välj" nedan!</i>';
+        updateStatus();
+        return;
+    }
+
+    myTeam.forEach(d => {
+        const div = document.createElement('div');
+        div.className = `team-member ${d.category}`;
+        div.innerHTML = `
+            <div>
+                <strong>${d.name}</strong><br>
+                <small>Snitt: ${d.avg.toFixed(3)}</small>
+            </div>
+            <button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>
+        `;
+        container.appendChild(div);
+    });
+
+    updateStatus();
+}
+
+function addDriver(id) {
+    if (myTeam.length >= MAX_PLAYERS) {
+        alert("Du kan max välja 7 förare!");
+        return;
+    }
+    const driver = drivers.find(d => d.id === id);
+    if (driver) {
+        myTeam.push(driver);
+        renderTeam();
+        renderDrivers();
+    }
+}
+
+function removeDriver(id) {
+    myTeam = myTeam.filter(d => d.id !== id);
+    renderTeam();
+    renderDrivers();
+}
+
+function updateStatus() {
+    const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
+    const remaining = BUDGET - totalAvg;
+
+    const budgetEl = document.getElementById('budget');
+    budgetEl.innerText = `${totalAvg.toFixed(3)} / ${BUDGET.toFixed(3)}`;
+    
+    if (totalAvg > BUDGET) {
+        budgetEl.className = 'invalid';
+    } else {
+        budgetEl.className = 'valid';
+    }
+
+    document.getElementById('remaining').innerText = remaining.toFixed(3);
+    document.getElementById('team-count').innerText = `${myTeam.length} / ${MAX_PLAYERS}`;
+    
+    const rulesEl = document.getElementById('rules');
+    if (totalAvg > BUDGET) {
+        rulesEl.innerHTML = '<span class="invalid">⚠️ Du har överskridit snittakets budget!</span>';
+    } else {
+        rulesEl.innerHTML = '';
+    }
+    sendHeight();
+}
+
+function clearTeam() {
+    myTeam = [];
+    renderTeam();
+    renderDrivers();
+}
+
+function randomTeam() {
+    clearTeam();
+    let attempts = 0;
+    while(myTeam.length < MAX_PLAYERS && attempts < 100) {
+        const randDriver = drivers[Math.floor(Math.random() * drivers.length)];
+        const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
+        
+        if (!myTeam.some(t => t.id === randDriver.id) && (totalAvg + randDriver.avg <= BUDGET)) {
+            myTeam.push(randDriver);
+        }
+        attempts++;
+    }
+    renderTeam();
+    renderDrivers();
+}
+
+function shareTeam() {
+    if (myTeam.length < MAX_PLAYERS) {
+        alert("Välj 7 förare innan du delar ditt lag!");
+        return;
+    }
+    const names = myTeam.map(d => d.name).join(", ");
+    const text = `Jag har tagit ut min speedwaysjua: ${names}! Bygg din egen du också! 🏁`;
+    
+    if (navigator.share) {
+        navigator.share({ title: 'Min Speedwaysjua', text: text });
+    } else {
+        navigator.clipboard.writeText(text);
+        alert("Laguppställningen kopierad till urklipp! Nu kan du klistra in den på sociala medier.");
+    }
+}
+
+// Denna funktion skickar höjden till Live Center så du slipper scroll-i-scroll
+function sendHeight() {
+    setTimeout(() => {
+        const height = document.documentElement.scrollHeight || document.body.scrollHeight;
+        window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
+    }, 100);
+}
+
+window.onload = () => {
+    renderDrivers();
+    window.addEventListener('resize', sendHeight);
+};
+</script>
+</body>
+</html>
