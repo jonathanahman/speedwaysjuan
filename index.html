@@ -735,43 +735,42 @@ else {
         `;
     }
 
-    if (myTeam.length === 7) {
-
-        const profile = getTeamProfile();
-
-        let profileColor = "#0f172a";
-
-        if (profile.title.includes("🇵🇱")) profileColor = "#dc2626";
-        if (profile.title.includes("🇩🇰")) profileColor = "#b91c1c";
-        if (profile.title.includes("🇬🇧")) profileColor = "#1d4ed8";
-        if (profile.title.includes("🇦🇺")) profileColor = "#f59e0b";
-        if (profile.title.includes("🇸🇪")) profileColor = "#2563eb";
-        if (profile.title.includes("🌍")) profileColor = "#0ea5e9";
-        if (profile.title.includes("💰")) profileColor = "#ca8a04";
-        if (profile.title.includes("🔥")) profileColor = "#ea580c";
-
-        h += `
-            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;">
-                <div style="font-weight:bold;font-size:15px;">
-                    🏁 Din lagprofil
-                </div>
-                <div style="margin-top:5px;font-weight:bold;color:${profileColor};">
-                    ${profile.title}
-                </div>
-                <div style="font-size:13px;color:#555;margin-top:3px;">
-                    ${profile.text}
-                </div>
-            </div>
-        `;
-        const consistencyProfile = getConsistencyProfile();
-
-h += `
-    <div style="margin-top:8px;">
-        🎲 <strong>Lagstabilitet:</strong> ${consistencyProfile}
-    </div>
-`;
-    }
    if (myTeam.length === 7) {
+
+    const profile = getTeamProfile();
+
+    let profileColor = "#0f172a";
+
+    if (profile.title.includes("🇵🇱")) profileColor = "#dc2626";
+    if (profile.title.includes("🇩🇰")) profileColor = "#b91c1c";
+    if (profile.title.includes("🇬🇧")) profileColor = "#1d4ed8";
+    if (profile.title.includes("🇦🇺")) profileColor = "#f59e0b";
+    if (profile.title.includes("🇸🇪")) profileColor = "#2563eb";
+    if (profile.title.includes("🌍")) profileColor = "#0ea5e9";
+    if (profile.title.includes("💰")) profileColor = "#ca8a04";
+    if (profile.title.includes("🔥")) profileColor = "#ea580c";
+
+    h += `
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;">
+            <div style="font-weight:bold;font-size:15px;">
+                🏁 Din lagprofil
+            </div>
+            <div style="margin-top:5px;font-weight:bold;color:${profileColor};">
+                ${profile.title}
+            </div>
+            <div style="font-size:13px;color:#555;margin-top:3px;">
+                ${profile.text}
+            </div>
+        </div>
+    `;
+
+    const consistencyProfile = getConsistencyProfile();
+
+    h += `
+        <div style="margin-top:8px;">
+            🎲 <strong>Lagstabilitet:</strong> ${consistencyProfile}
+        </div>
+    `;
 
     const achievements = getAchievements();
     const TOTAL_ACHIEVEMENTS = 23;
@@ -789,23 +788,25 @@ h += `
             </div>
         `;
     }
-  if (latestSimAchievements.length > 0) {
 
-    h += `
-        <div style="margin-top:10px;">
-            <div style="font-weight:bold;">
-                🎲 Simuleringsutmärkelser
+    if (latestSimAchievements.length > 0) {
+
+        h += `
+            <div style="margin-top:10px;">
+                <div style="font-weight:bold;">
+                    🎲 Simuleringsutmärkelser
+                </div>
+                <div style="margin-top:5px;">
+                    ${latestSimAchievements.join("<br>")}
+                </div>
             </div>
-            <div style="margin-top:5px;">
-                ${latestSimAchievements.join("<br>")}
-            </div>
-        </div>
-    `;
+        `;
+    }
 }
+
 rEl.innerHTML = h;
 sendHeight();
 }
-
 function clearTeam(){ myTeam=Array();renderTeam();renderDrivers(); }
 
 function randomTeam() {
