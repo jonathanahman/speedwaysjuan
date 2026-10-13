@@ -268,6 +268,7 @@ function renderTeam() {
     ).length;
 
     const stars = myTeam.filter(d => d.avg >= 1.80).length;
+    const elites = myTeam.filter(d => d.avg >= 2.00).length;
 
     const cheap = myTeam.filter(d => d.avg <= 1.40).length;
 
@@ -331,7 +332,12 @@ function renderTeam() {
             text: "Du har samlat speedwaytalang från hela världen."
         };
     }
-
+    if (elites >= 3) {
+    return {
+        title: "🏆 GP-eliten",
+        text: "Tre förare över 2,000 i snitt. Det här laget saknar inte toppklass."
+    };
+}
     // Åldersprofiler
 
     if (avgAge > 35 && ageDrivers.length >= 4) {
