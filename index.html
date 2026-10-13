@@ -185,6 +185,24 @@ function updateStatus() {
     h += tot>BUDGET?`<div class="rule-item invalid">❌ Snitt-tak överskridet (${tot.toFixed(3)} > 10.750)</div>`:(myTeam.length>0?`<div class="rule-item valid">✅ Snitt-tak ok (${tot.toFixed(3)} / 10.750)</div>`:`<div class="rule-item" style="color:#666;">⚪ Snitt-tak (Max 10.750)</div>`);
     h += ss>=2?`<div class="rule-item valid">✅ Minst två svenska seniorer (${ss}/2)</div>`:`<div class="rule-item invalid">❌ Kräver minst två svenska seniorer (${ss}/2)</div>`;
     h += (totU>=2&&su>=1)?`<div class="rule-item valid">✅ U21-krav uppfyllt (Totalt: ${totU}/2, Svenska: ${su}/1)</div>`:`<div class="rule-item invalid">❌ Kräver minst två U21 (${totU}/2) varav minst en svensk (${su}/1)</div>`;
+    if (myTeam.length === 7) {
+
+    const profile = getTeamProfile();
+
+    h += `
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;">
+            <div style="font-weight:bold;font-size:15px;">
+                🏁 Din lagprofil
+            </div>
+            <div style="margin-top:5px;font-weight:bold;color:#0f172a;">
+                ${profile.title}
+            </div>
+            <div style="font-size:13px;color:#555;margin-top:3px;">
+                ${profile.text}
+            </div>
+        </div>
+    `;
+}
     rEl.innerHTML = h; sendHeight();
 }
 
