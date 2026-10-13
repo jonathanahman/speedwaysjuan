@@ -194,7 +194,7 @@ function renderTeam() {
     finalOrderedTeam.forEach((d, i) => {
         const div = document.createElement('div'); div.className=`team-member ${d.category}`;
         const p = i+1, isR = p>=6, nCl = isR?'position-number reserve-position':'position-number', lbl = isR?`Plats ${p} (R)`:`Plats ${p}`;
-        div.innerHTML=`<div><span class="${nCl}">${p}</span><strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br><small style="margin-left:32px;">Snitt: ${d.avg.toFixed(3)} (${lbl})</small></div><button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>`;
+        div.innerHTML=`<div><span class="${nCl}">${p}</span><strong>${flags[d.country] || ""} ${d.name}</strong> <span class="category-badge">${d.category}</span><br><small style="margin-left:32px;">Snitt: ${d.avg.toFixed(3)} (${lbl})</small></div><button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>`;
         c.appendChild(div);
     });
     updateStatus();
