@@ -725,13 +725,14 @@ else {
    if (myTeam.length === 7) {
 
     const achievements = getAchievements();
+    const TOTAL_ACHIEVEMENTS = 23;
 
     if (achievements.length > 0) {
 
         h += `
             <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;">
                 <div style="font-weight:bold;font-size:15px;">
-                    🏅 Utmärkelser
+                    🏅 Utmärkelser (${achievements.length}/${TOTAL_ACHIEVEMENTS})
                 </div>
                 <div style="margin-top:5px;">
                     ${achievements.join("<br>")}
