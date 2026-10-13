@@ -812,10 +812,10 @@ function randomTeam() {
         const consistency = driver.consistency || 3;
 
         const varianceMap = {
-            5: 0.20,
-            4: 0.30,
-            3: 0.40,
-            2: 0.55,
+            5: 0.15,
+            4: 0.25,
+            3: 0.35,
+            2: 0.50,
             1: 0.65
         };
 
@@ -833,25 +833,36 @@ function randomTeam() {
 
         results.push({
             name: driver.name,
-            score: score
+            score: score,
+            expected: expected,
+            delta: score - expected
         });
+
     });
 
+    // Sortera resultatlistan efter tagna poäng
     results.sort((a, b) => b.score - a.score);
-       const hero = results[0];
-const flop = results[results.length - 1];
+
+    // Matchhjälte = flest poäng
+    const hero = results[0];
+
+    // Matchflopp = störst underprestation
+    const flop = [...results].sort((a, b) => a.delta - b.delta)[0];
 
     results.forEach(driver => {
         output += `
             ${driver.name}: <strong>${driver.score}</strong> p<br>
         `;
     });
-output += `
-    <br>
-    🌟 Matchhjälte: <strong>${hero.name}</strong> (${hero.score} p)<br>
-    💀 Matchflopp: <strong>${flop.name}</strong> (${flop.score} p)<br>
-`;
-    output += `<br><strong>🏁 Lagpoäng: ${total}</strong><br><br>`;
+
+    output += `
+        <br>
+        🌟 Matchhjälte: <strong>${hero.name}</strong> (${hero.score} p)<br>
+        💀 Matchflopp: <strong>${flop.name}</strong> (${flop.score} p)<br>
+        <br>
+    `;
+
+    output += `<strong>🏁 Lagpoäng: ${total}</strong><br><br>`;
 
     if (total >= 46) {
         output += `<span style="color:#16a34a;font-weight:bold;">✅ Vinst</span>`;
@@ -867,7 +878,6 @@ output += `
 
     document.getElementById("simulation-result").innerHTML = output;
 }
-
 function shareTeam() {
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
     const tot = myTeam.reduce((sum,d)=>sum+d.avg,0);
