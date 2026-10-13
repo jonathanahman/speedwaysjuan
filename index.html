@@ -446,12 +446,22 @@ function updateStatus() {
 
     const profile = getTeamProfile();
 
+    let profileColor = "#0f172a";
+    
+    if (profile.title.includes("🇵🇱")) profileColor = "#dc2626";
+    if (profile.title.includes("🇩🇰")) profileColor = "#b91c1c";
+    if (profile.title.includes("🇬🇧")) profileColor = "#1d4ed8";
+    if (profile.title.includes("🇦🇺")) profileColor = "#f59e0b";
+    if (profile.title.includes("🇸🇪")) profileColor = "#2563eb";
+    if (profile.title.includes("🌍")) profileColor = "#0ea5e9";
+    if (profile.title.includes("💰")) profileColor = "#ca8a04";
+    if (profile.title.includes("🔥")) profileColor = "#ea580c";
     h += `
         <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;">
             <div style="font-weight:bold;font-size:15px;">
                 🏁 Din lagprofil
             </div>
-            <div style="margin-top:5px;font-weight:bold;color:#0f172a;">
+            <div style="margin-top:5px;font-weight:bold;color:${profileColor};">
                 ${profile.title}
             </div>
             <div style="font-size:13px;color:#555;margin-top:3px;">
