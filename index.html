@@ -189,24 +189,6 @@ function renderDrivers() {
     sendHeight();
 }
 
-function renderTeam() {
-    const c = document.getElementById('team'); c.innerHTML = '';
-    if(myTeam.length===0){c.innerHTML='<i>Inga förare valda än. Klicka på "Välj" nedan!</i>';updateStatus();return;}
-    let finalOrderedTeam = Array();
-    if(myTeam.length>2){
-        let s = [...myTeam].sort((a,b)=>a.avg-b.avg);
-        let res = Array(s[0], s[1]), main = s.slice(2);
-        main.sort((a,b)=>b.avg-a.avg); res.sort((a,b)=>b.avg-a.avg);
-        finalOrderedTeam = [...main,...res];
-    } else { finalOrderedTeam = [...myTeam].sort((a,b)=>a.avg-b.avg); }
-    finalOrderedTeam.forEach((d, i) => {
-        const div = document.createElement('div'); div.className=`team-member ${d.category}`;
-        const p = i+1, isR = p>=6, nCl = isR?'position-number reserve-position':'position-number', lbl = isR?`Plats ${p} (R)`:`Plats ${p}`;
-        div.innerHTML=`<div><span class="${nCl}">${p}</span><strong>${flags[d.country] || ""} ${d.name}</strong> <span class="category-badge">${d.category}</span><br><small style="margin-left:32px;">Snitt: ${d.avg.toFixed(3)} (${lbl})</small></div><button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>`;
-        c.appendChild(div);
-    });
-    updateStatus();
-}
 function getTeamProfile() {
 
     const total = myTeam.reduce((sum, d) => sum + d.avg, 0);
@@ -234,26 +216,7 @@ function getTeamProfile() {
             .map(d => d.country)
     ).size;
 
-    if (total >= 10.70) {
-        return {
-            title: "🎯 Maxat lagbygge",
-            text: "Du har använt budgeten till sista decimalen."
-        };
-    }
-
-    if (stars >= 4) {
-        return {
-            title: "💰 Galácticos",
-            text: "Du har staplat stjärnor på stjärnor."
-        };
-    }
-
-    if (total >= 10.60 && stars >= 3) {
-        return {
-            title: "🔥 Guldkandidat",
-            text: "Full gas från start. Det här laget är byggt för att utmana om guldet."
-        };
-    }
+    // Nationsprofiler först
 
     if (poles >= 4) {
         return {
@@ -287,6 +250,29 @@ function getTeamProfile() {
         return {
             title: "🌍 FN-laget",
             text: "Du har samlat speedwaytalang från hela världen."
+        };
+    }
+
+    // Övriga profiler
+
+    if (total >= 10.70) {
+        return {
+            title: "🎯 Maxat lagbygge",
+            text: "Du har använt budgeten till sista decimalen."
+        };
+    }
+
+    if (stars >= 4) {
+        return {
+            title: "💰 Galácticos",
+            text: "Du har staplat stjärnor på stjärnor."
+        };
+    }
+
+    if (total >= 10.60 && stars >= 3) {
+        return {
+            title: "🔥 Guldkandidat",
+            text: "Full gas från start. Det här laget är byggt för att utmana om guldet."
         };
     }
 
