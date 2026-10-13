@@ -155,8 +155,7 @@ const drivers = [
     {id:162,name:"Michael Thyme",avg:1.250,category:"US"},
     {id:163,name:"Celina Liebmann",avg:1.250,category:"US"},
     {id:164,name:"Max Fricke",avg:1.629,category:"US"},
-    {id:165,name:"Bastian Pedersen",avg:1.286,category:"UU21"}
+    {id:165,name:"Bastian Pedersen",avg:1.286,category:"UU21"},
     {id:166,name:"Casper Henriksson",avg:1.150,category:"SS"},
-    {id:1000,name:"Mathias Thörnblom",avg:1.104,category:"SS"},
+    {id:167,name:"Mathias Thörnblom",avg:1.104,category:"SS"},
 ];
-
