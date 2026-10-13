@@ -4,146 +4,43 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bygg din speedwaysjua</title>
-
 <style>
-body{
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 15px;
-    background: #f7f7f7;
-    color: #333;
-}
-
-.sticky{
-    position: sticky;
-    top: 0;
-    background: #fff;
-    padding: 12px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
-    z-index: 999;
-    margin-bottom: 15px;
-}
-
-h1{ margin-top: 0; font-size: 1.4rem; text-align: center; font-weight: 800; color: #111; }
-h2{ font-size: 1.2rem; margin-top: 20px; border-bottom: 2px solid #ddd; padding-bottom: 5px; font-weight: 700; }
-
-.category-header {
-    background: #e2e8f0;
-    color: #334155;
-    padding: 6px 12px;
-    border-radius: 6px;
-    margin-top: 15px;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.actions{
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 10px 0;
-}
-
-button{
-    padding: 10px 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    flex: 1;
-    min-width: 80px;
-    font-size: 14px;
-}
-.btn-random { background: #e0f2fe; color: #0369a1; }
-.btn-clear { background: #fee2e2; color: #b91c1c; }
-.btn-share { background: #dcfce7; color: #15803d; }
-.btn-pick { background: #0284c7; color: #fff; padding: 6px 12px; }
-.btn-remove { background: #ef4444; color: #fff; padding: 6px 12px; }
-
-.driver, .team-member{
-    background: white;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
+body{font-family:Arial,sans-serif;margin:0;padding:15px;background:#f7f7f7;color:#333;}
+.sticky{position:sticky;top:0;background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:999;margin-bottom:15px;}
+h1{margin-top:0;font-size:1.4rem;text-align:center;font-weight:800;}
+h2{font-size:1.2rem;margin-top:20px;border-bottom:2px solid #ddd;padding-bottom:5px;font-weight:700;}
+.category-header{background:#e2e8f0;color:#334155;padding:6px 12px;border-radius:6px;margin-top:15px;margin-bottom:8px;font-size:0.95rem;font-weight:bold;}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;}
+button{padding:10px 12px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;flex:1;min-width:80px;font-size:14px;}
+.btn-random{background:#e0f2fe;color:#0369a1;}
+.btn-clear{background:#fee2e2;color:#b91c1c;}
+.btn-share{background:#dcfce7;color:#15803d;}
+.btn-pick{background:#0284c7;color:#fff;padding:6px 12px;}
+.btn-remove{background:#ef4444;color:#fff;padding:6px 12px;}
+.driver,.team-member{background:white;border-radius:8px;margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
 .SS{border-left:8px solid #1976d2;}
 .US{border-left:8px solid #2e7d32;}
 .SU21{border-left:8px solid #ef6c00;}
 .UU21{border-left:8px solid #8e24aa;}
-
-.category-badge {
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: #eee;
-    margin-left: 8px;
-    font-weight: bold;
-}
-
-.position-number {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background: #334155;
-    color: #fff;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 24px;
-    font-size: 12px;
-    font-weight: bold;
-    margin-right: 8px;
-}
-
-.reserve-position {
-    background: #64748b; /* Annan färg på numret för reserverna */
-}
-
-input{
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
-.valid{ color: #16a34a; font-weight: bold; }
-.invalid{ color: #dc2626; font-weight: bold; }
-.info-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 14px; }
-.rule-item { margin-bottom: 2px; }
+.category-badge{font-size:10px;padding:2px 6px;border-radius:4px;background:#eee;margin-left:8px;font-weight:bold;}
+.position-number{display:inline-block;width:24px;height:24px;background:#334155;color:#fff;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;margin-right:8px;}
+.reserve-position{background:#64748b;}
+input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px solid #ccc;border-radius:8px;font-size:16px;}
+.valid{color:#16a34a;font-weight:bold;}
+.invalid{color:#dc2626;font-weight:bold;}
+.info-row{display:flex;justify-content:space-between;margin-bottom:4px;font-size:14px;}
+.rules-container{margin-top:10px;padding:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;}
+.rule-item{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
 </style>
 </head>
-
 <body>
 
 <div class="sticky">
     <h1>🏁 BYGG DIN SPEEDWAYSJUA</h1>
-    <div class="info-row">
-        <span>Totalt snitt:</span>
-        <span id="budget" class="valid">0.000 / 10.750</span>
-    </div>
-    <div class="info-row">
-        <span>Kvar att nyttja:</span>
-        <span id="remaining">10.750</span>
-    </div>
-    <div class="info-row">
-        <span>Antal förare:</span>
-        <span id="team-count">0 / 7</span>
-    </div>
-    
-    <div id="rules" style="font-size: 12px; margin-top: 8px; border-top: 1px solid #eee; padding-top: 6px;"></div>
-
+    <div class="info-row"><span>Totalt snitt:</span><span id="budget" class="valid">0.000 / 10.750</span></div>
+    <div class="info-row"><span>Kvar att nyttja:</span><span id="remaining">10.750</span></div>
+    <div class="info-row"><span>Antal förare:</span><span id="team-count">0 / 7</span></div>
+    <div class="rules-container" id="rules"></div>
     <div class="actions">
         <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
         <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
@@ -152,366 +49,91 @@ input{
 </div>
 
 <h3>⭐ Mest valda just nu</h3>
-<ol style="font-size: 14px; padding-left: 20px; margin-bottom: 20px;">
-    <li>Kim Nilsson</li>
-    <li>Robert Lambert</li>
-    <li>Adam Bednar</li>
-    <li>Harry Lundahl</li>
-    <li>Bartosz Zmarzlik</li>
+<ol style="font-size:14px;padding-left:20px;margin-bottom:20px;">
+    <li>Kim Nilsson</li><li>Robert Lambert</li><li>Adam Bednar</li><li>Harry Lundahl</li><li>Bartosz Zmarzlik</li>
 </ol>
 
 <input id="search" placeholder="🔍 Sök förare..." onkeyup="renderDrivers()" />
+<h2>Ditt lag</h2><div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
+<h2>Tillgängliga förare</h2><div id="drivers"></div>
 
-<h2>Ditt lag</h2>
-<div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
-
-<h2>Tillgängliga förare</h2>
-<div id="drivers"></div>
+<!-- Här kopplar vi ihop HTML-filen med din sparade drivers.js -->
+<script src="drivers.js"></script>
 
 <script>
-const BUDGET = 10.750;
-const MAX_PLAYERS = 7;
+const BUDGET = 10.750, MAX_PLAYERS = 7;
+const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
+let myTeam = [];
 
-const categoryNames = {
-    "US": "🌍 Utländska Seniorer (US)",
-    "SS": "🇸🇪 Svenska Seniorer (SS)",
-    "UU21": "🌍 Utländska U21 (UU21)",
-    "SU21": "🇸🇪 Svenska U21 (SU21)"
-};
-
-const drivers = [
-    {id:1,name:"Adam Bednar",avg:1.679,category:"UU21"},
-    {id:2,name:"Maksymilian Pawelczak",avg:1.614,category:"UU21"},
-    {id:3,name:"Kevin Malkiewicz",avg:1.494,category:"UU21"},
-    {id:4,name:"Mikkel Andersen",avg:1.448,category:"UU21"},
-    {id:5,name:"Villads Nagel",avg:1.441,category:"UU21"},
-    {id:6,name:"Jacob Jensen",avg:1.366,category:"UU21"},
-    {id:7,name:"Oskar Paluch",avg:1.340,category:"UU21"},
-    {id:8,name:"Bartosz Banbor",avg:1.317,category:"UU21"},
-    {id:9,name:"Beau Bailey",avg:1.257,category:"UU21"},
-    {id:10,name:"Casper Halkiewicz",avg:1.227,category:"UU21"},
-    {id:11,name:"Villads Pedersen",avg:1.160,category:"UU21"},
-    {id:12,name:"Patrick Kruse",avg:1.000,category:"UU21"},
-    {id:13,name:"Marcel Kowolik",avg:0.984,category:"UU21"},
-    {id:14,name:"Igor Kordun",avg:0.974,category:"UU21"},
-    {id:15,name:"Kacper Lobodzinski",avg:0.973,category:"UU21"},
-    {id:16,name:"Dimitri Buch",avg:0.913,category:"UU21"},
-    {id:17,name:"Kacper Mania",avg:0.864,category:"UU21"},
-    {id:18,name:"Nikodem Mikolajczyk",avg:0.841,category:"UU21"},
-    {id:19,name:"Emil Konieczny",avg:0.807,category:"UU21"},
-    {id:20,name:"Mikolaj Duchinski",avg:0.791,category:"UU21"},
-    {id:21,name:"Simon Ludwiczak",avg:0.776,category:"UU21"},
-    {id:22,name:"Franciszek Karczewski",avg:0.500,category:"UU21"},
-    {id:23,name:"Vilhelm Cairns",avg:0.500,category:"UU21"},
-    {id:24,name:"Hubert Jablonski",avg:0.500,category:"UU21"},
-    {id:25,name:"Kim Nilsson",avg:2.027,category:"SS"},
-    {id:26,name:"Fredrik Lindgren",avg:1.589,category:"SS"},
-    {id:27,name:"Jacob Thorssell",avg:1.548,category:"SS"},
-    {id:28,name:"Oliver Berntzon",avg:1.533,category:"SS"},
-    {id:29,name:"Timo Lahti",avg:1.392,category:"SS"},
-    {id:30,name:"Joel Andersson",avg:1.324,category:"SS"},
-    {id:31,name:"Tomas H Jonasson",avg:1.304,category:"SS"},
-    {id:32,name:"Anton Karlsson",avg:1.281,category:"SS"},
-    {id:33,name:"Rasmus Karlsson",avg:1.281,category:"SS"},
-    {id:34,name:"Jonathan Ejnermark",avg:1.213,category:"SS"},
-    {id:35,name:"Victor Palovaara",avg:1.171,category:"SS"},
-    {id:36,name:"Erik Persson",avg:1.143,category:"SS"},
-    {id:37,name:"Filip Hjelmland",avg:1.111,category:"SS"},
-    {id:38,name:"Daniel Henderson",avg:0.919,category:"SS"},
-    {id:39,name:"Jonatan Grahn",avg:0.894,category:"SS"},
-    {id:40,name:"Noel Wahlqvist",avg:0.825,category:"SS"},
-    {id:41,name:"Ludvig Lindgren",avg:0.673,category:"SS"},
-    {id:42,name:"Robin Aspegren",avg:0.646,category:"SS"},
-    {id:43,name:"Oskar Evertsson",avg:0.629,category:"SS"},
-    {id:44,name:"Eddie Bock",avg:0.600,category:"SS"},
-    {id:45,name:"Aleks Lundquist",avg:0.581,category:"SS"},
-    {id:46,name:"Adrian Gheorghe",avg:0.500,category:"SS"},
-    {id:47,name:"Emil Millberg",avg:0.405,category:"SS"},
-    {id:48,name:"Ludvig Selvin",avg:0.375,category:"SS"},
-    {id:49,name:"Christoffer Selvin",avg:0.000,category:"SS"},
-    {id:50,name:"Harry Lundahl",avg:0.759,category:"SU21"},
-    {id:60,name:"Leo Klasson",avg:0.652,category:"SU21"},
-    {id:61,name:"Isak Lundquist",avg:0.505,category:"SU21"},
-    {id:62,name:"Tyr Söderblom",avg:0.500,category:"SU21"},
-    {id:63,name:"Theo Johansson",avg:0.500,category:"SU21"},
-    {id:64,name:"Casper Appelgren",avg:0.500,category:"SU21"},
-    {id:65,name:"Sebastian Johansson Glimfjäll",avg:0.500,category:"SU21"},
-    {id:66,name:"Dante Johansson",avg:0.500,category:"SU21"},
-    {id:67,name:"Alfons Wiltander",avg:0.500,category:"SU21"},
-    {id:68,name:"Adam Karlsson",avg:0.500,category:"SU21"},
-    {id:69,name:"Anton Jansson",avg:0.500,category:"SU21"},
-    {id:70,name:"Charlie Netz",avg:0.500,category:"SU21"},
-    {id:71,name:"Daniel Hauge Sjöström",avg:0.500,category:"SU21"},
-    {id:72,name:"Adam Carlsson",avg:0.500,category:"SU21"},
-    {id:73,name:"Alfred Åberg",avg:0.500,category:"SU21"},
-    {id:74,name:"Arvid Björkeroth",avg:0.500,category:"SU21"},
-    {id:75,name:"Bartosz Zmarzlik",avg:2.755,category:"US"},
-    {id:76,name:"Anders Thomsen",avg:2.554,category:"US"},
-    {id:77,name:"Jack Holder",avg:2.541,category:"US"},
-    {id:78,name:"Robert Lambert",avg:2.457,category:"US"},
-    {id:79,name:"Mikkel Michelsen",avg:2.408,category:"US"},
-    {id:80,name:"Andrzej Lebedevs",avg:2.338,category:"US"},
-    {id:81,name:"Artem Laguta",avg:2.328,category:"US"},
-    {id:82,name:"Emil Sajfutdinov",avg:2.326,category:"US"},
-    {id:83,name:"Michael Jepsen Jensen",avg:2.241,category:"US"},
-    {id:84,name:"Mateusz Cierniak",avg:2.236,category:"US"},
-    {id:85,name:"Kacper Woryna",avg:2.170,category:"US"},
-    {id:86,name:"Brady Kurtz",avg:2.155,category:"US"},
-    {id:87,name:"Ryan Douglas",avg:2.072,category:"US"},
-    {id:88,name:"Przemyslaw Pawlicki",avg:2.044,category:"US"},
-    {id:89,name:"Daniel Bewley",avg:2.027,category:"US"},
-    {id:90,name:"Patryk Dudek",avg:2.000,category:"US"},
-    {id:91,name:"Rasmus Jensen",avg:2.000,category:"US"},
-    {id:92,name:"Martin Vaculik",avg:1.981,category:"US"},
-    {id:93,name:"Kai Huckenbeck",avg:1.964,category:"US"},
-    {id:94,name:"Leon Madsen",avg:1.954,category:"US"},
-    {id:95,name:"Janusz Kolodziej",avg:1.931,category:"US"},
-    {id:96,name:"Jan Kvech",avg:1.896,category:"US"},
-    {id:97,name:"Nicolai Klindt",avg:1.895,category:"US"},
-    {id:98,name:"Krzysztof Buczkowski",avg:1.887,category:"US"},
-    {id:99,name:"Nazar Parnitskyi",avg:1.854,category:"US"},
-    {id:100,name:"Jason Doyle",avg:1.847,category:"US"},
-    {id:101,name:"Vadim Tarasenko",avg:1.829,category:"US"},
-    {id:102,name:"Matej Zagar",avg:1.771,category:"US"},
-{id:103,name:"Frederik Jakobsen",avg:1.769,category:"US"},
-{id:104,name:"Piotr Pawlicki",avg:1.766,category:"US"},
-{id:105,name:"Jakub Miskowiak",avg:1.754,category:"US"},
-{id:106,name:"Rohan Tungate",avg:1.745,category:"US"},
-{id:107,name:"Pawel Przedpelski",avg:1.741,category:"US"},
-{id:108,name:"Norick Blödorn",avg:1.716,category:"US"},
-{id:109,name:"Maciej Janowski",avg:1.701,category:"US"},
-{id:110,name:"Ben Cook",avg:1.692,category:"US"},
-{id:111,name:"Wiktor Przyjemski",avg:1.689,category:"US"},
-{id:112,name:"Mads Hansen",avg:1.667,category:"US"},
-{id:113,name:"Dan Thompson",avg:1.653,category:"US"},
-{id:114,name:"Mathias Pollestad",avg:1.622,category:"US"},
-{id:115,name:"Dominik Kubera",avg:1.611,category:"US"},
-{id:116,name:"Josh Pickering",avg:1.606,category:"US"},
-{id:117,name:"Mateusz Tonder",avg:1.592,category:"US"},
-{id:118,name:"Matias Nielsen",avg:1.580,category:"US"},
-{id:119,name:"Luke Becker",avg:1.571,category:"US"},
-{id:120,name:"Maksym Drabik",avg:1.571,category:"US"},
-{id:121,name:"Oskar Fajfer",avg:1.563,category:"US"},
-{id:122,name:"Tim Sørensen",avg:1.556,category:"US"},
-{id:123,name:"Andreas Lyager",avg:1.554,category:"US"},
-{id:124,name:"Tobiasz Musielak",avg:1.544,category:"US"},
-{id:125,name:"Patryk Wojdylo",avg:1.524,category:"US"},
-{id:126,name:"Oleksandr Loktaev",avg:1.522,category:"US"},
-{id:127,name:"Keynan Rew",avg:1.476,category:"US"},
-{id:128,name:"Marko Lewiszyn",avg:1.469,category:"US"},
-{id:129,name:"Chris Holder",avg:1.467,category:"US"},
-{id:130,name:"Grzegorz Zengota",avg:1.462,category:"US"},
-{id:131,name:"Nick Morris",avg:1.456,category:"US"},
-{id:132,name:"Mateusz Szczepaniak",avg:1.435,category:"US"},
-{id:133,name:"Jakub Krawczyk",avg:1.429,category:"US"},
-{id:134,name:"Mikkel Bech",avg:1.425,category:"US"},
-{id:135,name:"Damian Ratajczak",avg:1.414,category:"US"},
-{id:136,name:"Tom Brennan",avg:1.412,category:"US"},
-{id:137,name:"Oscar Polis",avg:1.410,category:"US"},
-{id:138,name:"Antoni Kawczynski",avg:1.409,category:"US"},
-{id:139,name:"David Bellego",avg:1.400,category:"US"},
-{id:140,name:"Vaclav Milik",avg:1.365,category:"US"},
-{id:141,name:"Robert Chmiel",avg:1.345,category:"US"},
-{id:142,name:"Benjamin Basso",avg:1.330,category:"US"},
-{id:143,name:"Marcus Birkemose",avg:1.326,category:"US"},
-{id:144,name:"David Rempala",avg:1.267,category:"US"},
-{id:145,name:"Bartosz Smektala",avg:1.268,category:"US"},
-{id:146,name:"Esben Hjerrild",avg:1.213,category:"US"},
-{id:147,name:"Leon Flint",avg:1.209,category:"US"},
-{id:148,name:"Daniil Kolodinski",avg:1.205,category:"US"},
-{id:149,name:"Jevgeni Kostygov",avg:1.195,category:"US"},
-{id:150,name:"Krystian Pieszczek",avg:1.189,category:"US"},
-{id:151,name:"Peter Kildemand",avg:1.180,category:"US"},
-{id:152,name:"Kevin Wölbert",avg:1.135,category:"US"},
-{id:153,name:"Jesse Mustonen",avg:1.118,category:"US"},
-{id:154,name:"Charles Wright",avg:1.100,category:"US"},
-{id:155,name:"Oleg Michailov",avg:1.091,category:"US"},
-{id:156,name:"James Pearson",avg:1.061,category:"US"},
-{id:157,name:"Kevin Fajfer",avg:1.022,category:"US"},
-{id:158,name:"Avon Van Dyck",avg:1.015,category:"US"},
-{id:159,name:"Jonas Knudsen",avg:0.974,category:"US"},
-{id:160,name:"Slater Lightcap",avg:0.888,category:"US"},
-{id:161,name:"Gino Manzares",avg:0.883,category:"US"},
-{id:162,name:"Michael Thyme",avg:0.675,category:"US"},
-{id:163,name:"Celina Liebmann",avg:0.500,category:"US"}
-];
-let myTeam =;
 function renderDrivers() {
-const searchVal = document.getElementById('search').value.toLowerCase();
-const container = document.getElementById('drivers');
-container.innerHTML = '';
-let available = drivers.filter(d => !myTeam.some(t => t.id === d.id) && d.name.toLowerCase().includes(searchVal));
-if(available.length === 0) {
-container.innerHTML = 'Inga förare hittades';
-return;
+    const s = document.getElementById('search').value.toLowerCase();
+    const c = document.getElementById('drivers'); c.innerHTML = '';
+    let av = drivers.filter(d => !myTeam.some(t => t.id === d.id) && d.name.toLowerCase().includes(s));
+    if(av.length===0){c.innerHTML='<p style="text-align:center;color:#666;">Inga förare hittades</p>';return;}
+    av.sort((a,b)=>b.avg-a.avg);
+    const g = {"US":[],"SS":[],"UU21":[],"SU21":[]};
+    av.forEach(d => { if(g[d.category]) g[d.category].push(d); });
+    ["US","SS","UU21","SU21"].forEach(cat => {
+        if(g[cat].length>0){
+            const h = document.createElement('div'); h.className='category-header'; h.innerText=`${categoryNames[cat]} (${g[cat].length} st)`; c.appendChild(h);
+            g[cat].forEach(d => {
+                const div = document.createElement('div'); div.className=`driver ${d.category}`;
+                div.innerHTML=`<div><strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br><small>Ingångssnitt: ${d.avg.toFixed(3)}</small></div><button class="btn-pick" onclick="addDriver(${d.id})">Välj</button>`;
+                c.appendChild(div);
+            });
+        }
+    });
+    sendHeight();
 }
-available.sort((a, b) => b.avg - a.avg);
-const groups = { "US":, "SS":, "UU21":, "SU21": };
-available.forEach(d => {
-if (groups[d.category]) {
-groups[d.category].push(d);
-}
-});
-const categoryOrder = ["US", "SS", "UU21", "SU21"];
-categoryOrder.forEach(cat => {
-const listInCat = groups[cat];
-if (listInCat && listInCat.length > 0) {
-const header = document.createElement('div');
-header.className = 'category-header';
-header.innerText = ${categoryNames[cat]} (${listInCat.length} st);
-container.appendChild(header);
-listInCat.forEach(d => {
-const div = document.createElement('div');
-div.className = driver ${d.category};
-div.innerHTML = <div> <strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br> <small>Ingångssnitt: ${d.avg.toFixed(3)}</small> </div> <button class="btn-pick" onclick="addDriver(${d.id})">Välj</button>;
-container.appendChild(div);
-});
-}
-});
-sendHeight();
-}
-function renderTeam() {
-const container = document.getElementById('team');
-container.innerHTML = '';
-if (myTeam.length === 0) {
-container.innerHTML = 'Inga förare valda än. Klicka på "Välj" nedan!';
-updateStatus();
-return;
-}
-let finalOrderedTeam =;
-// Speciell speedway-sortering om laget börjar fyllas
-if (myTeam.length > 2) {
-// 1. Sortera hela laget efter snitt (lägst snitt hamnar först i denna temporära lista)
-let sortedByAvgAsc = [...myTeam].sort((a, b) => a.avg - b.avg);
-// 2. Plocka ut de två med absolut lägst snitt (reserverna)
-let reserves = [sortedByAvgAsc[0], sortedByAvgAsc[1]];
-// 3. Resten av förarna ska vara på plats 1-5
-let mainDrivers = sortedByAvgAsc.slice(2);
-// 4. Sortera ordinarie förare (plats 1-5) från högst till lägst snitt
-mainDrivers.sort((a, b) => b.avg - a.avg);
-// 5. Sortera reserverna (plats 6-7) från högst till lägst snitt internt
-reserves.sort((a, b) => b.avg - a.avg);
-// 6. Sätt ihop den slutgiltiga laglistan
-finalOrderedTeam = [...mainDrivers, ...reserves];
-} else {
-// Om man bara valt 1 eller 2 förare sorterar vi dem bara efter snitt tills vidare
-finalOrderedTeam = [...myTeam].sort((a, b) => b.avg - a.avg);
-}
-// Rendera ut förarna med sina positionsnummer
-finalOrderedTeam.forEach((d, index) => {
-const div = document.createElement('div');
-div.className = team-member ${d.category};
-// Plats 6 och 7 markeras som reserver med en extra CSS-klass
-const posNumber = index + 1;
-const isReserve = posNumber >= 6;
-const numClass = isReserve ? 'position-number reserve-position' : 'position-number';
-const labelText = isReserve ? Plats ${posNumber} (R) : Plats ${posNumber};
-div.innerHTML = <div> <span class="${numClass}">${posNumber}</span> <strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br> <small style="margin-left: 32px;">Snitt: ${d.avg.toFixed(3)} (${labelText})</small> </div> <button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>;
-container.appendChild(div);
-});
-updateStatus();
-}
-function addDriver(id) {
-if (myTeam.length >= MAX_PLAYERS) {
-alert("Du kan max välja 7 förare!");
-return;
-}
-const driver = drivers.find(d => d.id === id);
-if (driver) {
-myTeam.push(driver);
-renderTeam();
-renderDrivers();
-}
-}
-function removeDriver(id) {
-myTeam = myTeam.filter(d => d.id !== id);
-renderTeam();
-renderDrivers();
-}
-function updateStatus() {
-const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
-const remaining = BUDGET - totalAvg;
-const budgetEl = document.getElementById('budget');
-budgetEl.innerText = ${totalAvg.toFixed(3)} / ${BUDGET.toFixed(3)};
-if (totalAvg > BUDGET) {
-budgetEl.className = 'invalid';
-} else {
-budgetEl.className = 'valid';
-}
-document.getElementById('remaining').innerText = remaining.toFixed(3);
-document.getElementById('team-count').innerText = ${myTeam.length} / ${MAX_PLAYERS};
-const ssCount = myTeam.filter(d => d.category === "SS").length;
-const su21Count = myTeam.filter(d => d.category === "SU21").length;
-const totalU21 = su21Count + myTeam.filter(d => d.category === "UU21").length;
-const rulesEl = document.getElementById('rules');
-let html = '';
-if (totalAvg > BUDGET) {
-html += <div class="rule-item invalid">❌ Snitt-tak överskridet (${totalAvg.toFixed(3)} > 10.750)</div>;
-} else {
-html += <div class="rule-item valid">✅ Snitt-tak ok</div>;
-}
-if (ssCount >= 2) {
-html += <div class="rule-item valid">✅ Minst två svenska seniorer (${ssCount}/2)</div>;
-} else {
-html += <div class="rule-item invalid">❌ Kräver minst två svenska seniorer (${ssCount}/2)</div>;
-}
-if (totalU21 >= 2 && su21Count >= 1) {
-html += <div class="rule-item valid">✅ U21-krav uppfyllt (Totalt: ${totalU21}, Svenska: ${su21Count})</div>;
-} else {
-html += <div class="rule-item invalid">❌ Kräver minst två U21 (har ${totalU21}/2) varav minst en svensk (har ${su21Count}/1)</div>;
-}
-rulesEl.innerHTML = html;
-sendHeight();
-}
-function clearTeam() {
-myTeam =;
-renderTeam();
-renderDrivers();
-}
-function randomTeam() {
-clearTeam();
-let attempts = 0;
-while(myTeam.length < MAX_PLAYERS && attempts < 500) {
-const randDriver = drivers[Math.floor(Math.random() * drivers.length)];
-const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
-if (!myTeam.some(t => t.id === randDriver.id) && (totalAvg + randDriver.avg <= BUDGET)) {
-myTeam.push(randDriver);
-}
-attempts++;
-}
-renderTeam();
-renderDrivers();
-}
-function shareTeam() {
-if (myTeam.length < MAX_PLAYERS) {
-alert("Välj 7 förare innan du delar ditt lag!");
-return;
-}
-const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
-const ssCount = myTeam.filter(d => d.category === "SS").length;
-const su21Count = myTeam.filter(d => d.category === "SU21").length;
-const totalU21 = su21Count + myTeam.filter(d => d.category === "UU21").length;
-if (totalAvg > BUDGET || ssCount < 2 || totalU21 < 2 || su21Count < 1) {
-alert("Ditt lag uppfyller inte alla lagregler ännu!");
-return;
-}
-const names = myTeam.map(d => d.name).join(", ");
-const text = Jag byggde min speedwaysjua med ett totalsnitt på ${totalAvg.toFixed(3)}! Mitt lag: ${names}. Bygg ditt eget lag här! 🏁;
-if (navigator.share) {
-navigator.share({ title: 'Min Speedwaysjua', text: text });
-} else {
-navigator.clipboard.writeText(text);
-alert("Laguppställningen kopierad! Nu kan du klistra in den och dela på sociala medier.");
-}
-}
-function sendHeight() {
-setTimeout(() => {
-const height = document.documentElement.scrollHeight || document.body.scrollHeight;
-window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
-}, 100);
-}
-window.onload = () => {
-renderDrivers();
-window.addEventListener('resize', sendHeight);
-};
 
+function renderTeam() {
+    const c = document.getElementById('team'); c.innerHTML = '';
+    if(myTeam.length===0){c.innerHTML='<i>Inga förare valda än. Klicka på "Välj" nedan!</i>';updateStatus();return;}
+    let finalOrderedTeam = [];
+    if(myTeam.length>2){
+        let s = [...myTeam].sort((a,b)=>a.avg-b.avg);
+        let res = [s[0],s[1]], main = s.slice(2);
+        main.sort((a,b)=>b.avg-a.avg); res.sort((a,b)=>b.avg-a.avg);
+        finalOrderedTeam = [...main,...res];
+    } else { finalOrderedTeam = [...myTeam].sort((a,b)=>b.avg-a.avg); }
+    finalOrderedTeam.forEach((d, i) => {
+        const div = document.createElement('div'); div.className=`team-member ${d.category}`;
+        const p = i+1, isR = p>=6, nCl = isR?'position-number reserve-position':'position-number', lbl = isR?`Plats ${p} (R)`:`Plats ${p}`;
+        div.innerHTML=`<div><span class="${nCl}">${p}</span><strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br><small style="margin-left:32px;">Snitt: ${d.avg.toFixed(3)} (${lbl})</small></div><button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>`;
+        c.appendChild(div);
+    });
+    updateStatus();
+}
+
+function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
+function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
+
+function updateStatus() {
+    const tot = myTeam.reduce((sum,d)=>sum+d.avg,0), rem = BUDGET-tot;
+    const bEl = document.getElementById('budget'); bEl.innerText = `${tot.toFixed(3)} / ${BUDGET.toFixed(3)}`;
+    bEl.className = tot>BUDGET?'invalid':'valid';
+    document.getElementById('remaining').innerText = rem.toFixed(3);
+    document.getElementById('team-count').innerText = `${myTeam.length} / ${MAX_PLAYERS}`;
+    const ss = myTeam.filter(d=>d.category==="SS").length, su = myTeam.filter(d=>d.category==="SU21").length, totU = su+myTeam.filter(d=>d.category==="UU21").length;
+    const rEl = document.getElementById('rules');
+    let h = '';
+    h += tot>BUDGET?`<div class="rule-item invalid">❌ Snitt-tak överskridet (${tot.toFixed(3)} > 10.750)</div>`:(myTeam.length>0?`<div class="rule-item valid">✅ Snitt-tak ok (${tot.toFixed(3)} / 10.750)</div>`:`<div class="rule-item" style="color:#666;">⚪ Snitt-tak (Max 10.750)</div>`);
+    h += ss>=2?`<div class="rule-item valid">✅ Minst två svenska seniorer (${ss}/2)</div>`:`<div class="rule-item invalid">❌ Kräver minst två svenska seniorer (${ss}/2)</div>`;
+    h += (totU>=2&&su>=1)?`<div class="rule-item valid">✅ U21-krav uppfyllt (Totalt: ${totU}/2, Svenska: ${su}/1)</div>`:`<div class="rule-item invalid">❌ Kräver minst två U21 (${totU}/2) varav minst en svensk (${su}/1)</div>`;
+    rEl.innerHTML = h; sendHeight();
+}
+
+function clearTeam(){ myTeam=[];renderTeam();renderDrivers(); }
+function randomTeam(){ clearTeam();let att=0;while(myTeam.length<MAX_PLAYERS&&att<500){const r=drivers[Math.floor(Math.random()*drivers.length)];if(!myTeam.some(x=>x.id===r.id)&&(myTeam.reduce((sum,x)=>sum+x.avg,0)+r.avg<=BUDGET)){myTeam.push(r);}att++;}renderTeam();renderDrivers(); }
+function shareTeam(){
+    if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
+    const tot=myTeam.reduce((sum,d)=>sum+d.avg,0), ss=myTeam.filter(d=>d.category==="SS").length, su=myTeam.filter(d=>d.category==="SU21").length, totU=su+myTeam.filter(d=>d.category==="UU21").length;
+    if(tot>BUDGET||ss<2||totU<2||su<1){alert("Ditt lag uppfyller inte alla lagregler ännu!");return;}
+    const txt = `Jag byggde min speedwaysjua med ett totalsnitt på ${tot.toFixed(3)}! Mitt lag: ${myTeam.map(d=>d.name).join(", ")}. Bygg ditt eget lag här! 🏁`;
+    if(navigator.share){navigator.share({title:'Min Speedwaysjua',text:txt});}else{navigator.clipboard.writeText(txt);alert("Laguppställningen kopierad!");}
+}
+function sendHeight(){ setTimeout(()=>{const h=document.documentElement.scrollHeight||document.body.scrollHeight;window.parent.postMessage({type:'resize-iframe',height:h},'*');},100); }
+window.onload=()=>{renderDrivers();window.addEventListener('resize',sendHeight);};
+</script>
+</body>
+</html>
