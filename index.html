@@ -122,7 +122,55 @@ function renderTeam() {
     });
     updateStatus();
 }
+function getTeamProfile() {
 
+    const total = myTeam.reduce((sum, d) => sum + d.avg, 0);
+
+    const swedes = myTeam.filter(d =>
+        d.category === "SS" || d.category === "SU21"
+    ).length;
+
+    const u21 = myTeam.filter(d =>
+        d.category === "SU21" || d.category === "UU21"
+    ).length;
+
+    const stars = myTeam.filter(d => d.avg >= 1.80).length;
+
+    const cheap = myTeam.filter(d => d.avg <= 1.40).length;
+
+    if (total >= 10.60 && stars >= 3) {
+        return {
+            title: "🔥 Guldkandidat",
+            text: "Full gas från start. Det här laget är byggt för att utmana om guldet."
+        };
+    }
+
+    if (u21 >= 3) {
+        return {
+            title: "🚀 Framtidsbygget",
+            text: "Du satsar på nästa generations stjärnor."
+        };
+    }
+
+    if (swedes >= 4) {
+        return {
+            title: "🇸🇪 Svenska modellen",
+            text: "Svensk talang står i centrum för ditt lagbygge."
+        };
+    }
+
+    if (cheap >= 3 && total >= 10.40) {
+        return {
+            title: "💎 Fyndlaget",
+            text: "Du har hittat värde där andra kanske inte letar."
+        };
+    }
+
+    return {
+        title: "🌍 Världslaget",
+        text: "Internationell spets och erfarenhet präglar ditt lag."
+    };
+}
 function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
 function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
 
