@@ -154,6 +154,6 @@ const drivers = [
     {id:161,name:"Gino Manzares",avg:1.250,category:"US"},
     {id:162,name:"Michael Thyme",avg:0.675,category:"US"},
     {id:163,name:"Celina Liebmann",avg:1.250,category:"US"},
-    {id:164,name:"Max Fricke",avg:1.583,category:"US"}
+    {id:164,name:"Max Fricke",avg:1.741,category:"US"}
 ];
 
