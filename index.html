@@ -145,13 +145,30 @@ function getTeamProfile() {
         };
     }
 
+    if (total >= 10.70) {
+    return {
+        title: "🎯 Maxat lagbygge",
+        text: "Du har använt budgeten till sista decimalen."
+    };
+}
+    if (stars >= 4) {
+    return {
+        title: "💰 Galácticos",
+        text: "Du har staplat stjärnor på stjärnor."
+    };
+}
     if (u21 >= 3) {
         return {
             title: "🚀 Framtidsbygget",
             text: "Du satsar på nästa generations stjärnor."
         };
     }
-
+    if (u21 >= 4) {
+    return {
+        title: "🚀 Juniorfabriken",
+        text: "Framtiden är här. Du satsar stenhårt på ungdomarna."
+    };
+}
     if (swedes >= 4) {
         return {
             title: "🇸🇪 Svenska modellen",
