@@ -179,32 +179,12 @@ function randomTeam() {
 }
 
 function shareTeam() {
-    if (myTeam.length < 7) {
-        alert("Välj 7 förare innan du delar ditt lag!");
-        return;
-    }
-    
-    var tot = myTeam.reduce(function(sum, d) { return sum + d.avg; }, 0);
-    
-    // Bygg en ren textrad med alla förare och deras snitt
-    var txt = "MITT LAG I SPEEDWAYSJUAN:\n";
-    myTeam.forEach(function(d, i) {
-        txt += (i + 1) + ". " + d.name + " (" + d.avg.toFixed(3) + ")\n";
-    });
-    txt += "\nTotalsnitt: " + tot.toFixed(3) + " / 10.750\nBygg ditt lag på VT-sporten! 🏁";
-
-    // Skottsäker kopiering till urklipp
-    var el = document.createElement('textarea');
-    el.value = txt;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-
-    // Ditt tävlingsmeddelande
-    alert("Ditt lag har kopierats!\n\nTryck på \"Ställ en fråga\" i Live Center för att klistra in och skicka in ditt lag till tävlingen. Lycka till!");
-}
-
+    if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
+    const tot = myTeam.reduce((sum,d)=>sum+d.avg,0);
+    const ss = myTeam.filter(d=>d.category==="SS").length, su = myTeam.filter(d=>d.category==="SU21").length, totU = su + myTeam.filter(d=>d.category==="UU21").length;
+    if(tot>BUDGET||ss<2||totU<2||su<1){alert("Ditt lag uppfyller inte alla lagregler ännu!");return;}
+    const txt = `Jag byggde min speedwaysjua med VT-sporten! Mitt totalsnitt blev ${tot.toFixed(3)}! Mitt lag: ${myTeam.map(d=>d.name).join(", ")}. Bygg ditt eget lag här! 🏁`;
+    if(navigator.share){navigator.share({title:'Min Speedwaysjua',text:txt});}else{navigator.clipboard.writeText(txt);alert("Laguppställningen kopierad!");}
 }
 function sendHeight(){ setTimeout(()=>{const h=document.documentElement.scrollHeight||document.body.scrollHeight;window.parent.postMessage({type:'resize-iframe',height:h},'*');},100); }
 window.onload=()=>{renderDrivers();window.addEventListener('resize',sendHeight);};
