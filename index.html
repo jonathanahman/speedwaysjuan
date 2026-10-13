@@ -790,7 +790,7 @@ function randomTeam() {
     if (validTeamFound) { renderTeam(); renderDrivers(); }
     else { alert("Kunde inte hitta ett lag i rätt snittspann (9.80 - 10.75). Testa att trycka igen!"); }
 }
-    function simulateTeam() {
+   function simulateTeam() {
 
     if (myTeam.length !== 7) {
         alert("Välj 7 förare först!");
@@ -798,6 +798,7 @@ function randomTeam() {
     }
 
     let total = 0;
+    const results = [];
 
     let output = `
     <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
@@ -811,11 +812,11 @@ function randomTeam() {
         const consistency = driver.consistency || 3;
 
         const varianceMap = {
-            5: 0.10,
-            4: 0.20,
-            3: 0.30,
-            2: 0.45,
-            1: 0.60
+            5: 0.20,
+            4: 0.30,
+            3: 0.40,
+            2: 0.55,
+            1: 0.65
         };
 
         const variance = expected * varianceMap[consistency];
@@ -830,8 +831,17 @@ function randomTeam() {
 
         total += score;
 
+        results.push({
+            name: driver.name,
+            score: score
+        });
+    });
+
+    results.sort((a, b) => b.score - a.score);
+
+    results.forEach(driver => {
         output += `
-            ${driver.name}: <strong>${score}</strong> p<br>
+            ${driver.name}: <strong>${driver.score}</strong> p<br>
         `;
     });
 
