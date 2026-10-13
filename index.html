@@ -179,12 +179,51 @@ function randomTeam() {
 }
 
 function shareTeam() {
-    if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
-    const tot = myTeam.reduce((sum,d)=>sum+d.avg,0);
-    const ss = myTeam.filter(d=>d.category==="SS").length, su = myTeam.filter(d=>d.category==="SU21").length, totU = su + myTeam.filter(d=>d.category==="UU21").length;
-    if(tot>BUDGET||ss<2||totU<2||su<1){alert("Ditt lag uppfyller inte alla lagregler ännu!");return;}
-    const txt = `Jag byggde min speedwaysjua med VT-sporten! Mitt totalsnitt blev ${tot.toFixed(3)}! Mitt lag: ${myTeam.map(d=>d.name).join(", ")}. Bygg ditt eget lag här! 🏁`;
-    if(navigator.share){navigator.share({title:'Min Speedwaysjua',text:txt});}else{navigator.clipboard.writeText(txt);alert("Laguppställningen kopierad!");}
+   function shareTeam() {
+    if (myTeam.length < 7) {
+        alert("Välj 7 förare innan du delar ditt lag!");
+        return;
+    }
+    const tot = myTeam.reduce((sum, d) => sum + d.avg, 0);
+    const ss = myTeam.filter(d => d.category === "SS").length;
+    const su = myTeam.filter(d => d.category === "SU21").length;
+    const totU = su + myTeam.filter(d => d.category === "UU21").length;
+    
+    if (tot > BUDGET || ss < 2 || totU < 2 || su < 1) {
+        alert("Ditt lag uppfyller inte alla lagregler ännu!");
+        return;
+    }
+
+    // 1. Här sorterar vi laget på exakt samma sätt som i lagvyn (reserverna längst ner)
+    let sortedByAvgAsc = [...myTeam].sort((a, b) => a.avg - b.avg);
+    let reserves = [sortedByAvgAsc[0], sortedByAvgAsc[1]];
+    let mainDrivers = sortedByAvgAsc.slice(2);
+    mainDrivers.sort((a, b) => b.avg - a.avg);
+    reserves.sort((a, b) => b.avg - a.avg);
+    let finalOrderedTeam = [...mainDrivers, ...reserves];
+
+    // 2. Här bygger vi upp texten rad för rad med positionsnummer och snitt
+    let txt = "MITT LAG I SPEEDWAYSJUAN:\n";
+    finalOrderedTeam.forEach((d, i) => {
+        const p = i + 1;
+        const label = p >= 6 ? " (R)" : "";
+        txt += p + ". " + d.name + " - " + d.avg.toFixed(3) + label + "\n";
+    });
+    
+    // 3. Lägg till totalsnittet och er tävlingslänk under
+    txt += "\nTotalsnitt: " + tot.toFixed(3) + " / 10.750\n";
+    txt += "Bygg ditt lag på VT-sporten! 🏁";
+
+    // 4. Här kopierar vi ALLT till användarens urklipp på ett skottsäkert sätt för Live Center
+    const tempInput = document.createElement("textarea");
+    tempInput.value = txt;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+
+    // 5. Visa ditt skräddarsydda meddelande för tävlingen
+    alert("Ditt lag har kopierats!\n\nTryck på \"Ställ en fråga\" i Live Center för att klistra in och skicka in ditt lag till tävlingen. Lycka till!");
 }
 function sendHeight(){ setTimeout(()=>{const h=document.documentElement.scrollHeight||document.body.scrollHeight;window.parent.postMessage({type:'resize-iframe',height:h},'*');},100); }
 window.onload=()=>{renderDrivers();window.addEventListener('resize',sendHeight);};
