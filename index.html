@@ -25,8 +25,23 @@ body{
     margin-bottom: 15px;
 }
 
-h1{ margin-top: 0; font-size: 1.5rem; text-align: center; }
-h2{ font-size: 1.2rem; margin-top: 20px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
+h1{ margin-top: 0; font-size: 1.4rem; text-align: center; font-weight: 800; color: #111; }
+h2{ font-size: 1.2rem; margin-top: 20px; border-bottom: 2px solid #ddd; padding-bottom: 5px; font-weight: 700; }
+
+/* Styling för kategori-avskiljarna i listan */
+.category-header {
+    background: #e2e8f0;
+    color: #334155;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 
 .actions{
     display: flex;
@@ -43,6 +58,7 @@ button{
     font-weight: bold;
     flex: 1;
     min-width: 80px;
+    font-size: 14px;
 }
 .btn-random { background: #e0f2fe; color: #0369a1; }
 .btn-clear { background: #fee2e2; color: #b91c1c; }
@@ -85,9 +101,10 @@ input{
     font-size: 16px;
 }
 
-.valid{ color: green; font-weight: bold; }
-.invalid{ color: red; font-weight: bold; }
+.valid{ color: #16a34a; font-weight: bold; }
+.invalid{ color: #dc2626; font-weight: bold; }
 .info-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 14px; }
+.rule-item { margin-bottom: 2px; }
 </style>
 </head>
 
@@ -107,7 +124,8 @@ input{
         <span>Antal förare:</span>
         <span id="team-count">0 / 7</span>
     </div>
-    <div id="rules" style="font-size: 12px; margin-top: 5px;"></div>
+    
+    <div id="rules" style="font-size: 12px; margin-top: 8px; border-top: 1px solid #eee; padding-top: 6px;"></div>
 
     <div class="actions">
         <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
@@ -137,9 +155,17 @@ input{
 const BUDGET = 10.750;
 const MAX_PLAYERS = 7;
 
-// Här är din databas. Du kan lägga till fler förare här i framtiden!
+// Översättningar för de snygga kategori-rubrikerna
+const categoryNames = {
+    "US": "🌍 Utländska Seniorer (US)",
+    "SS": "🇸🇪 Svenska Seniorer (SS)",
+    "UU21": "🌍 Utländska U21 (UU21)",
+    "SU21": "🇸🇪 Svenska U21 (SU21)"
+};
+
+// Komplett databas med alla 145 förare från din lista
 const drivers = [
-   {id:1,name:"Adam Bednar",avg:1.679,category:"UU21"},
+    {id:1,name:"Adam Bednar",avg:1.679,category:"UU21"},
     {id:2,name:"Maksymilian Pawelczak",avg:1.614,category:"UU21"},
     {id:3,name:"Kevin Malkiewicz",avg:1.494,category:"UU21"},
     {id:4,name:"Mikkel Andersen",avg:1.448,category:"UU21"},
@@ -235,16 +261,16 @@ const drivers = [
     {id:103,name:"Frederik Jakobsen",avg:1.769,category:"US"},
     {id:104,name:"Piotr Pawlicki",avg:1.766,category:"US"},
     {id:105,name:"Jakub Miskowiak",avg:1.754,category:"US"},
-    {id:106,name:"Rohan Tungate",avg:1.745,category:"US"},
-    {id:107,name:"Pawel Przedpelski",avg:1.741,category:"US"},
-    {id:108,name:"Norick Blödorn",avg:1.716,category:"US"},
-    {id:109,name:"Maciej Janowski",avg:1.701,category:"US"},
-    {id:110,name:"Ben Cook",avg:1.692,category:"US"},
-    {id:111,name:"Wiktor Przyjemski",avg:1.689,category:"US"},
-    {id:112,name:"Mads Hansen",avg:1.667,category:"US"},
-    {id:113,name:"Dan Thompson",avg:1.653,category:"US"},
-    {id:114,name:"Mathias Pollestad",avg:1.622,category:"US"},
-    {id:115,name:"Dominik Kubera",avg:1.611,category:"US"},
+{id:106,name:"Rohan Tungate",avg:1.745,category:"US"},
+{id:107,name:"Pawel Przedpelski",avg:1.741,category:"US"},
+{id:108,name:"Norick Blödorn",avg:1.716,category:"US"},
+{id:109,name:"Maciej Janowski",avg:1.701,category:"US"},
+{id:110,name:"Ben Cook",avg:1.692,category:"US"},
+{id:111,name:"Wiktor Przyjemski",avg:1.689,category:"US"},
+{id:112,name:"Mads Hansen",avg:1.667,category:"US"},
+{id:113,name:"Dan Thompson",avg:1.653,category:"US"},
+{id:114,name:"Mathias Pollestad",avg:1.622,category:"US"},
+{id:115,name:"Dominik Kubera",avg:1.611,category:"US"},
 {id:116,name:"Josh Pickering",avg:1.606,category:"US"},
 {id:117,name:"Mateusz Tonder",avg:1.592,category:"US"},
 {id:118,name:"Matias Nielsen",avg:1.580,category:"US"},
@@ -292,159 +318,167 @@ const drivers = [
 {id:160,name:"Slater Lightcap",avg:0.888,category:"US"},
 {id:161,name:"Gino Manzares",avg:0.883,category:"US"},
 {id:162,name:"Michael Thyme",avg:0.675,category:"US"},
-{id:163,name:"Celina Liebmann",avg:0.500,category:"US"},
+{id:163,name:"Celina Liebmann",avg:0.500,category:"US"}
 ];
-
 let myTeam = [];
-
 function renderDrivers() {
-    const searchVal = document.getElementById('search').value.toLowerCase();
-    const container = document.getElementById('drivers');
-    container.innerHTML = '';
-
-    // Filtrera bort förare som redan är valda samt matchar sökning
-    const available = drivers.filter(d => !myTeam.some(t => t.id === d.id) && d.name.toLowerCase().includes(searchVal));
-
-    if(available.length === 0) {
-        container.innerHTML = '<p style="text-align:center;color:#666;">Inga förare hittades</p>';
-        return;
-    }
-
-    available.forEach(d => {
-        const div = document.createElement('div');
-        div.className = `driver ${d.category}`;
-        div.innerHTML = `
-            <div>
-                <strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br>
-                <small>Snitt: ${d.avg.toFixed(3)}</small>
-            </div>
-            <button class="btn-pick" onclick="addDriver(${d.id})">Välj</button>
-        `;
-        container.appendChild(div);
-    });
-    sendHeight();
+const searchVal = document.getElementById('search').value.toLowerCase();
+const container = document.getElementById('drivers');
+container.innerHTML = '';
+// 1. Filtrera förarna baserat på sökning och om de redan är valda
+let available = drivers.filter(d => !myTeam.some(t => t.id === d.id) && d.name.toLowerCase().includes(searchVal));
+if(available.length === 0) {
+container.innerHTML = 'Inga förare hittades';
+return;
 }
-
+// 2. Sortera ALLA matchade förare efter ingångssnitt (Högst först)
+available.sort((a, b) => b.avg - a.avg);
+// 3. Dela upp förarna i sina respektive kategorier för avskiljarna
+const groups = { "US": [], "SS": [], "UU21": [], "SU21": [] };
+available.forEach(d => {
+if (groups[d.category]) {
+groups[d.category].push(d);
+}
+});
+// 4. Rendera ut avskiljarrubriker och förare i den ordning vi vill visa kategorierna
+const categoryOrder = ["US", "SS", "UU21", "SU21"];
+categoryOrder.forEach(cat => {
+const listInCat = groups[cat];
+if (listInCat && listInCat.length > 0) {
+// Skapa en tydlig kategori-avskiljare
+const header = document.createElement('div');
+header.className = 'category-header';
+header.innerText = ${categoryNames[cat]} (${listInCat.length} st);
+container.appendChild(header);
+// Lägg till alla förare som tillhör denna kategori
+listInCat.forEach(d => {
+const div = document.createElement('div');
+div.className = driver ${d.category};
+div.innerHTML = <div> <strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br> <small>Ingångssnitt: ${d.avg.toFixed(3)}</small> </div> <button class="btn-pick" onclick="addDriver(${d.id})">Välj</button>;
+container.appendChild(div);
+});
+}
+});
+sendHeight();
+}
 function renderTeam() {
-    const container = document.getElementById('team');
-    container.innerHTML = '';
-
-    if (myTeam.length === 0) {
-        container.innerHTML = '<i>Inga förare valda än. Klicka på "Välj" nedan!</i>';
-        updateStatus();
-        return;
-    }
-
-    myTeam.forEach(d => {
-        const div = document.createElement('div');
-        div.className = `team-member ${d.category}`;
-        div.innerHTML = `
-            <div>
-                <strong>${d.name}</strong><br>
-                <small>Snitt: ${d.avg.toFixed(3)}</small>
-            </div>
-            <button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>
-        `;
-        container.appendChild(div);
-    });
-
-    updateStatus();
+const container = document.getElementById('team');
+container.innerHTML = '';
+if (myTeam.length === 0) {
+container.innerHTML = 'Inga förare valda än. Klicka på "Välj" nedan!';
+updateStatus();
+return;
 }
-
+// Sortera även ditt valda lag efter snitt så det ser snyggt ut
+const sortedTeam = [...myTeam].sort((a, b) => b.avg - a.avg);
+sortedTeam.forEach(d => {
+const div = document.createElement('div');
+div.className = team-member ${d.category};
+div.innerHTML = <div> <strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br> <small>Snitt: ${d.avg.toFixed(3)}</small> </div> <button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>;
+container.appendChild(div);
+});
+updateStatus();
+}
 function addDriver(id) {
-    if (myTeam.length >= MAX_PLAYERS) {
-        alert("Du kan max välja 7 förare!");
-        return;
-    }
-    const driver = drivers.find(d => d.id === id);
-    if (driver) {
-        myTeam.push(driver);
-        renderTeam();
-        renderDrivers();
-    }
+if (myTeam.length >= MAX_PLAYERS) {
+alert("Du kan max välja 7 förare!");
+return;
 }
-
+const driver = drivers.find(d => d.id === id);
+if (driver) {
+myTeam.push(driver);
+renderTeam();
+renderDrivers();
+}
+}
 function removeDriver(id) {
-    myTeam = myTeam.filter(d => d.id !== id);
-    renderTeam();
-    renderDrivers();
+myTeam = myTeam.filter(d => d.id !== id);
+renderTeam();
+renderDrivers();
 }
-
 function updateStatus() {
-    const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
-    const remaining = BUDGET - totalAvg;
-
-    const budgetEl = document.getElementById('budget');
-    budgetEl.innerText = `${totalAvg.toFixed(3)} / ${BUDGET.toFixed(3)}`;
-    
-    if (totalAvg > BUDGET) {
-        budgetEl.className = 'invalid';
-    } else {
-        budgetEl.className = 'valid';
-    }
-
-    document.getElementById('remaining').innerText = remaining.toFixed(3);
-    document.getElementById('team-count').innerText = `${myTeam.length} / ${MAX_PLAYERS}`;
-    
-    const rulesEl = document.getElementById('rules');
-    if (totalAvg > BUDGET) {
-        rulesEl.innerHTML = '<span class="invalid">⚠️ Du har överskridit snittakets budget!</span>';
-    } else {
-        rulesEl.innerHTML = '';
-    }
-    sendHeight();
+const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
+const remaining = BUDGET - totalAvg;
+const budgetEl = document.getElementById('budget');
+budgetEl.innerText = ${totalAvg.toFixed(3)} / ${BUDGET.toFixed(3)};
+if (totalAvg > BUDGET) {
+budgetEl.className = 'invalid';
+} else {
+budgetEl.className = 'valid';
 }
-
+document.getElementById('remaining').innerText = remaining.toFixed(3);
+document.getElementById('team-count').innerText = ${myTeam.length} / ${MAX_PLAYERS};
+const ssCount = myTeam.filter(d => d.category === "SS").length;
+const su21Count = myTeam.filter(d => d.category === "SU21").length;
+const totalU21 = su21Count + myTeam.filter(d => d.category === "UU21").length;
+const rulesEl = document.getElementById('rules');
+let html = '';
+if (totalAvg > BUDGET) {
+html += <div class="rule-item invalid">❌ Snitt-tak överskridet (${totalAvg.toFixed(3)} > 10.750)</div>;
+} else {
+html += <div class="rule-item valid">✅ Snitt-tak ok</div>;
+}
+if (ssCount >= 2) {
+html += <div class="rule-item valid">✅ Minst två svenska seniorer (${ssCount}/2)</div>;
+} else {
+html += <div class="rule-item invalid">❌ Kräver minst två svenska seniorer (${ssCount}/2)</div>;
+}
+if (totalU21 >= 2 && su21Count >= 1) {
+html += <div class="rule-item valid">✅ U21-krav uppfyllt (Totalt: ${totalU21}, Svenska: ${su21Count})</div>;
+} else {
+html += <div class="rule-item invalid">❌ Kräver minst två U21 (har ${totalU21}/2) varav minst en svensk (har ${su21Count}/1)</div>;
+}
+rulesEl.innerHTML = html;
+sendHeight();
+}
 function clearTeam() {
-    myTeam = [];
-    renderTeam();
-    renderDrivers();
+myTeam = [];
+renderTeam();
+renderDrivers();
 }
-
 function randomTeam() {
-    clearTeam();
-    let attempts = 0;
-    while(myTeam.length < MAX_PLAYERS && attempts < 100) {
-        const randDriver = drivers[Math.floor(Math.random() * drivers.length)];
-        const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
-        
-        if (!myTeam.some(t => t.id === randDriver.id) && (totalAvg + randDriver.avg <= BUDGET)) {
-            myTeam.push(randDriver);
-        }
-        attempts++;
-    }
-    renderTeam();
-    renderDrivers();
+clearTeam();
+let attempts = 0;
+while(myTeam.length < MAX_PLAYERS && attempts < 500) {
+const randDriver = drivers[Math.floor(Math.random() * drivers.length)];
+const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
+if (!myTeam.some(t => t.id === randDriver.id) && (totalAvg + randDriver.avg <= BUDGET)) {
+myTeam.push(randDriver);
 }
-
+attempts++;
+}
+renderTeam();
+renderDrivers();
+}
 function shareTeam() {
-    if (myTeam.length < MAX_PLAYERS) {
-        alert("Välj 7 förare innan du delar ditt lag!");
-        return;
-    }
-    const names = myTeam.map(d => d.name).join(", ");
-    const text = `Jag har tagit ut min speedwaysjua: ${names}! Bygg din egen du också! 🏁`;
-    
-    if (navigator.share) {
-        navigator.share({ title: 'Min Speedwaysjua', text: text });
-    } else {
-        navigator.clipboard.writeText(text);
-        alert("Laguppställningen kopierad till urklipp! Nu kan du klistra in den på sociala medier.");
-    }
+if (myTeam.length < MAX_PLAYERS) {
+alert("Välj 7 förare innan du delar ditt lag!");
+return;
 }
-
-// Denna funktion skickar höjden till Live Center så du slipper scroll-i-scroll
+const totalAvg = myTeam.reduce((sum, d) => sum + d.avg, 0);
+const ssCount = myTeam.filter(d => d.category === "SS").length;
+const su21Count = myTeam.filter(d => d.category === "SU21").length;
+const totalU21 = su21Count + myTeam.filter(d => d.category === "UU21").length;
+if (totalAvg > BUDGET || ssCount < 2 || totalU21 < 2 || su21Count < 1) {
+alert("Ditt lag uppfyller inte alla lagregler ännu!");
+return;
+}
+const names = myTeam.map(d => d.name).join(", ");
+const text = Jag byggde min speedwaysjua med ett totalsnitt på ${totalAvg.toFixed(3)}! Mitt lag: ${names}. Bygg ditt eget lag här! 🏁;
+if (navigator.share) {
+navigator.share({ title: 'Min Speedwaysjua', text: text });
+} else {
+navigator.clipboard.writeText(text);
+alert("Laguppställningen kopierad! Nu kan du klistra in den och dela på sociala medier.");
+}
+}
 function sendHeight() {
-    setTimeout(() => {
-        const height = document.documentElement.scrollHeight || document.body.scrollHeight;
-        window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
-    }, 100);
+setTimeout(() => {
+const height = document.documentElement.scrollHeight || document.body.scrollHeight;
+window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
+}, 100);
 }
-
 window.onload = () => {
-    renderDrivers();
-    window.addEventListener('resize', sendHeight);
+renderDrivers();
+window.addEventListener('resize', sendHeight);
 };
-</script>
-</body>
-</html>
