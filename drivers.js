@@ -159,4 +159,5 @@ const drivers = [
 {id:166,name:"Casper Henriksson",avg:1.150,category:"SS",country:"SE",age:21},
 {id:167,name:"Mathias Thörnblom",avg:1.104,category:"SS",country:"SE",age:33},
 {id:168,name:"Sammy Van Dyck",avg:1.103,category:"SU21",country:"SE",age:21},
+{id:169,name:"Jaimon Lidsey",avg:1.500,category:"US",country:"AU",age:27},
     ];
