@@ -147,7 +147,7 @@ function renderDrivers() {
                         <strong>${flags[d.country] || ""} ${d.name}</strong>
                         <span class="category-badge">${d.category}</span>
                         <br>
-                        <small>Ingångssnitt: ${d.avg.toFixed(3)}</small>
+                       <small>Ingångssnitt: ${d.avg.toFixed(3)} | ${d.age || "?"} år</small>
                      </div>
                      <button class="btn-pick"
                              onclick="addDriver(${d.id})">
@@ -242,7 +242,7 @@ function renderTeam() {
                 <span class="category-badge">${d.category}</span>
                 <br>
                 <small style="margin-left:32px;">
-                    Snitt: ${d.avg.toFixed(3)} (${lbl})
+                Snitt: ${d.avg.toFixed(3)} (${lbl}) | ${d.age || "?"} år
                 </small>
             </div>
             <button class="btn-remove" onclick="removeDriver(${d.id})">
