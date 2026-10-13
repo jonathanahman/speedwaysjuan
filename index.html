@@ -188,7 +188,73 @@ function renderDrivers() {
 
     sendHeight();
 }
+function renderTeam() {
 
+    const c = document.getElementById('team');
+    c.innerHTML = '';
+
+    if(myTeam.length === 0) {
+        c.innerHTML = '<i>Inga förare valda än. Klicka på "Välj" nedan!</i>';
+        updateStatus();
+        return;
+    }
+
+    let finalOrderedTeam = [];
+
+    if(myTeam.length > 2) {
+
+        let s = [...myTeam].sort((a,b) => a.avg - b.avg);
+
+        let res = [s[0], s[1]];
+        let main = s.slice(2);
+
+        main.sort((a,b) => b.avg - a.avg);
+        res.sort((a,b) => b.avg - a.avg);
+
+        finalOrderedTeam = [...main, ...res];
+
+    } else {
+
+        finalOrderedTeam = [...myTeam].sort((a,b) => a.avg - b.avg);
+
+    }
+
+    finalOrderedTeam.forEach((d, i) => {
+
+        const div = document.createElement('div');
+        div.className = `team-member ${d.category}`;
+
+        const p = i + 1;
+        const isR = p >= 6;
+
+        const nCl = isR
+            ? 'position-number reserve-position'
+            : 'position-number';
+
+        const lbl = isR
+            ? `Plats ${p} (R)`
+            : `Plats ${p}`;
+
+        div.innerHTML =
+            `<div>
+                <span class="${nCl}">${p}</span>
+                <strong>${flags[d.country] || ""} ${d.name}</strong>
+                <span class="category-badge">${d.category}</span>
+                <br>
+                <small style="margin-left:32px;">
+                    Snitt: ${d.avg.toFixed(3)} (${lbl})
+                </small>
+            </div>
+            <button class="btn-remove" onclick="removeDriver(${d.id})">
+                Ta bort
+            </button>`;
+
+        c.appendChild(div);
+
+    });
+
+    updateStatus();
+}
 function getTeamProfile() {
 
     const total = myTeam.reduce((sum, d) => sum + d.avg, 0);
