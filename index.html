@@ -173,7 +173,8 @@ function randomTeam() {
 
 function shareTeam() {
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
-    const tot=myTeam.reduce((sum,d)=>sum+d.avg,0), ss=myTeam.filter(d=>d.category==="SS").length, su=myTeam.filter(d=>d.category==="SU21").length, totU=su+myTeam.filter(d=>d.category==="UU21").length;
+    const tot = myTeam.reduce((sum,d)=>sum+d.avg,0);
+    const ss = myTeam.filter(d=>d.category==="SS").length, su = myTeam.filter(d=>d.category==="SU21").length, totU = su + myTeam.filter(d=>d.category==="UU21").length;
     if(tot>BUDGET||ss<2||totU<2||su<1){alert("Ditt lag uppfyller inte alla lagregler ännu!");return;}
     const txt = `Jag byggde min speedwaysjua med VT-sporten! Mitt totalsnitt blev ${tot.toFixed(3)}! Mitt lag: ${myTeam.map(d=>d.name).join(", ")}. Bygg ditt eget lag här! 🏁`;
     if(navigator.share){navigator.share({title:'Min Speedwaysjua',text:txt});}else{navigator.clipboard.writeText(txt);alert("Laguppställningen kopierad!");}
