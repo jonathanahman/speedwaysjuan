@@ -890,6 +890,63 @@ function randomTeam() {
 
     // Matchflopp = störst underprestation
     const flop = [...results].sort((a, b) => a.delta - b.delta)[0];
+       const simAchievements = [];
+
+if (total >= 60) {
+    simAchievements.push("🚀 Raketbränsle");
+}
+
+if (total >= 65) {
+    simAchievements.push("👽 Utomjordisk insats");
+}
+
+if (total <= 35) {
+    simAchievements.push("💥 Härdsmälta");
+}
+
+if (total === 45) {
+    simAchievements.push("⚖️ Tappade segern på mållinjen!");
+}
+
+if (hero.score >= 15) {
+    simAchievements.push("🌟 Femstjärnig insats");
+}
+
+if (hero.score >= 17) {
+    simAchievements.push("👑 Kungen av kvällen");
+}
+
+if (hero.score >= 20) {
+    simAchievements.push("☄️ Helt omöjlig");
+}
+
+if (flop.score <= 2) {
+    simAchievements.push("🛠️ Tillbaks till verkstan");
+}
+
+if (flop.score === 0) {
+    simAchievements.push("Olympiska ringarna");
+}
+
+if (results.every(r => r.score >= 6)) {
+    simAchievements.push("🧱 Inga svaga länkar");
+}
+
+if (results.every(r => r.score >= 8)) {
+    simAchievements.push("🚂 Överkörning");
+}
+
+if (results.filter(r => r.score >= 12).length >= 3) {
+    simAchievements.push("🔥 Trion");
+}
+
+if ((hero.score - flop.score) >= 10) {
+    simAchievements.push("🎢 Berg- och dalbana");
+}
+
+if (results.filter(r => r.score <= 4).length >= 3) {
+    simAchievements.push("🤯 Kollektiv kollaps");
+}
 
     results.forEach(driver => {
         output += `
@@ -904,6 +961,14 @@ function randomTeam() {
     🏆 ${hero.name} (${hero.score})<br>
     💀 ${flop.name} (${flop.score})<br><br>
 `;
+       if (simAchievements.length > 0) {
+
+    output += `
+        <strong>🎖️ Simuleringsutmärkelser</strong><br>
+        ${simAchievements.join("<br>")}
+        <br><br>
+    `;
+}
     if (total > bestSimulation) {
     bestSimulation = total;
 }
