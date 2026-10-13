@@ -52,15 +52,22 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
     <div class="info-row"><span>Antal förare:</span><span id="team-count">0 / 7</span></div>
     <div class="rules-container" id="rules"></div>
     <div class="actions">
-        <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
-        <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
-        <button class="btn-share" onclick="shareTeam()">📤 Dela</button>
-    </div>
+    <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
+    <button class="btn-random" onclick="simulateTeam()">🏁 Testkör</button>
+    <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
+    <button class="btn-share" onclick="shareTeam()">📤 Dela</button>
+</div>
 </div>
 
 <input id="search" placeholder="🔍 Sök förare..." onkeyup="renderDrivers()" />
-<h2>Ditt lag</h2><div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
-<h2>Tillgängliga förare</h2><div id="accordion-container"></div>
+
+<h2>Ditt lag</h2>
+<div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
+
+<div id="simulation-result"></div>
+
+<h2>Tillgängliga förare</h2>
+<div id="accordion-container"></div>
 
 <script src="drivers.js"></script>
 <script>
@@ -782,6 +789,67 @@ function randomTeam() {
     }
     if (validTeamFound) { renderTeam(); renderDrivers(); }
     else { alert("Kunde inte hitta ett lag i rätt snittspann (9.80 - 10.75). Testa att trycka igen!"); }
+}
+    function simulateTeam() {
+
+    if (myTeam.length !== 7) {
+        alert("Välj 7 förare först!");
+        return;
+    }
+
+    let total = 0;
+
+    let output = `
+    <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
+        <strong>🎲 Testkörning</strong><br><br>
+    `;
+
+    myTeam.forEach(driver => {
+
+        const expected = driver.avg * 5;
+
+        const consistency = driver.consistency || 3;
+
+        const varianceMap = {
+            5: 0.10,
+            4: 0.20,
+            3: 0.30,
+            2: 0.45,
+            1: 0.60
+        };
+
+        const variance = expected * varianceMap[consistency];
+
+        const score = Math.max(
+            0,
+            Math.round(
+                expected +
+                (Math.random() * variance * 2 - variance)
+            )
+        );
+
+        total += score;
+
+        output += `
+            ${driver.name}: <strong>${score}</strong> p<br>
+        `;
+    });
+
+    output += `<br><strong>🏁 Lagpoäng: ${total}</strong><br><br>`;
+
+    if (total >= 46) {
+        output += `<span style="color:#16a34a;font-weight:bold;">✅ Vinst</span>`;
+    }
+    else if (total === 45) {
+        output += `<span style="color:#ca8a04;font-weight:bold;">➖ Oavgjort</span>`;
+    }
+    else {
+        output += `<span style="color:#dc2626;font-weight:bold;">❌ Förlust</span>`;
+    }
+
+    output += `</div>`;
+
+    document.getElementById("simulation-result").innerHTML = output;
 }
 
 function shareTeam() {
