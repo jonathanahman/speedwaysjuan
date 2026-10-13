@@ -103,7 +103,7 @@ function renderTeam() {
     let finalOrderedTeam = Array();
     if(myTeam.length>2){
         let s = [...myTeam].sort((a,b)=>a.avg-b.avg);
-        let res = Array(s, s), main = s.slice(2);
+        let res = Array(s[0], s[1]), main = s.slice(2);
         main.sort((a,b)=>b.avg-a.avg); res.sort((a,b)=>b.avg-a.avg);
         finalOrderedTeam = [...main,...res];
     } else { finalOrderedTeam = [...myTeam].sort((a,b)=>a.avg-b.avg); }
@@ -161,7 +161,6 @@ function randomTeam() {
             fillAttempts++;
         }
         let totalAvg = tempTeam.reduce((sum, x) => sum + x.avg, 0);
-        // HÄR HAR VI LAGT TILL KONTROLLEN FÖR MINST 9.800 I SNITT
         if (tempTeam.length === 7 && totalAvg <= BUDGET && totalAvg >= MIN_BUDGET) { 
             myTeam = tempTeam; 
             validTeamFound = true; 
