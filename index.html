@@ -56,13 +56,7 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 
 <script>
 const BUDGET = 10.750, MAX_PLAYERS = 7;
-// Uppdaterade kategorinamn med fungerande text-flaggor för maximal kompatibilitet i Live Center
-const categoryNames = {
-    "US": "🌍 Utländska Seniorer (US)",
-    "SS": "[SE] Svenska Seniorer (SS)",
-    "UU21": "🌍 Utländska U21 (UU21)",
-    "SU21": "[SE] Svenska U21 (SU21)"
-};
+const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
 let myTeam =;
 
 function renderDrivers() {
@@ -105,7 +99,7 @@ function renderTeam() {
     updateStatus();
 }
 
-function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
+function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du can max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
 function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
 
 function updateStatus() {
