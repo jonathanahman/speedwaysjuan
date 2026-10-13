@@ -626,6 +626,29 @@ if (
 }
 function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
 function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
+    function getConsistencyProfile() {
+
+    const avgConsistency =
+        myTeam.reduce((sum, d) => sum + (d.consistency || 3), 0) / myTeam.length;
+
+    if (avgConsistency >= 4.5) {
+        return "🧱 Stabilitetsbygget";
+    }
+
+    if (avgConsistency >= 4.0) {
+        return "🎯 Trygga poäng";
+    }
+
+    if (avgConsistency >= 3.4) {
+        return "⚖️ Välbalanserat";
+    }
+
+    if (avgConsistency >= 2.8) {
+        return "🎲 Chansbygge";
+    }
+
+    return "🧨 Kaoslaget";
+}
 
 function updateStatus() {
 
@@ -732,6 +755,13 @@ else {
                 </div>
             </div>
         `;
+        const consistencyProfile = getConsistencyProfile();
+
+h += `
+    <div style="margin-top:8px;">
+        🎲 <strong>Lagstabilitet:</strong> ${consistencyProfile}
+    </div>
+`;
     }
    if (myTeam.length === 7) {
 
