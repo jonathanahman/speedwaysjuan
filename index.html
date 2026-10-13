@@ -106,6 +106,7 @@ let openCategories = {"US":false,"SS":false,"UU21":false,"SU21":false};
 let wins = 0;
 let draws = 0;
 let losses = 0;
+    let latestSimAchievements = [];
 
 function renderDrivers() {
     const s = document.getElementById('search').value.toLowerCase();
@@ -788,8 +789,19 @@ h += `
             </div>
         `;
     }
-}
+  if (latestSimAchievements.length > 0) {
 
+    h += `
+        <div style="margin-top:10px;">
+            <div style="font-weight:bold;">
+                🎲 Simuleringsutmärkelser
+            </div>
+            <div style="margin-top:5px;">
+                ${latestSimAchievements.join("<br>")}
+            </div>
+        </div>
+    `;
+}
 rEl.innerHTML = h;
 sendHeight();
 }
@@ -891,6 +903,7 @@ function randomTeam() {
     // Matchflopp = störst underprestation
     const flop = [...results].sort((a, b) => a.delta - b.delta)[0];
        const simAchievements = [];
+       latestSimAchievements = simAchievements;
 
 if (total >= 60) {
     simAchievements.push("🚀 Raketbränsle");
