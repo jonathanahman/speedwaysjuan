@@ -31,6 +31,17 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 .info-row{display:flex;justify-content:space-between;margin-bottom:4px;font-size:14px;}
 .rules-container{margin-top:10px;padding:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;}
 .rule-item{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+
+/* NY STYLING: Begränsar höjden på förarlistan och lägger till en intern scrollbar */
+.scrollable-drivers-container {
+    max-height: 450px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    background: #f1f5f9;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
 </style>
 </head>
 <body>
@@ -49,8 +60,15 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 </div>
 
 <input id="search" placeholder="🔍 Sök förare..." onkeyup="renderDrivers()" />
-<h2>Ditt lag</h2><div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
-<h2>Tillgängliga förare</h2><div id="drivers"></div>
+
+<h2>Ditt lag</h2>
+<div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
+
+<h2>Tillgängliga förare</h2>
+<!-- Här lägger vi till den nya scrollbara containern runt förarlistan -->
+<div class="scrollable-drivers-container">
+    <div id="drivers"></div>
+</div>
 
 <script src="drivers.js"></script>
 
@@ -87,7 +105,7 @@ function renderTeam() {
     let finalOrderedTeam = Array();
     if(myTeam.length>2){
         let s = [...myTeam].sort((a,b)=>a.avg-b.avg);
-        let res = Array(s[0],s[1]), main = s.slice(2);
+        let res = Array(s,s), main = s.slice(2);
         main.sort((a,b)=>b.avg-a.avg); res.sort((a,b)=>b.avg-a.avg);
         finalOrderedTeam = [...main,...res];
     } else { finalOrderedTeam = [...myTeam].sort((a,b)=>a.avg-b.avg); }
