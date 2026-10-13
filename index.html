@@ -487,6 +487,102 @@ function renderTeam() {
     ) {
         achievements.push("⚡ Bröderna Holder");
     }
+        if (
+    myTeam.some(d => d.name === "Artem Laguta") &&
+    myTeam.some(d => d.name === "Emil Sajfutdinov")
+    ) {
+    achievements.push("❄️ Eleganterna");
+    }
+        if (
+    myTeam.some(d => d.name === "Andreas Lyager") &&
+    myTeam.some(d => d.name === "Matias Nielsen")
+) {
+    achievements.push("❤️ Mogge-favoriterna");
+}
+        if (
+    myTeam.some(d => d.name === "Mads Hansen") &&
+    myTeam.some(d => d.name === "Robert Lambert")
+) {
+    achievements.push("🏆 Guldmakarna Hansen och Lambert!");
+}
+        if (
+    myTeam.some(d => d.name === "Artem Laguta") &&
+    myTeam.some(d => d.name === "Vadim Tarasenko")
+) {
+    achievements.push("👨‍👦 Familjeband");
+}
+        // Trio-achievements
+
+if (
+    myTeam.some(d => d.name === "Bartosz Zmarzlik") &&
+    myTeam.some(d => d.name === "Patryk Dudek") &&
+    myTeam.some(d => d.name === "Dominik Kubera")
+) {
+    achievements.push("🇵🇱 Drömtrean");
+}
+
+if (
+    myTeam.some(d => d.name === "Leon Madsen") &&
+    myTeam.some(d => d.name === "Anders Thomsen") &&
+    myTeam.some(d => d.name === "Mikkel Michelsen")
+) {
+    achievements.push("🇩🇰 Guldgenerationen");
+}
+
+if (
+    myTeam.some(d => d.name === "Robert Lambert") &&
+    myTeam.some(d => d.name === "Daniel Bewley") &&
+    myTeam.some(d => d.name === "Tom Brennan")
+) {
+    achievements.push("🇬🇧 Team GB");
+}
+
+if (
+    myTeam.some(d => d.name === "Fredrik Lindgren") &&
+    myTeam.some(d => d.name === "Kim Nilsson") &&
+    myTeam.some(d => d.name === "Jacob Thorssell")
+) {
+    achievements.push("🇸🇪 Tre Kronor");
+}
+
+if (
+    myTeam.some(d => d.name === "Mateusz Cierniak") &&
+    myTeam.some(d => d.name === "Wiktor Przyjemski") &&
+    myTeam.some(d => d.name === "Maksymilian Pawelczak")
+) {
+    achievements.push("🚀 Framtiden är här");
+}
+
+if (
+    myTeam.some(d => d.name === "Bartosz Zmarzlik") &&
+    myTeam.some(d => d.name === "Robert Lambert") &&
+    myTeam.some(d => d.name === "Brady Kurtz")
+) {
+    achievements.push("🥇 VM-pallen");
+}
+
+if (
+    myTeam.some(d => d.name === "Janusz Kolodziej") &&
+    myTeam.some(d => d.name === "Jason Doyle") &&
+    myTeam.some(d => d.name === "Matej Zagar")
+) {
+    achievements.push("🍷 Gamla gardet");
+}
+if (
+    myTeam.some(d => d.name === "Jack Holder") &&
+    myTeam.some(d => d.name === "Max Fricke") &&
+    myTeam.some(d => d.name === "Brady Kurtz")
+) {
+    achievements.push("🇦🇺 Aussie, Aussie, Aussie!");
+}
+if (
+    myTeam.some(d => d.name === "Matias Nielsen") &&
+    myTeam.some(d => d.name === "Artem Laguta") &&
+    myTeam.some(d => d.name === "Patryk Dudek")
+) {
+    achievements.push("💀 Västerviks-dödarna");
+}
+
 
     return achievements;
 }
