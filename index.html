@@ -57,7 +57,7 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 <script>
 const BUDGET = 10.750, MAX_PLAYERS = 7;
 const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
-let myTeam =;
+let myTeam = Array();
 
 function renderDrivers() {
     const s = document.getElementById('search').value.toLowerCase();
@@ -65,9 +65,10 @@ function renderDrivers() {
     let av = drivers.filter(d => !myTeam.some(t => t.id === d.id) && d.name.toLowerCase().includes(s));
     if(av.length===0){c.innerHTML='<p style="text-align:center;color:#666;">Inga förare hittades</p>';return;}
     av.sort((a,b)=>b.avg-a.avg);
-    const g = {"US":,"SS":,"UU21":,"SU21":};
+    const g = {"US":Array(),"SS":Array(),"UU21":Array(),"SU21":Array()};
     av.forEach(d => { if(g[d.category]) g[d.category].push(d); });
-    ["US","SS","UU21","SU21"].forEach(cat => {
+    const categoryOrder = Array("US","SS","UU21","SU21");
+    categoryOrder.forEach(cat => {
         if(g[cat].length>0){
             const h = document.createElement('div'); h.className='category-header'; h.innerText=`${categoryNames[cat]} (${g[cat].length} st)`; c.appendChild(h);
             g[cat].forEach(d => {
@@ -83,13 +84,13 @@ function renderDrivers() {
 function renderTeam() {
     const c = document.getElementById('team'); c.innerHTML = '';
     if(myTeam.length===0){c.innerHTML='<i>Inga förare valda än. Klicka på "Välj" nedan!</i>';updateStatus();return;}
-    let finalOrderedTeam =;
+    let finalOrderedTeam = Array();
     if(myTeam.length>2){
         let s = [...myTeam].sort((a,b)=>a.avg-b.avg);
-        let res = [s,s], main = s.slice(2);
+        let res = Array(s[0],s[1]), main = s.slice(2);
         main.sort((a,b)=>b.avg-a.avg); res.sort((a,b)=>b.avg-a.avg);
         finalOrderedTeam = [...main,...res];
-    } else { finalOrderedTeam = [...myTeam].sort((a,b)=>b.avg-a.avg); }
+    } else { finalOrderedTeam = [...myTeam].sort((a,b)=>a.avg-b.avg); }
     finalOrderedTeam.forEach((d, i) => {
         const div = document.createElement('div'); div.className=`team-member ${d.category}`;
         const p = i+1, isR = p>=6, nCl = isR?'position-number reserve-position':'position-number', lbl = isR?`Plats ${p} (R)`:`Plats ${p}`;
@@ -99,7 +100,7 @@ function renderTeam() {
     updateStatus();
 }
 
-function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du can max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
+function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
 function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
 
 function updateStatus() {
@@ -117,10 +118,10 @@ function updateStatus() {
     rEl.innerHTML = h; sendHeight();
 }
 
-function clearTeam(){ myTeam=;renderTeam();renderDrivers(); }
+function clearTeam(){ myTeam=Array();renderTeam();renderDrivers(); }
 function randomTeam(){ clearTeam();let att=0;while(myTeam.length<MAX_PLAYERS&&att<500){const r=drivers[Math.floor(Math.random()*drivers.length)];if(!myTeam.some(x=>x.id===r.id)&&(myTeam.reduce((sum,x)=>sum+x.avg,0)+r.avg<=BUDGET)){myTeam.push(r);}att++;}renderTeam();renderDrivers(); }
 
-function shareTeam(){
+function shareTeam() {
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
     const tot=myTeam.reduce((sum,d)=>sum+d.avg,0), ss=myTeam.filter(d=>d.category==="SS").length, su=myTeam.filter(d=>d.category==="SU21").length, totU=su+myTeam.filter(d=>d.category==="UU21").length;
     if(tot>BUDGET||ss<2||totU<2||su<1){alert("Ditt lag uppfyller inte alla lagregler ännu!");return;}
