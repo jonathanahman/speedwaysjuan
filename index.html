@@ -897,12 +897,13 @@ function randomTeam() {
         `;
     });
 
-    output += `
-        <br>
-        🌟 Matchhjälte: <strong>${hero.name}</strong> (${hero.score} p)<br>
-        💀 Matchflopp: <strong>${flop.name}</strong> (${flop.score} p)<br>
-        <br>
-    `;
+   output += `
+    <br>
+    <strong>🏁 ${total} poäng</strong><br><br>
+
+    🏆 ${hero.name} (${hero.score})<br>
+    💀 ${flop.name} (${flop.score})<br><br>
+`;
     if (total > bestSimulation) {
     bestSimulation = total;
 }
@@ -911,8 +912,7 @@ document.getElementById("record-box").innerHTML =
     `🏆 Personbästa: ${bestSimulation}`;
        document.getElementById("stats-box").innerHTML =
     `🎲 ${simulations} | ✅ ${wins} | ➖ ${draws} | ❌ ${losses}`;
-    output += `<strong>🏁 Lagpoäng: ${total}</strong><br><br>`;
-
+   
     if (total >= 46) {
 
     wins++;
