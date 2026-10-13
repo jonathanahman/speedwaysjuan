@@ -631,19 +631,19 @@ function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();rende
     const avgConsistency =
         myTeam.reduce((sum, d) => sum + (d.consistency || 3), 0) / myTeam.length;
 
-    if (avgConsistency >= 4.5) {
+    if (avgConsistency >= 4.0) {
         return "🧱 Stabilitetsbygget";
     }
 
-    if (avgConsistency >= 4.0) {
+    if (avgConsistency >= 3.7) {
         return "🎯 Trygga poäng";
     }
 
-    if (avgConsistency >= 3.4) {
+    if (avgConsistency >= 3.1) {
         return "⚖️ Välbalanserat";
     }
 
-    if (avgConsistency >= 2.8) {
+    if (avgConsistency >= 2.4) {
         return "🎲 Chansbygge";
     }
 
