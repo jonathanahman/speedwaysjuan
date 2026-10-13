@@ -57,6 +57,9 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
     <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
     <button class="btn-share" onclick="shareTeam()">📤 Dela</button>
 </div>
+    <div id="record-box" style="text-align:center;margin-top:8px;font-size:14px;font-weight:bold;">
+    🏆 Personbästa: -
+</div>
 </div>
 
 <input id="search" placeholder="🔍 Sök förare..." onkeyup="renderDrivers()" />
@@ -95,6 +98,7 @@ const flags = {
 
 let myTeam = Array();
 let openCategories = {"US":false,"SS":false,"UU21":false,"SU21":false};
+    let bestSimulation = 0;
 
 function renderDrivers() {
     const s = document.getElementById('search').value.toLowerCase();
@@ -812,10 +816,10 @@ function randomTeam() {
         const consistency = driver.consistency || 3;
 
         const varianceMap = {
-            5: 0.15,
-            4: 0.25,
-            3: 0.35,
-            2: 0.50,
+            5: 0.20,
+            4: 0.30,
+            3: 0.40,
+            2: 0.55,
             1: 0.65
         };
 
@@ -861,7 +865,12 @@ function randomTeam() {
         💀 Matchflopp: <strong>${flop.name}</strong> (${flop.score} p)<br>
         <br>
     `;
+    if (total > bestSimulation) {
+    bestSimulation = total;
+}
 
+document.getElementById("record-box").innerHTML =
+    `🏆 Personbästa: ${bestSimulation}`;
     output += `<strong>🏁 Lagpoäng: ${total}</strong><br><br>`;
 
     if (total >= 46) {
