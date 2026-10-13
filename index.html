@@ -536,13 +536,32 @@ function updateStatus() {
 
     if (myTeam.length > 0) {
 
-        let ageLabel = "⚖️ Balanserat";
+        let ageLabel = "";
 
-        if (avgAge < 24) {
-            ageLabel = "🚀 Ungt";
-        } else if (avgAge > 34) {
-            ageLabel = "🍷 Rutinerat";
-        }
+if (avgAge < 22) {
+    ageLabel = "🍼 Dagislaget";
+}
+else if (avgAge < 25) {
+    ageLabel = "🚀 Ungt och spännande";
+}
+else if (avgAge < 28) {
+    ageLabel = "⚡ Påväg mot peaken";
+}
+else if (avgAge < 31) {
+    ageLabel = "⚖️ Prime-ålder!";
+}
+else if (avgAge < 34) {
+    ageLabel = "🎯 Erfaret";
+}
+else if (avgAge < 37) {
+    ageLabel = "🍷 Åldersstiget";
+}
+else if (avgAge < 40) {
+    ageLabel = "🎩 Veteranbygge";
+}
+else {
+    ageLabel = "🧓 Gubbhyllan";
+}
 
         h += `
             <div class="rule-item">
