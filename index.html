@@ -120,6 +120,22 @@ function renderTeam() {
         div.innerHTML=`<div><span class="${nCl}">${p}</span><strong>${d.name}</strong> <span class="category-badge">${d.category}</span><br><small style="margin-left:32px;">Snitt: ${d.avg.toFixed(3)} (${lbl})</small></div><button class="btn-remove" onclick="removeDriver(${d.id})">Ta bort</button>`;
         c.appendChild(div);
     });
+    function getTeamRating(total) {
+    if (total >= 10.65) return "⭐⭐⭐⭐⭐";
+    if (total >= 10.50) return "⭐⭐⭐⭐";
+    if (total >= 10.25) return "⭐⭐⭐";
+    if (total >= 10.00) return "⭐⭐";
+    return "⭐";
+}
+
+function getTeamComment(total) {
+    if (total >= 10.65) return "🔥 Guldkandidat!";
+    if (total >= 10.50) return "⭐ Stark slutspelsutmanare";
+    if (total >= 10.25) return "👍 Stabilt lagbygge";
+    if (total >= 10.00) return "⚠️ Lite mer spets behövs";
+    return "🚨 Budget kvar att använda";
+}
+``
     updateStatus();
 }
 
@@ -134,9 +150,20 @@ function updateStatus() {
     document.getElementById('team-count').innerText = `${myTeam.length} / ${MAX_PLAYERS}`;
     const ss = myTeam.filter(d=>d.category==="SS").length, su = myTeam.filter(d=>d.category==="SU21").length, totU = su+myTeam.filter(d=>d.category==="UU21").length;
     const rEl = document.getElementById('rules'); let h = '';
+    const rating = getTeamRating(tot);
+    const comment = getTeamComment(tot);
     h += tot>BUDGET?`<div class="rule-item invalid">❌ Snitt-tak överskridet (${tot.toFixed(3)} > 10.750)</div>`:(myTeam.length>0?`<div class="rule-item valid">✅ Snitt-tak ok (${tot.toFixed(3)} / 10.750)</div>`:`<div class="rule-item" style="color:#666;">⚪ Snitt-tak (Max 10.750)</div>`);
     h += ss>=2?`<div class="rule-item valid">✅ Minst två svenska seniorer (${ss}/2)</div>`:`<div class="rule-item invalid">❌ Kräver minst två svenska seniorer (${ss}/2)</div>`;
     h += (totU>=2&&su>=1)?`<div class="rule-item valid">✅ U21-krav uppfyllt (Totalt: ${totU}/2, Svenska: ${su}/1)</div>`:`<div class="rule-item invalid">❌ Kräver minst två U21 (${totU}/2) varav minst en svensk (${su}/1)</div>`;
+    if (myTeam.length === 7) {
+    h += `
+    <div class="rule-item" style="margin-top:8px;padding-top:8px;border-top:1px solid #ddd;">
+        🏆 <strong>Lagbetyg:</strong> ${rating}
+    </div>
+    <div class="rule-item">
+        ${comment}
+    </div>`;
+}
     rEl.innerHTML = h; sendHeight();
 }
 
