@@ -452,45 +452,95 @@ function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 
 function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
 
 function updateStatus() {
-    const tot = myTeam.reduce((sum,d)=>sum+d.avg,0), rem = BUDGET-tot;
-    const bEl = document.getElementById('budget'); bEl.innerText = `${tot.toFixed(3)} / ${BUDGET.toFixed(3)}`;
-    bEl.className = tot>BUDGET?'invalid':'valid';
+
+    const tot = myTeam.reduce((sum, d) => sum + d.avg, 0);
+    const rem = BUDGET - tot;
+
+    const ageDrivers = myTeam.filter(d => d.age);
+
+    const avgAge = ageDrivers.length
+        ? ageDrivers.reduce((sum, d) => sum + d.age, 0) / ageDrivers.length
+        : 0;
+
+    const bEl = document.getElementById('budget');
+
+    bEl.innerText = `${tot.toFixed(3)} / ${BUDGET.toFixed(3)}`;
+    bEl.className = tot > BUDGET ? 'invalid' : 'valid';
+
     document.getElementById('remaining').innerText = rem.toFixed(3);
     document.getElementById('team-count').innerText = `${myTeam.length} / ${MAX_PLAYERS}`;
-    const ss = myTeam.filter(d=>d.category==="SS").length, su = myTeam.filter(d=>d.category==="SU21").length, totU = su+myTeam.filter(d=>d.category==="UU21").length;
-    const rEl = document.getElementById('rules'); let h = '';
-    h += tot>BUDGET?`<div class="rule-item invalid">❌ Snitt-tak överskridet (${tot.toFixed(3)} > 10.750)</div>`:(myTeam.length>0?`<div class="rule-item valid">✅ Snitt-tak ok (${tot.toFixed(3)} / 10.750)</div>`:`<div class="rule-item" style="color:#666;">⚪ Snitt-tak (Max 10.750)</div>`);
-    h += ss>=2?`<div class="rule-item valid">✅ Minst två svenska seniorer (${ss}/2)</div>`:`<div class="rule-item invalid">❌ Kräver minst två svenska seniorer (${ss}/2)</div>`;
-    h += (totU>=2&&su>=1)?`<div class="rule-item valid">✅ U21-krav uppfyllt (Totalt: ${totU}/2, Svenska: ${su}/1)</div>`:`<div class="rule-item invalid">❌ Kräver minst två U21 (${totU}/2) varav minst en svensk (${su}/1)</div>`;
+
+    const ss = myTeam.filter(d => d.category === "SS").length;
+    const su = myTeam.filter(d => d.category === "SU21").length;
+    const totU = su + myTeam.filter(d => d.category === "UU21").length;
+
+    const rEl = document.getElementById('rules');
+
+    let h = '';
+
+    h += tot > BUDGET
+        ? `<div class="rule-item invalid">❌ Snitt-tak överskridet (${tot.toFixed(3)} > 10.750)</div>`
+        : (myTeam.length > 0
+            ? `<div class="rule-item valid">✅ Snitt-tak ok (${tot.toFixed(3)} / 10.750)</div>`
+            : `<div class="rule-item" style="color:#666;">⚪ Snitt-tak (Max 10.750)</div>`);
+
+    h += ss >= 2
+        ? `<div class="rule-item valid">✅ Minst två svenska seniorer (${ss}/2)</div>`
+        : `<div class="rule-item invalid">❌ Kräver minst två svenska seniorer (${ss}/2)</div>`;
+
+    h += (totU >= 2 && su >= 1)
+        ? `<div class="rule-item valid">✅ U21-krav uppfyllt (Totalt: ${totU}/2, Svenska: ${su}/1)</div>`
+        : `<div class="rule-item invalid">❌ Kräver minst två U21 (${totU}/2) varav minst en svensk (${su}/1)</div>`;
+
+    if (myTeam.length > 0) {
+
+        let ageLabel = "⚖️ Balanserat";
+
+        if (avgAge < 26) {
+            ageLabel = "🚀 Ungt";
+        } else if (avgAge > 34) {
+            ageLabel = "🍷 Rutinerat";
+        }
+
+        h += `
+            <div class="rule-item">
+                🎂 Snittålder: <strong>${avgAge.toFixed(1)}</strong> år (${ageLabel})
+            </div>
+        `;
+    }
+
     if (myTeam.length === 7) {
 
-    const profile = getTeamProfile();
+        const profile = getTeamProfile();
 
-    let profileColor = "#0f172a";
-    
-    if (profile.title.includes("🇵🇱")) profileColor = "#dc2626";
-    if (profile.title.includes("🇩🇰")) profileColor = "#b91c1c";
-    if (profile.title.includes("🇬🇧")) profileColor = "#1d4ed8";
-    if (profile.title.includes("🇦🇺")) profileColor = "#f59e0b";
-    if (profile.title.includes("🇸🇪")) profileColor = "#2563eb";
-    if (profile.title.includes("🌍")) profileColor = "#0ea5e9";
-    if (profile.title.includes("💰")) profileColor = "#ca8a04";
-    if (profile.title.includes("🔥")) profileColor = "#ea580c";
-    h += `
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;">
-            <div style="font-weight:bold;font-size:15px;">
-                🏁 Din lagprofil
+        let profileColor = "#0f172a";
+
+        if (profile.title.includes("🇵🇱")) profileColor = "#dc2626";
+        if (profile.title.includes("🇩🇰")) profileColor = "#b91c1c";
+        if (profile.title.includes("🇬🇧")) profileColor = "#1d4ed8";
+        if (profile.title.includes("🇦🇺")) profileColor = "#f59e0b";
+        if (profile.title.includes("🇸🇪")) profileColor = "#2563eb";
+        if (profile.title.includes("🌍")) profileColor = "#0ea5e9";
+        if (profile.title.includes("💰")) profileColor = "#ca8a04";
+        if (profile.title.includes("🔥")) profileColor = "#ea580c";
+
+        h += `
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;">
+                <div style="font-weight:bold;font-size:15px;">
+                    🏁 Din lagprofil
+                </div>
+                <div style="margin-top:5px;font-weight:bold;color:${profileColor};">
+                    ${profile.title}
+                </div>
+                <div style="font-size:13px;color:#555;margin-top:3px;">
+                    ${profile.text}
+                </div>
             </div>
-            <div style="margin-top:5px;font-weight:bold;color:${profileColor};">
-                ${profile.title}
-            </div>
-            <div style="font-size:13px;color:#555;margin-top:3px;">
-                ${profile.text}
-            </div>
-        </div>
-    `;
-}
-    rEl.innerHTML = h; sendHeight();
+        `;
+    }
+
+    rEl.innerHTML = h;
+    sendHeight();
 }
 
 function clearTeam(){ myTeam=Array();renderTeam();renderDrivers(); }
