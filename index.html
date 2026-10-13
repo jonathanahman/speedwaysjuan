@@ -57,7 +57,7 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 
 <script src="drivers.js"></script>
 <script>
-const BUDGET = 10.750, MAX_PLAYERS = 7;
+const BUDGET = 10.750, MAX_PLAYERS = 7, MIN_BUDGET = 9.800;
 const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
 let myTeam = Array();
 let openCategories = {"US":false,"SS":false,"UU21":false,"SU21":false};
@@ -103,10 +103,10 @@ function renderTeam() {
     let finalOrderedTeam = Array();
     if(myTeam.length>2){
         let s = [...myTeam].sort((a,b)=>a.avg-b.avg);
-        let res = Array(s[0], s[1]), main = s.slice(2);
+        let res = Array(s, s), main = s.slice(2);
         main.sort((a,b)=>b.avg-a.avg); res.sort((a,b)=>b.avg-a.avg);
         finalOrderedTeam = [...main,...res];
-    } else { finalOrderedTeam = [...myTeam].sort((a,b)=>b.avg-a.avg); }
+    } else { finalOrderedTeam = [...myTeam].sort((a,b)=>a.avg-b.avg); }
     finalOrderedTeam.forEach((d, i) => {
         const div = document.createElement('div'); div.className=`team-member ${d.category}`;
         const p = i+1, isR = p>=6, nCl = isR?'position-number reserve-position':'position-number', lbl = isR?`Plats ${p} (R)`:`Plats ${p}`;
@@ -142,7 +142,7 @@ function randomTeam() {
     const suDrivers = drivers.filter(d => d.category === "SU21");
     const u21Drivers = drivers.filter(d => d.category === "SU21" || d.category === "UU21");
 
-    while (!validTeamFound && attempts < 400) {
+    while (!validTeamFound && attempts < 800) {
         let tempTeam = Array();
         while(tempTeam.length < 2) {
             let d = ssDrivers[Math.floor(Math.random() * ssDrivers.length)];
@@ -161,11 +161,15 @@ function randomTeam() {
             fillAttempts++;
         }
         let totalAvg = tempTeam.reduce((sum, x) => sum + x.avg, 0);
-        if (tempTeam.length === 7 && totalAvg <= BUDGET) { myTeam = tempTeam; validTeamFound = true; }
+        // HÄR HAR VI LAGT TILL KONTROLLEN FÖR MINST 9.800 I SNITT
+        if (tempTeam.length === 7 && totalAvg <= BUDGET && totalAvg >= MIN_BUDGET) { 
+            myTeam = tempTeam; 
+            validTeamFound = true; 
+        }
         attempts++;
     }
     if (validTeamFound) { renderTeam(); renderDrivers(); }
-    else { alert("Kunde inte slumpa ett giltigt lag. Testa igen!"); }
+    else { alert("Kunde inte hitta ett lag i rätt snittspann (9.80 - 10.75). Testa att trycka igen!"); }
 }
 
 function shareTeam() {
