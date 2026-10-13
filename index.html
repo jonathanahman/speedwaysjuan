@@ -60,6 +60,9 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
     <div id="record-box" style="text-align:center;margin-top:8px;font-size:14px;font-weight:bold;">
     🏆 Personbästa: -
 </div>
+    <div id="stats-box" style="text-align:center;margin-top:4px;font-size:13px;">
+🎲 Simuleringar: 0
+</div>
 </div>
 
 <input id="search" placeholder="🔍 Sök förare..." onkeyup="renderDrivers()" />
@@ -99,6 +102,10 @@ const flags = {
 let myTeam = Array();
 let openCategories = {"US":false,"SS":false,"UU21":false,"SU21":false};
     let bestSimulation = 0;
+    let simulations = 0;
+let wins = 0;
+let draws = 0;
+let losses = 0;
 
 function renderDrivers() {
     const s = document.getElementById('search').value.toLowerCase();
@@ -833,6 +840,7 @@ function randomTeam() {
 
     let total = 0;
     const results = [];
+    simulations++;
 
     let output = `
     <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
@@ -848,7 +856,7 @@ function randomTeam() {
         const varianceMap = {
             5: 0.20,
             4: 0.30,
-            3: 0.40,
+            3: 0.45,
             2: 0.55,
             1: 0.65
         };
@@ -904,18 +912,22 @@ document.getElementById("record-box").innerHTML =
     output += `<strong>🏁 Lagpoäng: ${total}</strong><br><br>`;
 
     if (total >= 46) {
-        output += `<span style="color:#16a34a;font-weight:bold;">✅ Vinst</span>`;
-    }
-    else if (total === 45) {
-        output += `<span style="color:#ca8a04;font-weight:bold;">➖ Oavgjort</span>`;
-    }
-    else {
-        output += `<span style="color:#dc2626;font-weight:bold;">❌ Förlust</span>`;
-    }
 
-    output += `</div>`;
+    wins++;
 
-    document.getElementById("simulation-result").innerHTML = output;
+    output += `<span style="color:#16a34a;font-weight:bold;">✅ Vinst</span>`;
+}
+else if (total === 45) {
+
+    draws++;
+
+    output += `<span style="color:#ca8a04;font-weight:bold;">➖ Oavgjort</span>`;
+}
+else {
+
+    losses++;
+
+    output += `<span style="color:#dc2626;font-weight:bold;">❌ Förlust</span>`;
 }
 function shareTeam() {
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
