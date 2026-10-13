@@ -9,7 +9,7 @@ const drivers = [
     {id:7,name:"Oskar Paluch",avg:1.340,category:"UU21"},
     {id:8,name:"Bartosz Banbor",avg:1.317,category:"UU21"},
     {id:9,name:"Beau Bailey",avg:1.257,category:"UU21"},
-    {id:10,name:"Casper Halkiewicz",avg:1.227,category:"UU21"},
+    {id:10,name:"Casper Halkiewicz",avg:1.250,category:"UU21"},
     {id:11,name:"Villads Pedersen",avg:1.160,category:"UU21"},
     {id:12,name:"Patrick Kruse",avg:1.000,category:"UU21"},
     {id:13,name:"Marcel Kowolik",avg:1.250,category:"UU21"},
