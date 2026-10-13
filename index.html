@@ -223,6 +223,31 @@ function getTeamProfile() {
 
     const cheap = myTeam.filter(d => d.avg <= 1.40).length;
 
+    const poles = myTeam.filter(d => d.country === "PL").length;
+    const danes = myTeam.filter(d => d.country === "DK").length;
+    const brits = myTeam.filter(d => d.country === "GB").length;
+    const aussies = myTeam.filter(d => d.country === "AU").length;
+
+    const nations = new Set(
+        myTeam
+            .filter(d => d.country)
+            .map(d => d.country)
+    ).size;
+
+    if (total >= 10.70) {
+        return {
+            title: "🎯 Maxat lagbygge",
+            text: "Du har använt budgeten till sista decimalen."
+        };
+    }
+
+    if (stars >= 4) {
+        return {
+            title: "💰 Galácticos",
+            text: "Du har staplat stjärnor på stjärnor."
+        };
+    }
+
     if (total >= 10.60 && stars >= 3) {
         return {
             title: "🔥 Guldkandidat",
@@ -230,30 +255,62 @@ function getTeamProfile() {
         };
     }
 
-    if (total >= 10.70) {
-    return {
-        title: "🎯 Maxat lagbygge",
-        text: "Du har använt budgeten till sista decimalen."
-    };
-}
-    if (stars >= 4) {
-    return {
-        title: "💰 Galácticos",
-        text: "Du har staplat stjärnor på stjärnor."
-    };
-}
+    if (poles >= 4) {
+        return {
+            title: "🇵🇱 Polska kraftpaketet",
+            text: "Du bygger laget kring speedwayvärldens starkaste nation. Ses i Torun i höst!"
+        };
+    }
+
+    if (danes >= 3) {
+        return {
+            title: "🇩🇰 Dansk dynamit",
+            text: "Dansk rutin och aggressiv speedway präglar hela bygget. Nicki Pedersen approves!"
+        };
+    }
+
+    if (brits >= 3) {
+        return {
+            title: "🇬🇧 Brittiska invasionen",
+            text: "Du litar på brittisk spets från start till mål. Svårt att klandra dig."
+        };
+    }
+
+    if (aussies >= 3) {
+        return {
+            title: "🇦🇺 Kangaroo Crew",
+            text: "Australisk fighting spirit är grunden i ditt lag."
+        };
+    }
+
+    if (nations >= 5) {
+        return {
+            title: "🌍 FN-laget",
+            text: "Du har samlat speedwaytalang från hela världen."
+        };
+    }
+
+    if (u21 >= 4) {
+        return {
+            title: "🚀 Juniorfabriken",
+            text: "Framtiden är här. Du satsar stenhårt på ungdomarna."
+        };
+    }
+
     if (u21 >= 3) {
         return {
             title: "🚀 Framtidsbygget",
             text: "Du satsar på nästa generations stjärnor."
         };
     }
-    if (u21 >= 4) {
-    return {
-        title: "🚀 Juniorfabriken",
-        text: "Framtiden är här. Du satsar stenhårt på ungdomarna."
-    };
-}
+
+    if (swedes >= 5) {
+        return {
+            title: "🇸🇪 Folkhemssjuan",
+            text: "Svenskt, tryggt och byggt på inhemsk talang."
+        };
+    }
+
     if (swedes >= 4) {
         return {
             title: "🇸🇪 Svenska modellen",
