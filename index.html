@@ -338,6 +338,7 @@ function renderTeam() {
         text: "Tre förare över 2,000 i snitt. Det här laget saknar inte toppklass. Reservkampen då?"
         };
     }
+        
 
     // Hemliga profiler
 
@@ -439,6 +440,56 @@ function renderTeam() {
         text: "Internationell spets och erfarenhet präglar ditt lag."
     };
 }
+    function getAchievements() {
+
+    const achievements = [];
+
+    // Duo-profiler
+
+    if (
+        myTeam.some(d => d.name === "Bartosz Zmarzlik") &&
+        myTeam.some(d => d.name === "Patryk Dudek")
+    ) {
+        achievements.push("🇵🇱 Kungahuset");
+    }
+
+    if (
+        myTeam.some(d => d.name === "Robert Lambert") &&
+        myTeam.some(d => d.name === "Daniel Bewley")
+    ) {
+        achievements.push("🇬🇧 Lions");
+    }
+
+    if (
+        myTeam.some(d => d.name === "Leon Madsen") &&
+        myTeam.some(d => d.name === "Anders Thomsen")
+    ) {
+        achievements.push("🇩🇰 Danskt landslag");
+    }
+
+    if (
+        myTeam.some(d => d.name === "Fredrik Lindgren") &&
+        myTeam.some(d => d.name === "Kim Nilsson")
+    ) {
+        achievements.push("🇸🇪 Landslagsledningen");
+    }
+
+    if (
+        myTeam.some(d => d.name === "Piotr Pawlicki") &&
+        myTeam.some(d => d.name === "Przemyslaw Pawlicki")
+    ) {
+        achievements.push("👬 Bröderna Pawlicki");
+    }
+
+    if (
+        myTeam.some(d => d.name === "Jack Holder") &&
+        myTeam.some(d => d.name === "Chris Holder")
+    ) {
+        achievements.push("⚡ Bröderna Holder");
+    }
+
+    return achievements;
+}
 function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
 function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
 
@@ -487,7 +538,7 @@ function updateStatus() {
 
         let ageLabel = "⚖️ Balanserat";
 
-        if (avgAge < 26) {
+        if (avgAge < 24) {
             ageLabel = "🚀 Ungt";
         } else if (avgAge > 34) {
             ageLabel = "🍷 Rutinerat";
@@ -529,9 +580,27 @@ function updateStatus() {
             </div>
         `;
     }
+   if (myTeam.length === 7) {
 
-    rEl.innerHTML = h;
-    sendHeight();
+    const achievements = getAchievements();
+
+    if (achievements.length > 0) {
+
+        h += `
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;">
+                <div style="font-weight:bold;font-size:15px;">
+                    🏅 Utmärkelser
+                </div>
+                <div style="margin-top:5px;">
+                    ${achievements.join("<br>")}
+                </div>
+            </div>
+        `;
+    }
+}
+
+rEl.innerHTML = h;
+sendHeight();
 }
 
 function clearTeam(){ myTeam=Array();renderTeam();renderDrivers(); }
