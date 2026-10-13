@@ -255,7 +255,7 @@ function renderTeam() {
 
     updateStatus();
 }
-function getTeamProfile() {
+    function getTeamProfile() {
 
     const total = myTeam.reduce((sum, d) => sum + d.avg, 0);
 
@@ -281,6 +281,12 @@ function getTeamProfile() {
             .filter(d => d.country)
             .map(d => d.country)
     ).size;
+
+    const ageDrivers = myTeam.filter(d => d.age);
+
+    const avgAge = ageDrivers.length
+        ? ageDrivers.reduce((sum, d) => sum + d.age, 0) / ageDrivers.length
+        : 0;
 
     // Nationsprofiler först
 
@@ -312,10 +318,63 @@ function getTeamProfile() {
         };
     }
 
+    if (nations === 7 && total >= 10.50) {
+        return {
+            title: "🦄 Enhörningen",
+            text: "Sju förare. Sju nationer. Dessutom lyckades du träffa exakt rätt balans. Ett unikt lagbygge."
+        };
+    }
+
     if (nations >= 6) {
         return {
             title: "🌍 FN-laget",
             text: "Du har samlat speedwaytalang från hela världen."
+        };
+    }
+
+    // Åldersprofiler
+
+    if (avgAge > 35 && ageDrivers.length >= 4) {
+        return {
+            title: "🍷 Finns i ekfat",
+            text: "Laget blir bara bättre med åren. Erfarenhet är en underskattad superkraft."
+        };
+    }
+
+    if (avgAge < 28 && ageDrivers.length >= 4) {
+        return {
+            title: "🚀 Unga gardet",
+            text: "Du bygger för framtiden. Ungt, hungrigt och fartfyllt."
+        };
+    }
+
+    // Hemliga profiler
+
+    if (cheap >= 5) {
+        return {
+            title: "🧮 Ekonomen",
+            text: "Medan andra jagar stjärnor letar du värde. Varje tiondel är noggrant kalkylerad."
+        };
+    }
+
+    if (total < 10.000) {
+        return {
+            title: "🤯 Chansaren",
+            text: "Budgeten finns där för att användas. Du har andra planer."
+        };
+    }
+
+    if (myTeam.some(d => d.avg >= 2.50)) {
+        return {
+            title: "👑 Kungen är vald",
+            text: "Du byggde laget kring en superstjärna."
+        };
+    }
+
+    if (stars >= 5) {
+        return {
+            title: "☠️ All-in",
+            text: "Försiktighet är inget för dig. Du har fyllt laget med ren elitklass."
         };
     }
 
@@ -356,6 +415,13 @@ function getTeamProfile() {
         };
     }
 
+    if (swedes >= 6) {
+        return {
+            title: "🇸🇪 Tre Kronor",
+            text: "Nästan hela laget går i blågult. Ett lag byggt på svenska ytteråkare."
+        };
+    }
+
     if (swedes >= 5) {
         return {
             title: "🇸🇪 Folkhemssjuan",
@@ -376,53 +442,7 @@ function getTeamProfile() {
             text: "Du har hittat värde där andra kanske inte letar."
         };
     }
-if (cheap >= 5) {
-    return {
-        title: "🧮 Ekonomen",
-        text: "Medan andra jagar stjärnor letar du värde. Varje tiondel är noggrant kalkylerad."
-    };
-}
 
-if (nations === 7) {
-    return {
-        title: "🌎 Världens lag",
-        text: "Sju förare. Sju nationer. Ingen oval lämnas oscoutad."
-    };
-}
-
-if (total < 10.000) {
-    return {
-        title: "🤯 Chansaren",
-        text: "Budgeten finns där för att användas. Du har andra planer."
-    };
-}
-
-if (myTeam.some(d => d.avg >= 2.50)) {
-    return {
-        title: "👑 Kungen är vald",
-        text: "Du byggde laget kring en superstjärna"
-    };
-}
-   if (nations === 7 && total >= 10.50) {
-    return {
-        title: "🦄 Enhörningen",
-        text: "Sju förare. Sju nationer. Dessutom lyckades du träffa exakt rätt balans. Ett unikt lagbygge."
-    };
-}
-
-if (stars >= 5) {
-    return {
-        title: "☠️ All-in",
-        text: "Försiktighet är inget för dig. Du har fyllt laget med ren elitklass."
-    };
-}
-
-if (swedes >= 6) {
-    return {
-        title: "🇸🇪 Tre Kronor",
-        text: "Nästan hela laget går i blågult. Ett lag byggt på svenska ytteråkare."
-    };
-}
     return {
         title: "🌍 Världslaget",
         text: "Internationell spets och erfarenhet präglar ditt lag."
