@@ -931,6 +931,11 @@ else {
 
     output += `<span style="color:#dc2626;font-weight:bold;">❌ Förlust</span>`;
 }
+       output += `</div>`;
+
+document.getElementById("simulation-result").innerHTML = output;
+
+}
 function shareTeam() {
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
     const tot = myTeam.reduce((sum,d)=>sum+d.avg,0);
