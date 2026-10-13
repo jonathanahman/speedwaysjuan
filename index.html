@@ -511,6 +511,12 @@ function renderTeam() {
 ) {
     achievements.push("👨‍👦 Familjeband");
 }
+        if (
+    myTeam.some(d => d.name === "Sammy Van Dyck") &&
+    myTeam.some(d => d.name === "Avon Van Dyck")
+) {
+    achievements.push("👬 Bröderna Van Dyck");
+}
         // Trio-achievements
 
 if (
