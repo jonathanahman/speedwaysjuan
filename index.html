@@ -7,7 +7,7 @@
 <style>
 body{font-family:Arial,sans-serif;margin:0;padding:15px;background:#f7f7f7;color:#333;}
 .sticky{position:sticky;top:0;background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:999;margin-bottom:15px;}
-h1{margin-top:0;font-size:1.4rem;text-align:center;font-weight:800;}
+h1{margin-top:0;font-size:1.4rem;text-align:center;font-weight:800;color:#111;}
 h2{font-size:1.2rem;margin-top:20px;border-bottom:2px solid #ddd;padding-bottom:5px;font-weight:700;}
 .category-header{background:#e2e8f0;color:#334155;padding:6px 12px;border-radius:6px;margin-top:15px;margin-bottom:8px;font-size:0.95rem;font-weight:bold;}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;}
@@ -36,8 +36,8 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 <body>
 
 <div class="sticky">
-    <h1>🏁 BYGG DIN SPEEDWAYSJUA</h1>
-    <div class="info-row"><span>Totalt snitt:</span><span id="budget" class="valid">0.000 / 10.750</span></div>
+    <h1>🏁 Bygg din speedwaysjua med VT-sporten!</h1>
+    <div class="info-row"><span>Snitt-tak:</span><span id="budget" class="valid">0.000 / 10.750</span></div>
     <div class="info-row"><span>Kvar att nyttja:</span><span id="remaining">10.750</span></div>
     <div class="info-row"><span>Antal förare:</span><span id="team-count">0 / 7</span></div>
     <div class="rules-container" id="rules"></div>
@@ -48,22 +48,22 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
     </div>
 </div>
 
-<h3>⭐ Mest valda just nu</h3>
-<ol style="font-size:14px;padding-left:20px;margin-bottom:20px;">
-    <li>Kim Nilsson</li><li>Robert Lambert</li><li>Adam Bednar</li><li>Harry Lundahl</li><li>Bartosz Zmarzlik</li>
-</ol>
-
 <input id="search" placeholder="🔍 Sök förare..." onkeyup="renderDrivers()" />
 <h2>Ditt lag</h2><div id="team"><i>Inga förare valda än. Klicka på "Välj" nedan!</i></div>
 <h2>Tillgängliga förare</h2><div id="drivers"></div>
 
-<!-- Här kopplar vi ihop HTML-filen med din sparade drivers.js -->
 <script src="drivers.js"></script>
 
 <script>
 const BUDGET = 10.750, MAX_PLAYERS = 7;
-const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
-let myTeam = [];
+// Uppdaterade kategorinamn med fungerande text-flaggor för maximal kompatibilitet i Live Center
+const categoryNames = {
+    "US": "🌍 Utländska Seniorer (US)",
+    "SS": "[SE] Svenska Seniorer (SS)",
+    "UU21": "🌍 Utländska U21 (UU21)",
+    "SU21": "[SE] Svenska U21 (SU21)"
+};
+let myTeam =;
 
 function renderDrivers() {
     const s = document.getElementById('search').value.toLowerCase();
@@ -71,7 +71,7 @@ function renderDrivers() {
     let av = drivers.filter(d => !myTeam.some(t => t.id === d.id) && d.name.toLowerCase().includes(s));
     if(av.length===0){c.innerHTML='<p style="text-align:center;color:#666;">Inga förare hittades</p>';return;}
     av.sort((a,b)=>b.avg-a.avg);
-    const g = {"US":[],"SS":[],"UU21":[],"SU21":[]};
+    const g = {"US":,"SS":,"UU21":,"SU21":};
     av.forEach(d => { if(g[d.category]) g[d.category].push(d); });
     ["US","SS","UU21","SU21"].forEach(cat => {
         if(g[cat].length>0){
@@ -89,10 +89,10 @@ function renderDrivers() {
 function renderTeam() {
     const c = document.getElementById('team'); c.innerHTML = '';
     if(myTeam.length===0){c.innerHTML='<i>Inga förare valda än. Klicka på "Välj" nedan!</i>';updateStatus();return;}
-    let finalOrderedTeam = [];
+    let finalOrderedTeam =;
     if(myTeam.length>2){
         let s = [...myTeam].sort((a,b)=>a.avg-b.avg);
-        let res = [s[0],s[1]], main = s.slice(2);
+        let res = [s,s], main = s.slice(2);
         main.sort((a,b)=>b.avg-a.avg); res.sort((a,b)=>b.avg-a.avg);
         finalOrderedTeam = [...main,...res];
     } else { finalOrderedTeam = [...myTeam].sort((a,b)=>b.avg-a.avg); }
@@ -123,15 +123,17 @@ function updateStatus() {
     rEl.innerHTML = h; sendHeight();
 }
 
-function clearTeam(){ myTeam=[];renderTeam();renderDrivers(); }
+function clearTeam(){ myTeam=;renderTeam();renderDrivers(); }
 function randomTeam(){ clearTeam();let att=0;while(myTeam.length<MAX_PLAYERS&&att<500){const r=drivers[Math.floor(Math.random()*drivers.length)];if(!myTeam.some(x=>x.id===r.id)&&(myTeam.reduce((sum,x)=>sum+x.avg,0)+r.avg<=BUDGET)){myTeam.push(r);}att++;}renderTeam();renderDrivers(); }
+
 function shareTeam(){
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
     const tot=myTeam.reduce((sum,d)=>sum+d.avg,0), ss=myTeam.filter(d=>d.category==="SS").length, su=myTeam.filter(d=>d.category==="SU21").length, totU=su+myTeam.filter(d=>d.category==="UU21").length;
     if(tot>BUDGET||ss<2||totU<2||su<1){alert("Ditt lag uppfyller inte alla lagregler ännu!");return;}
-    const txt = `Jag byggde min speedwaysjua med ett totalsnitt på ${tot.toFixed(3)}! Mitt lag: ${myTeam.map(d=>d.name).join(", ")}. Bygg ditt eget lag här! 🏁`;
+    const txt = `Jag byggde min speedwaysjua med VT-sporten! Mitt totalsnitt blev ${tot.toFixed(3)}! Mitt lag: ${myTeam.map(d=>d.name).join(", ")}. Bygg ditt eget lag här! 🏁`;
     if(navigator.share){navigator.share({title:'Min Speedwaysjua',text:txt});}else{navigator.clipboard.writeText(txt);alert("Laguppställningen kopierad!");}
 }
+
 function sendHeight(){ setTimeout(()=>{const h=document.documentElement.scrollHeight||document.body.scrollHeight;window.parent.postMessage({type:'resize-iframe',height:h},'*');},100); }
 window.onload=()=>{renderDrivers();window.addEventListener('resize',sendHeight);};
 </script>
