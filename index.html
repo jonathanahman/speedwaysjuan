@@ -838,13 +838,19 @@ function randomTeam() {
     });
 
     results.sort((a, b) => b.score - a.score);
+       const hero = results[0];
+const flop = results[results.length - 1];
 
     results.forEach(driver => {
         output += `
             ${driver.name}: <strong>${driver.score}</strong> p<br>
         `;
     });
-
+output += `
+    <br>
+    🌟 Matchhjälte: <strong>${hero.name}</strong> (${hero.score} p)<br>
+    💀 Matchflopp: <strong>${flop.name}</strong> (${flop.score} p)<br>
+`;
     output += `<br><strong>🏁 Lagpoäng: ${total}</strong><br><br>`;
 
     if (total >= 46) {
