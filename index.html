@@ -510,13 +510,13 @@ function renderTeam() {
     myTeam.some(d => d.name === "Artem Laguta") &&
     myTeam.some(d => d.name === "Emil Sajfutdinov")
     ) {
-    achievements.push("❄️ Eleganterna");
+    achievements.push("❄️ Eleganterna Laguta och Emil.");
     }
         if (
     myTeam.some(d => d.name === "Andreas Lyager") &&
     myTeam.some(d => d.name === "Matias Nielsen")
 ) {
-    achievements.push("❤️ Mogge-favoriterna");
+    achievements.push("❤️ Mogge-favoriterna Lyager och Nielsen");
 }
         if (
     myTeam.some(d => d.name === "Mads Hansen") &&
@@ -528,7 +528,7 @@ function renderTeam() {
     myTeam.some(d => d.name === "Artem Laguta") &&
     myTeam.some(d => d.name === "Vadim Tarasenko")
 ) {
-    achievements.push("👨‍👦 Familjeband");
+    achievements.push("👨‍👦 Familjeband! Laguta är Tarasenkos morbror.");
 }
         if (
     myTeam.some(d => d.name === "Sammy Van Dyck") &&
@@ -550,14 +550,15 @@ if (
     myTeam.some(d => d.name === "Maksym Drabik") &&
     myTeam.some(d => d.name === "Tomas H Jonasson")
 ) {
-    achievements.push("🦚 Flamboyant");
+    achievements.push("🦚 Flamboyant. Hög X-faktor med Gleb, Drabik och THJ!");
 }
 if (
     myTeam.some(d => d.name === "Peter Kildemand") &&
     myTeam.some(d => d.name === "Krzysztof Buczkowski") &&
     myTeam.some(d => d.name === "Kacper Woryna")
 ) {
-    achievements.push("🐷 Gristrion");
+    achievements.push("🐷 Gristrion: Kildemand, Buczkowski och Woryna i samma lag...");
+
 }
 if (
     myTeam.some(d => d.name === "Leon Madsen") &&
@@ -652,7 +653,7 @@ function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();rende
     }
 
     if (avgConsistency >= 2.3) {
-        return "🎲 Chansbygge";
+        return "🎲 Lite osäkert!";
     }
 
     return "🧨 Kaoslaget";
