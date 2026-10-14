@@ -84,6 +84,55 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 <script>
 const BUDGET = 10.750, MAX_PLAYERS = 7, MIN_BUDGET = 9.550;
 const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
+const ACHIEVEMENT_CATEGORIES = {
+    lag: {
+        name: "Lagutmärkelser",
+        total: 23,
+        storageKey: "unlockedAchievements"
+    },
+
+    match: {
+        name: "Matchutmärkelser",
+        total: 30,
+        storageKey: "unlockedSimAchievements"
+    },
+
+    karriar: {
+        name: "Karriärutmärkelser",
+        total: 10,
+        storageKey: "unlockedCareerAchievements"
+    }
+    let unlockedAchievements =
+    JSON.parse(localStorage.getItem(
+        ACHIEVEMENT_CATEGORIES.lag.storageKey
+    )) || [];
+
+let unlockedSimAchievements =
+    JSON.parse(localStorage.getItem(
+        ACHIEVEMENT_CATEGORIES.match.storageKey
+    )) || [];
+
+let unlockedCareerAchievements =
+    JSON.parse(localStorage.getItem(
+        ACHIEVEMENT_CATEGORIES.karriar.storageKey
+    )) || [];
+    
+    let careerStats = JSON.parse(
+    localStorage.getItem("careerStats")
+) || {
+    golds: 0,
+    silvers: 0,
+    finals: 0,
+    semifinals: 0,
+    playoffs: 0,
+
+    consecutiveGolds: 0,
+    consecutiveFinalLosses: 0,
+    consecutiveSemifinals: 0,
+
+    seasonsPlayed: 0,
+    goldsLast10: []
+};
 
 const flags = {
     SE: "🇸🇪",
@@ -117,6 +166,20 @@ let losses = 0;
 
 let unlockedSimAchievements =
     JSON.parse(localStorage.getItem("unlockedSimAchievements")) || [];
+    const ACHIEVEMENT_CATEGORIES = {
+    lag: {
+        total: 23
+    },
+    match: {
+        total: 30
+    },
+    karriar: {
+        total: 10
+    }
+};
+
+let unlockedCareerAchievements =
+    JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
 
 function renderDrivers() {
     const s = document.getElementById('search').value.toLowerCase();
@@ -828,7 +891,18 @@ localStorage.setItem(
     }
 }
     document.getElementById("progress-box").innerHTML =
-    `🏆 Lag: ${unlockedAchievements.length}/23<br>🎖️ Sim: ${unlockedSimAchievements.length}/30`;
+    `🏆 Totalt: ${
+        unlockedAchievements.length +
+        unlockedSimAchievements.length +
+        unlockedCareerAchievements.length
+    }/${
+        ACHIEVEMENT_CATEGORIES.lag.total +
+        ACHIEVEMENT_CATEGORIES.match.total +
+        ACHIEVEMENT_CATEGORIES.karriar.total
+    }<br>
+    🏅 Lag: ${unlockedAchievements.length}/${ACHIEVEMENT_CATEGORIES.lag.total}<br>
+    🎖️ Match: ${unlockedSimAchievements.length}/${ACHIEVEMENT_CATEGORIES.match.total}<br>
+    👑 Karriär: ${unlockedCareerAchievements.length}/${ACHIEVEMENT_CATEGORIES.karriar.total}`;
 rEl.innerHTML = h;
 sendHeight();
 }
