@@ -990,6 +990,78 @@ if ((hero.score - flop.score) >= 10) {
 if (results.filter(r => r.score <= 4).length >= 3) {
     simAchievements.push("🤯 Kollektiv kollaps. Tre av dina förare tog fyra eller färre poäng!");
 }
+       if (results.every(r => r.delta > 0)) {
+    simAchievements.push("🏆 Perfekt kväll - samtliga förare överträffade förväntningarna");
+}
+
+if (results.every(r => r.delta < 0)) {
+    simAchievements.push("😱 Mardröm - samtliga förare underpresterade");
+}
+
+if (results.filter(r => r.score >= 13).length >= 3) {
+    simAchievements.push("🔥 Ketchupeffekt - minst tre förare nådde 13 poäng eller mer");
+}
+
+if (results.every(r => r.score >= 7)) {
+    simAchievements.push("🧱 Betongvägg - ingen förare noterades för mindre än 7 poäng");
+}
+
+if (
+    hero.score >= 15 &&
+    results.filter(r => r.score >= 12).length >= 3
+) {
+    simAchievements.push("🦄 Enhörningen - MVP på minst 15 poäng och tre förare över 12");
+}
+
+if (
+    total >= 60 &&
+    results.every(r => r.score >= 6)
+) {
+    simAchievements.push("🚢 Osänkbara - 60+ lagpoäng utan någon svag länk");
+}
+
+if (
+    hero.score >= 15 &&
+    flop.score >= 7
+) {
+    simAchievements.push("⚖️ Perfekt balans - stjärnan glänste utan att någon föll igenom");
+}
+
+if (
+    results.filter(r => r.score >= 10).length >= 5
+) {
+    simAchievements.push("🚂 Full fart framåt - fem förare nådde tvåsiffrigt");
+}
+
+if (
+    results.filter(r => r.score <= 4).length >= 4
+) {
+    simAchievements.push("🌪️ Totalt haveri - fyra förare eller fler under 5 poäng");
+}
+
+if (
+    total >= 55 &&
+    hero.score >= 13 &&
+    flop.score >= 6
+) {
+    simAchievements.push("🏅 Komplett laginsats - hög lagpoäng utan några stora svagheter");
+}
+       if (total >= 70) {
+    simAchievements.push("💫 En gång i livet - laget nådde minst 70 poäng");
+}
+
+
+if (results.every(r => r.score >= 10)) {
+    simAchievements.push("⚔️ Sju samurajer - samtliga förare nådde tvåsiffrigt");
+}
+
+if (total < 30) {
+    simAchievements.push("☢️ Chernobyl - total systemkollaps");
+}
+
+if (hero.score === flop.score) {
+    simAchievements.push("⚖️ Alla lika - ingen förare stack ut");
+}
 
     results.forEach(driver => {
     output += `
