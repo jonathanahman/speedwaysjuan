@@ -64,6 +64,10 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
     <div id="stats-box" style="text-align:center;margin-top:4px;font-size:13px;">
 🎲 Simuleringar: 0
 </div>
+    <div id="progress-box"
+     style="text-align:center;margin-top:4px;font-size:13px;">
+🏆 Upplåsta utmärkelser: 0
+</div>
 </div>
 
 <input id="search" placeholder="🔍 Sök förare..." onkeyup="renderDrivers()" />
@@ -823,6 +827,8 @@ localStorage.setItem(
         `;
     }
 }
+    document.getElementById("progress-box").innerHTML =
+    `🏆 Upplåsta lagutmärkelser: ${unlockedAchievements.length}/23`;
 
 rEl.innerHTML = h;
 sendHeight();
