@@ -1626,30 +1626,27 @@ if (
     finish.includes("SM-GULD") &&
     playoffText.includes("⚡ Extraheat")
 ) {
-    careerAchievements.push("⚡ Guld efter extraheat");
+    careerAchievements.push("⚡ Guld efter extraheat - En Mogge special!");
 }
 
 if (
     finish.includes("Silver") &&
     playoffText.includes("⚡ Extraheat")
 ) {
-    careerAchievements.push("💔 Silver efter extraheat");
-}
+    careerAchievements.push("💔 Silver efter extraheat - en Västervik 2026.");
 
-if (wins === 14) {
-    careerAchievements.push("🚂 Perfekt grundserie");
 }
 
 if (wins === 14 && losses === 0 && draws === 0) {
-    careerAchievements.push("🧱 Oslagbara");
+    careerAchievements.push("🧱 Oslagbara - obesegrade genom grundserien!");
 }
 
 if (careerStats.consecutiveGolds >= 3) {
-    careerAchievements.push("👑 Dynastin");
+    careerAchievements.push("👑 Dynastin - tre raka SM-guld!");
 }
 
 if (careerStats.consecutiveGolds >= 5) {
-    careerAchievements.push("🏛️ Kejsardömet");
+    careerAchievements.push("🏛️ Kejsardömet - fem raka SM-guld!");
 }
 
 if (careerStats.consecutiveFinalLosses >= 3) {
@@ -1657,13 +1654,13 @@ if (careerStats.consecutiveFinalLosses >= 3) {
 }
 
 if (careerStats.consecutiveSemifinals >= 10) {
-    careerAchievements.push("📈 Evighetsmaskinen");
+    careerAchievements.push("📈 Evighetsmaskinen - ditt lag har tagit sig till semifinal tio år i rad");
 }
 
 if (
     careerStats.goldsLast10.filter(x => x === 1).length >= 8
 ) {
-    careerAchievements.push("🏆 Guldregnet");
+    careerAchievements.push("🏆 Guldregnet - åtta guld senaste tio åren!");
 }
 
 const swedes =
