@@ -883,15 +883,29 @@ function randomTeam() {
                 (Math.random() * variance * 2 - variance)
             )
         );
+        let eventText = "";
+
+const eventRoll = Math.random();
+
+if (eventRoll < 0.02) {
+    eventText = "🔧 Motorhaveri";
+}
+else if (eventRoll < 0.05) {
+    eventText = "🤕 Känning";
+}
+else if (eventRoll > 0.97) {
+    eventText = "🚀 Toppform";
+}
 
         total += score;
 
         results.push({
-            name: driver.name,
-            score: score,
-            expected: expected,
-            delta: score - expected
-        });
+    name: driver.name,
+    score: score,
+    expected: expected,
+    delta: score - expected,
+    event: eventText
+});
 
     });
 
@@ -905,6 +919,20 @@ function randomTeam() {
     const flop = [...results].sort((a, b) => a.delta - b.delta)[0];
        const simAchievements = [];
        latestSimAchievements = simAchievements;
+       let story = "";
+
+if (total >= 55) {
+    story = `🏆 En uppvisning. ${hero.name} ledde laget till en övertygande seger.`;
+}
+else if (total >= 46) {
+    story = `✅ Stabil laginsats. ${hero.name} var kvällens stora poängplockare.`;
+}
+else if (total >= 40) {
+    story = `⚠️ En ojämn kväll. ${flop.name} fick aldrig riktigt träff.`;
+}
+else {
+    story = `💥 En tung afton. Laget hade svårt att få saker att fungera.`;
+}
 
 if (total >= 60) {
     simAchievements.push("🚀 Raketbränsle");
@@ -963,10 +991,10 @@ if (results.filter(r => r.score <= 4).length >= 3) {
 }
 
     results.forEach(driver => {
-        output += `
-            ${driver.name}: <strong>${driver.score}</strong> p<br>
-        `;
-    });
+    output += `
+        ${driver.name}: <strong>${driver.score}</strong> p ${driver.event}<br>
+    `;
+});
 
    output += `
     <br>
