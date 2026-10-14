@@ -1125,6 +1125,30 @@ document.getElementById("simulation-result").innerHTML = output;
 
 sendHeight();
 }
+    function simulatePlayoffMatch(teamStrength, opponentStrength, homeAdvantage = 0) {
+
+    const adjustedTeam = teamStrength + homeAdvantage;
+
+    const randomSwing =
+        (Math.random() - 0.5) * 1.2;
+
+    const adjustedOpponent =
+        opponentStrength + randomSwing;
+
+    const totalStrength =
+        adjustedTeam + adjustedOpponent;
+
+    const teamShare =
+        adjustedTeam / totalStrength;
+
+    const teamScore =
+        Math.round(teamShare * 90);
+
+    return {
+        team: teamScore,
+        opponent: 90 - teamScore
+    };
+}
    function simulateSeason() {
 
     if (myTeam.length !== 7) {
@@ -1194,49 +1218,122 @@ sendHeight();
     else if (points >= 12) position = 7;
     else position = 8;
 
-    let playoffText = "";
-    let finish = "";
+const teamStrength =
+    myTeam.reduce((sum, d) => sum + d.avg, 0);
 
-    if (position <= 6) {
+let playoffText = "";
+let finish = "";
 
-        playoffText += `✅ Kvartsfinal<br>`;
+if (position > 6) {
 
-        const quarter = Math.random();
+    finish = "❌ Missade slutspel";
 
-        if (quarter < 0.75) {
+} else {
 
-            playoffText += `✅ Semifinal<br>`;
+    // KVARTSFINAL
 
-            const semi = Math.random();
+    const qfHome =
+        simulatePlayoffMatch(teamStrength, 10.10, 0.20);
 
-            if (semi < 0.60) {
+    const qfAway =
+        simulatePlayoffMatch(teamStrength, 10.10, 0);
 
-                playoffText += `✅ Final<br>`;
+    const qfTotal =
+        qfHome.team + qfAway.team;
 
-                const final = Math.random();
+    const qfOppTotal =
+        qfHome.opponent + qfAway.opponent;
 
-                if (final < 0.50) {
+    playoffText += `
+        🏁 Kvartsfinal<br>
+        ${qfHome.team}-${qfHome.opponent}<br>
+        ${qfAway.team}-${qfAway.opponent}<br>
+        Totalt: ${qfTotal}-${qfOppTotal}<br>
+    `;
+
+    if (qfTotal > qfOppTotal) {
+
+        playoffText += `✅ Vidare<br><br>`;
+
+        // SEMIFINAL
+
+        const sfHome =
+            simulatePlayoffMatch(teamStrength, 10.40, 0.20);
+
+        const sfAway =
+            simulatePlayoffMatch(teamStrength, 10.40, 0);
+
+        const sfTotal =
+            sfHome.team + sfAway.team;
+
+        const sfOppTotal =
+            sfHome.opponent + sfAway.opponent;
+
+        playoffText += `
+            🏁 Semifinal<br>
+            ${sfHome.team}-${sfHome.opponent}<br>
+            ${sfAway.team}-${sfAway.opponent}<br>
+            Totalt: ${sfTotal}-${sfOppTotal}<br>
+        `;
+
+        if (sfTotal > sfOppTotal) {
+
+            playoffText += `✅ Vidare<br><br>`;
+
+            // FINAL
+
+            const finalHome =
+                simulatePlayoffMatch(teamStrength, 10.60, 0.20);
+
+            const finalAway =
+                simulatePlayoffMatch(teamStrength, 10.60, 0);
+
+            const finalTotal =
+                finalHome.team + finalAway.team;
+
+            const finalOppTotal =
+                finalHome.opponent + finalAway.opponent;
+
+            playoffText += `
+                🏁 Final<br>
+                ${finalHome.team}-${finalHome.opponent}<br>
+                ${finalAway.team}-${finalAway.opponent}<br>
+                Totalt: ${finalTotal}-${finalOppTotal}<br>
+            `;
+
+            if (finalTotal > finalOppTotal) {
+                finish = "🥇 SM-GULD";
+            }
+            else if (
+                finalTotal === finalOppTotal &&
+                Math.random() < 0.004
+            ) {
+
+                playoffText += `⚡ Extraheat!<br>`;
+
+                if (Math.random() < 0.5) {
                     finish = "🥇 SM-GULD";
                 } else {
                     finish = "🥈 Silver";
                 }
 
             } else {
-
-                finish = "🥉 Semifinalförlust";
-
+                finish = "🥈 Silver";
             }
 
         } else {
 
-            finish = "❌ Utslagen i kvartsfinal";
+            finish = "🥉 Semifinalförlust";
 
         }
 
     } else {
 
-        finish = "❌ Missade slutspel";
-        }
+        finish = "❌ Utslagen i kvartsfinal";
+
+    }
+
+}
 
     document.getElementById("simulation-result").innerHTML = `
         <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
