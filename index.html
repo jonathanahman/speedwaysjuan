@@ -882,7 +882,7 @@ function randomTeam() {
             0,
             Math.round(
                 expected +
-                (() * variance * 2 - variance)
+                (Math.random() * variance * 2 - variance)
             )
         );
         let eventText = "";
