@@ -1125,15 +1125,16 @@ document.getElementById("simulation-result").innerHTML = output;
 
 sendHeight();
 }
-    function simulatePlayoffMatch(teamStrength, opponentStrength, homeAdvantage = 0) {
+   function simulatePlayoffMatch(teamStrength, opponentStrength, homeAdvantage = 0) {
 
-    const adjustedTeam = teamStrength + homeAdvantage;
-
-    const randomSwing =
-        (Math.random() - 0.5) * 1.2;
+    const adjustedTeam =
+        teamStrength +
+        homeAdvantage +
+        ((Math.random() - 0.5) * 1.2);
 
     const adjustedOpponent =
-        opponentStrength + randomSwing;
+        opponentStrength +
+        ((Math.random() - 0.5) * 1.2);
 
     const totalStrength =
         adjustedTeam + adjustedOpponent;
@@ -1251,11 +1252,38 @@ if (position > 6) {
         Totalt: ${qfTotal}-${qfOppTotal}<br>
     `;
 
+    let quarterWinner = false;
+
     if (qfTotal > qfOppTotal) {
 
         playoffText += `✅ Vidare<br><br>`;
+        quarterWinner = true;
 
-        // SEMIFINAL
+    } else if (qfTotal === qfOppTotal) {
+
+        playoffText += `⚡ Extraheat!<br>`;
+
+        if (Math.random() < 0.5) {
+
+            playoffText += `✅ Vann extraheatet<br><br>`;
+            quarterWinner = true;
+
+        } else {
+
+            playoffText += `❌ Förlorade extraheatet<br><br>`;
+            finish = "❌ Utslagen i kvartsfinal";
+
+        }
+
+    } else {
+
+        finish = "❌ Utslagen i kvartsfinal";
+
+    }
+
+    // SEMIFINAL
+
+    if (quarterWinner) {
 
         const sfHome =
             simulatePlayoffMatch(teamStrength, 10.40, 0.20);
@@ -1276,11 +1304,38 @@ if (position > 6) {
             Totalt: ${sfTotal}-${sfOppTotal}<br>
         `;
 
+        let semiWinner = false;
+
         if (sfTotal > sfOppTotal) {
 
             playoffText += `✅ Vidare<br><br>`;
+            semiWinner = true;
 
-            // FINAL
+        } else if (sfTotal === sfOppTotal) {
+
+            playoffText += `⚡ Extraheat!<br>`;
+
+            if (Math.random() < 0.5) {
+
+                playoffText += `✅ Vann extraheatet<br><br>`;
+                semiWinner = true;
+
+            } else {
+
+                playoffText += `❌ Förlorade extraheatet<br><br>`;
+                finish = "🥉 Förlorade extraheatet i semifinal";
+
+            }
+
+        } else {
+
+            finish = "🥉 Semifinalförlust";
+
+        }
+
+        // FINAL
+
+        if (semiWinner) {
 
             const finalHome =
                 simulatePlayoffMatch(teamStrength, 10.60, 0.20);
@@ -1302,39 +1357,31 @@ if (position > 6) {
             `;
 
             if (finalTotal > finalOppTotal) {
+
                 finish = "🥇 SM-GULD";
-            }
-            else if (
-                finalTotal === finalOppTotal &&
-                Math.random() < 0.004
-            ) {
+
+            } else if (finalTotal === finalOppTotal) {
 
                 playoffText += `⚡ Extraheat!<br>`;
 
                 if (Math.random() < 0.5) {
-                    finish = "🥇 SM-GULD";
+
+                    finish = "🥇 SM-GULD ⚡";
+
                 } else {
-                    finish = "🥈 Silver";
+
+                    finish = "🥈 Silver efter extraheat";
+
                 }
 
             } else {
+
                 finish = "🥈 Silver";
+
             }
-
-        } else {
-
-            finish = "🥉 Semifinalförlust";
-
         }
-
-    } else {
-
-        finish = "❌ Utslagen i kvartsfinal";
-
     }
-
 }
-
     document.getElementById("simulation-result").innerHTML = `
         <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
 
