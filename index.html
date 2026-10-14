@@ -108,6 +108,12 @@ let wins = 0;
 let draws = 0;
 let losses = 0;
     let latestSimAchievements = [];
+    let unlockedAchievements =
+    JSON.parse(localStorage.getItem("unlockedAchievements")) || [];
+
+let unlockedSimAchievements =
+    JSON.parse(localStorage.getItem("unlockedSimAchievements")) || [];
+`
 
 function renderDrivers() {
     const s = document.getElementById('search').value.toLowerCase();
@@ -776,6 +782,19 @@ else {
 
     const achievements = getAchievements();
     const TOTAL_ACHIEVEMENTS = 23;
+       
+    achievements.forEach(a => {
+
+    if (!unlockedAchievements.includes(a)) {
+        unlockedAchievements.push(a);
+    }
+
+});
+
+localStorage.setItem(
+    "unlockedAchievements",
+    JSON.stringify(unlockedAchievements)
+);
 
     if (achievements.length > 0) {
 
