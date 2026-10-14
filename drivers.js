@@ -128,7 +128,7 @@ const drivers = [
     {id:135,name:"Damian Ratajczak",avg:1.414,category:"US",country:"PL",age:21},
     {id:136,name:"Tom Brennan",avg:1.412,category:"US",country:"GB",age:25,consistency:2},
     {id:137,name:"Oscar Polis",avg:1.410,category:"US",country:"PL",age:29},
-    {id:138,name:"Antoni Kawczynski",avg:1.409,category:"US",country:"PL",age:20},
+    {id:138,name:"Antoni Kawczynski",avg:1.409,category:"UU21",country:"PL",age:20},
     {id:139,name:"David Bellego",avg:1.400,category:"US",country:"FR",age:33},
     {id:140,name:"Vaclav Milik",avg:1.365,category:"US",country:"CZ",age:32},
     {id:141,name:"Robert Chmiel",avg:1.345,category:"US",country:"PL",age:27},
@@ -161,4 +161,6 @@ const drivers = [
 {id:168,name:"Sammy Van Dyck",avg:1.103,category:"SU21",country:"SE",age:21},
 {id:169,name:"Jaimon Lidsey",avg:1.500,category:"US",country:"AU",age:27},
 {id:170,name:"Gleb Chugunov",avg:1.491,category:"US",country:"PL",age:26,consistency:1},
+{id:171,name:"Szymon Wozniak",avg:1.553,category:"US",country:"PL",age:33,consistency:2},
+
     ];
