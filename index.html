@@ -53,9 +53,9 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
     <div class="rules-container" id="rules"></div>
     <div class="actions">
     <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
-    <button class="btn-random" onclick="simulateTeam()">🏁 Testkör</button>
+    <button class="btn-random" onclick="simulateTeam()">🏁 Testa laget i match</button>
     <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
-    <button class="btn-share" onclick="shareTeam()">📤 Dela</button>
+    <button class="btn-random" onclick="simulateSeason()">🏆 Simulera säsong</button>
 </div>
     <div id="record-box" style="text-align:center;margin-top:8px;font-size:14px;font-weight:bold;">
     🏆 Personbästa: -
@@ -368,14 +368,14 @@ function renderTeam() {
         };
     }
 
-    if (total < 9.500) {
+    if (total < 9.250) {
         return {
             title: "🤯 Chansaren",
             text: "Budgeten finns där för att användas. Du har andra planer."
         };
     }
 
-    if (myTeam.some(d => d.avg >= 2.50)) {
+    if (myTeam.some(d => d.avg >= 2.55)) {
         return {
             title: "👑 Kungen är vald",
             text: "Du byggde laget kring en superstjärna."
@@ -1123,6 +1123,111 @@ else {
 document.getElementById("simulation-result").innerHTML = output;
 
 sendHeight();
+}
+    function simulateSeason() {
+
+    if (myTeam.length !== 7) {
+        alert("Välj 7 förare först!");
+        return;
+    }
+
+    let wins = 0;
+    let draws = 0;
+    let losses = 0;
+    let points = 0;
+
+    for (let round = 0; round < 14; round++) {
+
+        let total = 0;
+
+        myTeam.forEach(driver => {
+
+            const expected = driver.avg * 4.7;
+
+            const consistency = driver.consistency || 3;
+
+            const varianceMap = {
+                5: 0.23,
+                4: 0.34,
+                3: 0.48,
+                2: 0.58,
+                1: 0.65
+            };
+
+            const variance = expected * varianceMap[consistency];
+
+            const score = Math.max(
+                0,
+                Math.round(
+                    expected +
+                    (Math.random() * variance * 2 - variance)
+                )
+            );
+
+            total += score;
+
+        });
+
+        if (total >= 46) {
+            wins++;
+            points += 2;
+        }
+        else if (total === 45) {
+            draws++;
+            points += 1;
+        }
+        else {
+            losses++;
+        }
+    }
+
+    let finish = "";
+    let medal = "";
+
+    if (points >= 24) {
+        finish = "🥇 SM-GULD";
+        medal = "👑 Mästarlaget";
+    }
+    else if (points >= 21) {
+        finish = "🥈 Silver";
+        medal = "🏆 Finalist";
+    }
+    else if (points >= 18) {
+        finish = "🥉 Semifinal";
+        medal = "🔥 Slutspelslaget";
+    }
+    else if (points >= 14) {
+        finish = "✅ Kvartsfinal";
+    }
+    else {
+        finish = "❌ Missat slutspel";
+        medal = "💔 Soppatorsk";
+    }
+
+    document.getElementById("simulation-result").innerHTML = `
+        <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
+
+            <strong>🏆 Säsongssimulering</strong>
+
+            <br><br>
+
+            ✅ Vinster: ${wins}<br>
+            ➖ Oavgjorda: ${draws}<br>
+            ❌ Förluster: ${losses}<br>
+
+            <br>
+
+            🏅 Lagpoäng: ${points}<br>
+            ${finish}
+
+            <br><br>
+
+            ${medal}
+
+        </div>
+    `;
+
+    sendHeight();
 }
 function shareTeam() {
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
