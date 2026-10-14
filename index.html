@@ -1236,8 +1236,7 @@ sendHeight();
     } else {
 
         finish = "❌ Missade slutspel";
-
-    }
+        }
 
     document.getElementById("simulation-result").innerHTML = `
         <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
@@ -1273,31 +1272,6 @@ sendHeight();
     sendHeight();
 }
 
-    document.getElementById("simulation-result").innerHTML = `
-        <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
-
-            <strong>🏆 Säsongssimulering</strong>
-
-            <br><br>
-
-            ✅ Vinster: ${wins}<br>
-            ➖ Oavgjorda: ${draws}<br>
-            ❌ Förluster: ${losses}<br>
-
-            <br>
-
-            🏅 Lagpoäng: ${points}<br>
-            ${finish}
-
-            <br><br>
-
-            ${medal}
-
-        </div>
-    `;
-
-    sendHeight();
-}
 function shareTeam() {
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
     const tot = myTeam.reduce((sum,d)=>sum+d.avg,0);
