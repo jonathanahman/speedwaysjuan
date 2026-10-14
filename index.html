@@ -46,16 +46,51 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 <body>
 
 <div class="sticky">
+
     <h1>🏁 Bygg din speedwaysjua med VT-sporten!</h1>
-    <div class="info-row"><span>Snitt-tak:</span><span id="budget" class="valid">0.000 / 10.750</span></div>
-    <div class="info-row"><span>Kvar att nyttja:</span><span id="remaining">10.750</span></div>
-    <div class="info-row"><span>Antal förare:</span><span id="team-count">0 / 7</span></div>
+
+    <div class="info-row">
+        <span>Snitt-tak:</span>
+        <span id="budget" class="valid">0.000 / 10.750</span>
+    </div>
+
+    <div class="info-row">
+        <span>Kvar att nyttja:</span>
+        <span id="remaining">10.750</span>
+    </div>
+
+    <div class="info-row">
+        <span>Antal förare:</span>
+        <span id="team-count">0 / 7</span>
+    </div>
+
     <div class="rules-container" id="rules"></div>
+
     <div class="actions">
-    <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
-    <button class="btn-random" onclick="simulateTeam()">🏁 Testa laget i match</button>
-    <button class="btn-random" onclick="simulateSeason()">🏆 Simulera hel säsong</button>
-    <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
+        <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
+        <button class="btn-random" onclick="simulateTeam()">🏁 Testa laget</button>
+        <button class="btn-random" onclick="simulateSeason()">🏆 Säsong</button>
+        <button class="btn-random" onclick="toggleStats()">📊 Statistik</button>
+        <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
+    </div>
+
+    <div id="extra-stats" style="display:none;">
+
+        <div id="record-box"
+             style="text-align:center;margin-top:8px;font-size:14px;font-weight:bold;">
+            🏆 Personbästa: -
+        </div>
+
+        <div id="stats-box"
+             style="text-align:center;margin-top:4px;font-size:13px;">
+            🎲 Simuleringar: 0
+        </div>
+
+        <div id="progress-box"
+             style="text-align:center;margin-top:4px;font-size:13px;">
+        </div>
+
+    </div>
 
 </div>
     <div id="record-box" style="text-align:center;margin-top:8px;font-size:14px;font-weight:bold;">
@@ -267,18 +302,13 @@ function renderDrivers() {
     const stats =
         document.getElementById("extra-stats");
 
-    const toggle =
-        document.getElementById("extra-stats-toggle");
-
     if (stats.style.display === "none") {
 
         stats.style.display = "block";
-        toggle.innerHTML = "📊 Dölj statistik ▲";
 
     } else {
 
         stats.style.display = "none";
-        toggle.innerHTML = "📊 Visa statistik ▼";
 
     }
 
