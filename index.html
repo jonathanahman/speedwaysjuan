@@ -936,15 +936,15 @@ else {
 }
 
 if (total >= 60) {
-    simAchievements.push("🚀 Raketbränsle");
+    simAchievements.push("🚀 Raketbränsle! Ditt lag tog 60 eller fler poäng");
 }
 
 if (total >= 65) {
-    simAchievements.push("👽 Utomjordisk insats");
+    simAchievements.push("👽 Utomjordisk insats! Ditt lag tog 65 eller fler poäng");
 }
 
 if (total <= 35) {
-    simAchievements.push("💥 Härdsmälta");
+    simAchievements.push("💥 Härdsmälta. Ditt lag tog 35 eller färre poäng");
 }
 
 if (total === 45) {
@@ -952,43 +952,43 @@ if (total === 45) {
 }
 
 if (hero.score >= 15) {
-    simAchievements.push("🌟 Femstjärnig insats");
+    simAchievements.push("🌟 Femstjärnig insats. Din matchhjälte tog 15 eller fler poäng.");
 }
 
 if (hero.score >= 17) {
-    simAchievements.push("👑 Kungen av kvällen");
+    simAchievements.push("👑 Kungen av kvällen. Din matchvinnare tog 17 eller fler poäng");
 }
 
 if (hero.score >= 20) {
-    simAchievements.push("☄️ Helt omöjlig");
+    simAchievements.push("☄️ Helt omöjlig. Din toppförare tog 20 eller fler poäng");
 }
 
 if (flop.score <= 2) {
-    simAchievements.push("🛠️ Tillbaks till verkstan");
+    simAchievements.push("🛠️ Tillbaks till verkstan. Din floppförare tog två eller färre poäng");
 }
 
 if (flop.score === 0) {
-    simAchievements.push("Olympiska ringarna");
+    simAchievements.push("Olympiska ringarna. Din floppförare tog ingen poäng alls!");
 }
 
 if (results.every(r => r.score >= 6)) {
-    simAchievements.push("🧱 Inga svaga länkar");
+    simAchievements.push("🧱 Inga svaga länkar. Ingen av dina förare tog färre än 6 poäng");
 }
 
 if (results.every(r => r.score >= 8)) {
-    simAchievements.push("🚂 Överkörning");
+    simAchievements.push("🚂 Överkörning. Alla dina förare tog minst 8 poäng!");
 }
 
 if (results.filter(r => r.score >= 12).length >= 3) {
-    simAchievements.push("🔥 Trion");
+    simAchievements.push("🔥 Trion. Tre av dina förare tog tolv eller fler poäng!");
 }
 
 if ((hero.score - flop.score) >= 10) {
-    simAchievements.push("🎢 Berg- och dalbana");
+    simAchievements.push("🎢 Berg- och dalbana. Det skiljer tio eller fler poäng mellan matchvinnaren och floppen!");
 }
 
 if (results.filter(r => r.score <= 4).length >= 3) {
-    simAchievements.push("🤯 Kollektiv kollaps");
+    simAchievements.push("🤯 Kollektiv kollaps. Tre av dina förare tog fyra eller färre poäng!");
 }
 
     results.forEach(driver => {
