@@ -882,12 +882,12 @@ function randomTeam() {
             0,
             Math.round(
                 expected +
-                (Math.random() * variance * 2 - variance)
+                (() * variance * 2 - variance)
             )
         );
         let eventText = "";
 
-const eventRoll = Math.random();
+const eventRoll = ();
 
 if (eventRoll < 0.02) {
     eventText = "🔧 Motorhaveri";
@@ -1130,11 +1130,11 @@ sendHeight();
     const adjustedTeam =
         teamStrength +
         homeAdvantage +
-        ((Math.random() - 0.5) * 1.2);
+        ((Math.random() - 0.5) * 2.0);
 
     const adjustedOpponent =
         opponentStrength +
-        ((Math.random() - 0.5) * 1.2);
+        ((Math.random() - 0.5) * 2.0);
 
     const totalStrength =
         adjustedTeam + adjustedOpponent;
@@ -1234,10 +1234,10 @@ if (position > 6) {
     // KVARTSFINAL
 
     const qfHome =
-        simulatePlayoffMatch(teamStrength, 10.10, 0.20);
+        simulatePlayoffMatch(teamStrength, 10.40, 0.10);
 
     const qfAway =
-        simulatePlayoffMatch(teamStrength, 10.10, 0);
+        simulatePlayoffMatch(teamStrength, 10.40, 0);
 
     const qfTotal =
         qfHome.team + qfAway.team;
@@ -1286,10 +1286,10 @@ if (position > 6) {
     if (quarterWinner) {
 
         const sfHome =
-            simulatePlayoffMatch(teamStrength, 10.40, 0.20);
+            simulatePlayoffMatch(teamStrength, 10.55, 0.20);
 
         const sfAway =
-            simulatePlayoffMatch(teamStrength, 10.40, 0);
+            simulatePlayoffMatch(teamStrength, 10.55, 0);
 
         const sfTotal =
             sfHome.team + sfAway.team;
@@ -1338,10 +1338,10 @@ if (position > 6) {
         if (semiWinner) {
 
             const finalHome =
-                simulatePlayoffMatch(teamStrength, 10.60, 0.20);
+                simulatePlayoffMatch(teamStrength, 10.70, 0.20);
 
             const finalAway =
-                simulatePlayoffMatch(teamStrength, 10.60, 0);
+                simulatePlayoffMatch(teamStrength, 10.70, 0);
 
             const finalTotal =
                 finalHome.team + finalAway.team;
