@@ -162,11 +162,7 @@ let wins = 0;
 let draws = 0;
 let losses = 0;
     let latestSimAchievements = [];
-    let unlockedAchievements =
-    JSON.parse(localStorage.getItem("unlockedAchievements")) || [];
 
-let unlockedSimAchievements =
-    JSON.parse(localStorage.getItem("unlockedSimAchievements")) || [];
     const ACHIEVEMENT_CATEGORIES = {
     lag: {
         total: 23
@@ -179,8 +175,37 @@ let unlockedSimAchievements =
     }
 };
 
+let unlockedAchievements =
+    JSON.parse(localStorage.getItem(
+        ACHIEVEMENT_CATEGORIES.lag.storageKey
+    )) || [];
+
+let unlockedSimAchievements =
+    JSON.parse(localStorage.getItem(
+        ACHIEVEMENT_CATEGORIES.match.storageKey
+    )) || [];
+
 let unlockedCareerAchievements =
-    JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
+    JSON.parse(localStorage.getItem(
+        ACHIEVEMENT_CATEGORIES.karriar.storageKey
+    )) || [];
+
+let careerStats = JSON.parse(
+    localStorage.getItem("careerStats")
+) || {
+    golds: 0,
+    silvers: 0,
+    finals: 0,
+    semifinals: 0,
+    playoffs: 0,
+
+    consecutiveGolds: 0,
+    consecutiveFinalLosses: 0,
+    consecutiveSemifinals: 0,
+
+    seasonsPlayed: 0,
+    goldsLast10: []
+};
 
 function renderDrivers() {
     const s = document.getElementById('search').value.toLowerCase();
