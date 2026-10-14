@@ -1125,7 +1125,7 @@ document.getElementById("simulation-result").innerHTML = output;
 
 sendHeight();
 }
-    function simulateSeason() {
+   function simulateSeason() {
 
     if (myTeam.length !== 7) {
         alert("Välj 7 förare först!");
@@ -1137,36 +1137,35 @@ sendHeight();
     let losses = 0;
     let points = 0;
 
+    // Grundserie
+
     for (let round = 0; round < 14; round++) {
 
         let total = 0;
 
         myTeam.forEach(driver => {
 
-            const expected = driver.avg * 4.7;
+            const expected = driver.avg * 5;
 
             const consistency = driver.consistency || 3;
 
             const varianceMap = {
-                5: 0.23,
-                4: 0.34,
-                3: 0.48,
-                2: 0.58,
+                5: 0.20,
+                4: 0.30,
+                3: 0.45,
+                2: 0.55,
                 1: 0.65
             };
 
             const variance = expected * varianceMap[consistency];
 
-            const score = Math.max(
+            total += Math.max(
                 0,
                 Math.round(
                     expected +
                     (Math.random() * variance * 2 - variance)
                 )
             );
-
-            total += score;
-
         });
 
         if (total >= 46) {
@@ -1182,28 +1181,97 @@ sendHeight();
         }
     }
 
-    let finish = "";
-    let medal = "";
+    // Tabellplacering
 
-    if (points >= 24) {
-        finish = "🥇 SM-GULD";
-        medal = "👑 Mästarlaget";
+    let position;
+
+    if (points >= 24) position = 1;
+    else if (points >= 22) position = 2;
+    else if (points >= 20) position = 3;
+    else if (points >= 18) position = 4;
+    else if (points >= 16) position = 5;
+    else if (points >= 14) position = 6;
+    else if (points >= 12) position = 7;
+    else position = 8;
+
+    let playoffText = "";
+    let finish = "";
+
+    if (position <= 6) {
+
+        playoffText += `✅ Kvartsfinal<br>`;
+
+        const quarter = Math.random();
+
+        if (quarter < 0.75) {
+
+            playoffText += `✅ Semifinal<br>`;
+
+            const semi = Math.random();
+
+            if (semi < 0.60) {
+
+                playoffText += `✅ Final<br>`;
+
+                const final = Math.random();
+
+                if (final < 0.50) {
+                    finish = "🥇 SM-GULD";
+                } else {
+                    finish = "🥈 Silver";
+                }
+
+            } else {
+
+                finish = "🥉 Semifinalförlust";
+
+            }
+
+        } else {
+
+            finish = "❌ Utslagen i kvartsfinal";
+
+        }
+
+    } else {
+
+        finish = "❌ Missade slutspel";
+
     }
-    else if (points >= 21) {
-        finish = "🥈 Silver";
-        medal = "🏆 Finalist";
-    }
-    else if (points >= 18) {
-        finish = "🥉 Semifinal";
-        medal = "🔥 Slutspelslaget";
-    }
-    else if (points >= 14) {
-        finish = "✅ Kvartsfinal";
-    }
-    else {
-        finish = "❌ Missat slutspel";
-        medal = "💔 Soppatorsk";
-    }
+
+    document.getElementById("simulation-result").innerHTML = `
+        <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
+
+            <strong>🏆 Säsongssimulering</strong>
+
+            <br><br>
+
+            <strong>Grundserie</strong><br>
+
+            ✅ Vinster: ${wins}<br>
+            ➖ Oavgjorda: ${draws}<br>
+            ❌ Förluster: ${losses}<br>
+
+            <br>
+
+            🏅 Lagpoäng: ${points}<br>
+            📊 Tabellplacering: ${position}:a
+
+            <br><br>
+
+            <strong>Slutspelet</strong><br>
+
+            ${playoffText}
+
+            <br>
+
+            <strong>${finish}</strong>
+
+        </div>
+    `;
+
+    sendHeight();
+}
 
     document.getElementById("simulation-result").innerHTML = `
         <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
