@@ -262,6 +262,28 @@ function renderDrivers() {
 
     sendHeight();
 }
+    function toggleStats() {
+
+    const stats =
+        document.getElementById("extra-stats");
+
+    const toggle =
+        document.getElementById("extra-stats-toggle");
+
+    if (stats.style.display === "none") {
+
+        stats.style.display = "block";
+        toggle.innerHTML = "📊 Dölj statistik ▲";
+
+    } else {
+
+        stats.style.display = "none";
+        toggle.innerHTML = "📊 Visa statistik ▼";
+
+    }
+
+    sendHeight();
+}
 function renderTeam() {
 
     const c = document.getElementById('team');
