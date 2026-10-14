@@ -713,6 +713,23 @@ function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();rende
 
     return "🧨 Kaoslaget";
 }
+    function updateProgressBox() {
+
+    const savedLag =
+        JSON.parse(localStorage.getItem("unlockedAchievements")) || [];
+
+    const savedMatch =
+        JSON.parse(localStorage.getItem("unlockedSimAchievements")) || [];
+
+    const savedCareer =
+        JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
+
+    document.getElementById("progress-box").innerHTML =
+        `🏆 Totalt: ${savedLag.length + savedMatch.length + savedCareer.length}/63<br>
+         🏅 Lag: ${savedLag.length}/23<br>
+         🎖️ Match: ${savedMatch.length}/30<br>
+         👑 Karriär: ${savedCareer.length}/10`;
+}
 
 function updateStatus() {
 
@@ -872,37 +889,7 @@ localStorage.setItem(
         `;
     }
 }
-    document.getElementById("progress-box").innerHTML =
-    `🏆 Totalt: ${
-        unlockedAchievements.length +
-        unlockedSimAchievements.length +
-        unlockedCareerAchievements.length
-    }/${
-        ACHIEVEMENT_CATEGORIES.lag.total +
-        ACHIEVEMENT_CATEGORIES.match.total +
-        ACHIEVEMENT_CATEGORIES.karriar.total
-    }<br>
-    🏅 Lag: ${unlockedAchievements.length}/${ACHIEVEMENT_CATEGORIES.lag.total}<br>
-    🎖️ Match: ${unlockedSimAchievements.length}/${ACHIEVEMENT_CATEGORIES.match.total}<br>
-    👑 Karriär: ${unlockedCareerAchievements.length}/${ACHIEVEMENT_CATEGORIES.karriar.total}`;
-    const savedLag =
-    JSON.parse(localStorage.getItem("unlockedAchievements")) || [];
-
-const savedMatch =
-    JSON.parse(localStorage.getItem("unlockedSimAchievements")) || [];
-
-const savedCareer =
-    JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
-
-document.getElementById("progress-box").innerHTML =
-    `🏆 Totalt: ${
-        savedLag.length +
-        savedMatch.length +
-        savedCareer.length
-    }/63<br>
-    🏅 Lag: ${savedLag.length}/23<br>
-    🎖️ Match: ${savedMatch.length}/30<br>
-    👑 Karriär: ${savedCareer.length}/10`;
+   updateProgressBox();
 rEl.innerHTML = h;
 sendHeight();
 }
