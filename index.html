@@ -754,7 +754,7 @@ function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();rende
 
     return "🧨 Kaoslaget";
 }
-    function updateProgressBox() {
+function updateProgressBox() {
 
     const savedLag =
         JSON.parse(localStorage.getItem("unlockedAchievements")) || [];
@@ -765,11 +765,18 @@ function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();rende
     const savedCareer =
         JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
 
+    const latestCareer =
+        savedCareer.slice(-3);
+
     document.getElementById("progress-box").innerHTML =
         `🏆 Totalt: ${savedLag.length + savedMatch.length + savedCareer.length}/63<br>
          🏅 Lag: ${savedLag.length}/23<br>
          🎖️ Match: ${savedMatch.length}/30<br>
-         👑 Karriär: ${savedCareer.length}/10`;
+         👑 Karriär: ${savedCareer.length}/10
+         ${latestCareer.length > 0
+            ? "<br><br>👑 Senaste karriärutmärkelser:<br>" +
+              latestCareer.join("<br>")
+            : ""}`;
 }
 
 function updateStatus() {
@@ -1728,11 +1735,6 @@ localStorage.setItem(
             ${playoffText}
 
             <br>
-${careerAchievements.length > 0
-    ? `<strong>👑 Karriärutmärkelser</strong><br>
-       ${careerAchievements.join("<br>")}<br><br>`
-    : ""
-}
 
             <strong>${finish}</strong>
 
