@@ -1500,6 +1500,177 @@ if (position > 6) {
         }
     }
      }
+       const careerAchievements = [];
+
+careerStats.seasonsPlayed++;
+
+// Slutspel
+
+if (position <= 6) {
+    careerStats.playoffs++;
+    careerStats.consecutiveSemifinals++;
+} else {
+    careerStats.consecutiveSemifinals = 0;
+}
+
+// Semi
+
+if (
+    finish.includes("🥉") ||
+    finish.includes("🥈") ||
+    finish.includes("🥇")
+) {
+    careerStats.semifinals++;
+}
+
+// Final
+
+if (
+    finish.includes("🥈") ||
+    finish.includes("🥇")
+) {
+    careerStats.finals++;
+}
+
+// Silver
+
+if (finish.includes("🥈")) {
+
+    careerStats.silvers++;
+
+    careerStats.consecutiveFinalLosses++;
+
+    careerStats.consecutiveGolds = 0;
+
+} else {
+
+    careerStats.consecutiveFinalLosses = 0;
+
+}
+
+// Guld
+
+if (finish.includes("🥇")) {
+
+    careerStats.golds++;
+
+    careerStats.consecutiveGolds++;
+
+    careerStats.consecutiveFinalLosses = 0;
+
+    careerStats.goldsLast10.push(1);
+
+} else {
+
+    careerStats.consecutiveGolds = 0;
+
+    careerStats.goldsLast10.push(0);
+
+}
+
+// Endast senaste 10 säsonger
+
+if (careerStats.goldsLast10.length > 10) {
+    careerStats.goldsLast10.shift();
+}
+       if (careerStats.golds >= 1) {
+    careerAchievements.push("👑 Svenska mästare");
+}
+
+if (careerStats.finals >= 1) {
+    careerAchievements.push("🥈 Finalist");
+}
+
+if (careerStats.semifinals >= 1) {
+    careerAchievements.push("🥉 Semifinalist");
+}
+
+if (
+    finish.includes("SM-GULD") &&
+    playoffText.includes("⚡ Extraheat")
+) {
+    careerAchievements.push("⚡ Guld efter extraheat");
+}
+
+if (
+    finish.includes("Silver") &&
+    playoffText.includes("⚡ Extraheat")
+) {
+    careerAchievements.push("💔 Silver efter extraheat");
+}
+
+if (wins === 14) {
+    careerAchievements.push("🚂 Perfekt grundserie");
+}
+
+if (wins === 14 && losses === 0 && draws === 0) {
+    careerAchievements.push("🧱 Oslagbara");
+}
+
+if (careerStats.consecutiveGolds >= 3) {
+    careerAchievements.push("👑 Dynastin");
+}
+
+if (careerStats.consecutiveGolds >= 5) {
+    careerAchievements.push("🏛️ Kejsardömet");
+}
+
+if (careerStats.consecutiveFinalLosses >= 3) {
+    careerAchievements.push("💔 Eviga tvåan");
+}
+
+if (careerStats.consecutiveSemifinals >= 10) {
+    careerAchievements.push("📈 Evighetsmaskinen");
+}
+
+if (
+    careerStats.goldsLast10.filter(x => x === 1).length >= 8
+) {
+    careerAchievements.push("🏆 Guldregnet");
+}
+
+const swedes =
+    myTeam.filter(
+        d => d.category === "SS" || d.category === "SU21"
+    ).length;
+
+if (
+    finish.includes("SM-GULD") &&
+    swedes >= 5
+) {
+    careerAchievements.push("🇸🇪 Folkhemsmästarna");
+}
+
+if (
+    finish.includes("SM-GULD") &&
+    position === 6
+) {
+    careerAchievements.push("🦄 Miraklet");
+}
+
+if (
+    finish.includes("Missade slutspel") &&
+    teamStrength >= 10.5
+) {
+    careerAchievements.push("☢️ Härdsmältan");
+}
+       careerAchievements.forEach(a => {
+
+    if (!unlockedCareerAchievements.includes(a)) {
+        unlockedCareerAchievements.push(a);
+    }
+
+});
+
+localStorage.setItem(
+    "unlockedCareerAchievements",
+    JSON.stringify(unlockedCareerAchievements)
+);
+
+localStorage.setItem(
+    "careerStats",
+    JSON.stringify(careerStats)
+);
     
     document.getElementById("simulation-result").innerHTML = `
         <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
@@ -1526,6 +1697,11 @@ if (position > 6) {
             ${playoffText}
 
             <br>
+${careerAchievements.length > 0
+    ? `<strong>👑 Karriärutmärkelser</strong><br>
+       ${careerAchievements.join("<br>")}<br><br>`
+    : ""
+}
 
             <strong>${finish}</strong>
 
