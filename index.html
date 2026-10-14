@@ -1005,6 +1005,13 @@ if (results.filter(r => r.score >= 13).length >= 3) {
 if (results.every(r => r.score >= 7)) {
     simAchievements.push("🧱 Betongvägg - ingen förare noterades för mindre än 7 poäng");
 }
+       if (results.filter(r => r.score >= 15).length >= 2) {
+    simAchievements.push("🔥 Dubbelkanonerna - två förare nådde minst 15 poäng");
+}
+
+if (results.filter(r => r.score === 0).length >= 2) {
+    simAchievements.push("👻 Spöklaget - två förare blev poänglösa");
+}
 
 if (
     hero.score >= 15 &&
