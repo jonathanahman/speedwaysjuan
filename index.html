@@ -828,8 +828,7 @@ localStorage.setItem(
     }
 }
     document.getElementById("progress-box").innerHTML =
-    `🏆 Upplåsta lagutmärkelser: ${unlockedAchievements.length}/23`;
-
+    `🏆 Lag: ${unlockedAchievements.length}/23<br>🎖️ Sim: ${unlockedSimAchievements.length}/30`;
 rEl.innerHTML = h;
 sendHeight();
 }
@@ -1095,12 +1094,10 @@ if (total < 30) {
 if (hero.score === flop.score) {
     simAchievements.push("⚖️ Alla lika - ingen förare stack ut");
 }
-       simAchievements.forEach(a => {
-
+simAchievements.forEach(a => {
     if (!unlockedSimAchievements.includes(a)) {
         unlockedSimAchievements.push(a);
     }
-
 });
 
 localStorage.setItem(
@@ -1108,7 +1105,17 @@ localStorage.setItem(
     JSON.stringify(unlockedSimAchievements)
 );
 
-    results.forEach(driver => {
+latestSimAchievements = simAchievements;
+
+document.getElementById("progress-box").innerHTML =
+    `🏆 Totalt: ${
+        unlockedAchievements.length +
+        unlockedSimAchievements.length
+    }/53<br>
+     🏅 Lag: ${unlockedAchievements.length}/23<br>
+     🎖️ Sim: ${unlockedSimAchievements.length}/30`;
+
+results.forEach(driver => {
     output += `
         ${driver.name}: <strong>${driver.score}</strong> p ${driver.event}<br>
     `;
