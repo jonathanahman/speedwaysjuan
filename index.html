@@ -1166,6 +1166,8 @@ localStorage.setItem(
     JSON.stringify(unlockedSimAchievements)
 );
 
+updateProgressBox();
+       
 latestSimAchievements = simAchievements;
 
 document.getElementById("progress-box").innerHTML =
@@ -1658,6 +1660,7 @@ localStorage.setItem(
     "careerStats",
     JSON.stringify(careerStats)
 );
+       updateProgressBox();
     
     document.getElementById("simulation-result").innerHTML = `
         <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
@@ -1707,7 +1710,11 @@ function shareTeam() {
     if(navigator.share){navigator.share({title:'Min Speedwaysjua',text:txt});}else{navigator.clipboard.writeText(txt);alert("Laguppställningen kopierad!");}
 }
 function sendHeight(){ setTimeout(()=>{const h=document.documentElement.scrollHeight||document.body.scrollHeight;window.parent.postMessage({type:'resize-iframe',height:h},'*');},100); }
-window.onload=()=>{renderDrivers();window.addEventListener('resize',sendHeight);};
+window.onload = () => {
+    renderDrivers();
+    updateProgressBox();
+    window.addEventListener('resize', sendHeight);
+};
 </script>
 </body>
 </html>
