@@ -544,6 +544,25 @@ function renderTeam() {
         text: "Internationell spets och erfarenhet präglar ditt lag."
     };
 }
+    function toggleStats() {
+
+    const stats =
+        document.getElementById("extra-stats");
+
+    if (stats.style.display === "none") {
+
+        stats.style.display = "block";
+
+    } else {
+
+        stats.style.display = "none";
+
+    }
+
+    setTimeout(sendHeight, 200);
+    setTimeout(sendHeight, 500);
+}
+    
     function getAchievements() {
 
     const achievements = [];
