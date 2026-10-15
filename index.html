@@ -1818,11 +1818,35 @@ function shareTeam() {
     const txt = `Jag byggde min speedwaysjua med VT-sporten! Mitt totalsnitt blev ${tot.toFixed(3)}! Mitt lag: ${myTeam.map(d=>d.name).join(", ")}. Bygg ditt eget lag här! 🏁`;
     if(navigator.share){navigator.share({title:'Min Speedwaysjua',text:txt});}else{navigator.clipboard.writeText(txt);alert("Laguppställningen kopierad!");}
 }
-function sendHeight(){ setTimeout(()=>{const h=document.documentElement.scrollHeight||document.body.scrollHeight;window.parent.postMessage({type:'resize-iframe',height:h},'*');},100); }
+function sendHeight() {
+
+    setTimeout(() => {
+
+        const h = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.offsetHeight
+        );
+
+        window.parent.postMessage({
+            type: 'resize-iframe',
+            height: h
+        }, '*');
+
+    }, 50);
+
+}
+
+new ResizeObserver(() => {
+    sendHeight();
+}).observe(document.body);
+
 window.onload = () => {
     renderDrivers();
     updateProgressBox();
     window.addEventListener('resize', sendHeight);
+    sendHeight();
 };
 </script>
 </body>
