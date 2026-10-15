@@ -1319,17 +1319,22 @@ sendHeight();
     let draws = 0;
     let losses = 0;
     let points = 0;
-       const seasonStats = {};
+     const seasonStats = {};
 
-    myTeam.forEach(driver => {
+const orderedTeam = [...myTeam];
 
-        seasonStats[driver.name] = {
-            startAvg: driver.avg,
-            points: 0,
-            matches: 0
-        };
+orderedTeam.sort((a, b) => b.avg - a.avg);
 
-    });
+orderedTeam.forEach((driver, index) => {
+
+    seasonStats[driver.name] = {
+        startAvg: driver.avg,
+        points: 0,
+        matches: 0,
+        heatsPerMatch: index < 5 ? 5 : 4
+    };
+
+});
 
     // Grundserie
 
@@ -1733,7 +1738,8 @@ Object.keys(seasonStats).forEach(name => {
     const player = seasonStats[name];
 
     const seasonAvg =
-        player.points / player.matches;
+    player.points /
+    (player.matches * player.heatsPerMatch);
 
     const diff =
         seasonAvg - player.startAvg;
