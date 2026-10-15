@@ -439,7 +439,7 @@ function renderTeam() {
         };
     }
 
-    if (nations >= 6) {
+    if (nations >= 5) {
         return {
             title: "🌍 FN-laget",
             text: "Du har samlat speedwaytalang från hela världen. Lycka till att få ihop det!"
@@ -611,6 +611,12 @@ function renderTeam() {
         myTeam.some(d => d.name === "Przemyslaw Pawlicki")
     ) {
         achievements.push("👬 Bröderna Pawlicki");
+    }
+        if (
+        myTeam.some(d => d.name === "Fredrik Lindgren") &&
+        myTeam.some(d => d.name === "Ludvig Lindgren")
+    ) {
+        achievements.push("👬 Bröderna Lindgren");
     }
 
     if (
