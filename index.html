@@ -292,12 +292,15 @@ container.appendChild(contentDiv);
 
     sendHeight();
 }
-    function saveTeam() {
+function saveTeam() {
+
+    console.log("Sparar lag", myTeam);
+
     localStorage.setItem(
         "savedTeam",
         JSON.stringify(myTeam)
     );
-}    
+}
 function renderTeam() {
 
     const c = document.getElementById('team');
