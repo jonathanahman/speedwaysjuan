@@ -256,49 +256,37 @@ function renderDrivers() {
 
             });
 
-            accBtn.onclick = function () {
+    accBtn.onclick = function () {
 
-                const isOpen = contentDiv.style.display === 'block';
+    const isOpen =
+        contentDiv.style.display === 'block';
 
-                contentDiv.style.display =
-                    isOpen ? 'none' : 'block';
+    contentDiv.style.display =
+        isOpen ? 'none' : 'block';
 
-                if (isOpen) {
-                    accBtn.classList.remove('active');
-                    openCategories[cat] = false;
-                } else {
-                    accBtn.classList.add('active');
-                    openCategories[cat] = true;
-                }
+    if (isOpen) {
 
-                sendHeight();
-            };
-
-            container.appendChild(accBtn);
-            container.appendChild(contentDiv);
-        }
-    });
-
-    if (av.length === 0) {
-        container.innerHTML =
-            '<p style="text-align:center;color:#666;">Inga förare hittades</p>';
-    }
-
-    sendHeight();
-}
-    function toggleStats() {
-
-    const stats =
-        document.getElementById("extra-stats");
-
-    if (stats.style.display === "none") {
-
-        stats.style.display = "block";
+        accBtn.classList.remove('active');
+        openCategories[cat] = false;
 
     } else {
 
-        stats.style.display = "none";
+        accBtn.classList.add('active');
+        openCategories[cat] = true;
 
+    }
+
+    setTimeout(sendHeight, 200);
+    setTimeout(sendHeight, 500);
+
+};
+            container.appendChild(accBtn);
+container.appendChild(contentDiv);
+             }
+    });
+
+    if (av.length === 0) {
+        ...
     }
 
     sendHeight();
