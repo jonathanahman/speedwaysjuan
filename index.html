@@ -1756,13 +1756,11 @@ playerSeasonResults.sort(
     (a, b) => b.diff - a.diff
 );
 
-const top3 =
-    playerSeasonResults.slice(0, 3);
+const rocket = playerSeasonResults[0];
 
-const bottom3 =
+const flop =
     [...playerSeasonResults]
-        .sort((a, b) => a.diff - b.diff)
-        .slice(0, 3);
+        .sort((a, b) => a.diff - b.diff)[0];
        
     
     document.getElementById("simulation-result").innerHTML = `
@@ -1792,37 +1790,22 @@ ${playoffText}
 
 <br>
 
-<strong>📈 Säsongens överprestationer</strong><br>
+<strong>🚀 Snittraketen</strong><br>
 
-🥇 ${top3[0].name}
-${top3[0].seasonAvg.toFixed(2)}
-(${top3[0].diff >= 0 ? "+" : ""}${top3[0].diff.toFixed(2)})<br>
-
-🥈 ${top3[1].name}
-${top3[1].seasonAvg.toFixed(2)}
-(${top3[1].diff >= 0 ? "+" : ""}${top3[1].diff.toFixed(2)})<br>
-
-🥉 ${top3[2].name}
-${top3[2].seasonAvg.toFixed(2)}
-(${top3[2].diff >= 0 ? "+" : ""}${top3[2].diff.toFixed(2)})<br>
+🥇 ${rocket.name}
+${rocket.seasonAvg.toFixed(2)}
+(${rocket.diff >= 0 ? "+" : ""}${rocket.diff.toFixed(2)})<br>
 
 <br>
 
-<strong>📉 Säsongens besvikelser</strong><br>
+<strong>💀 Säsongens besvikelse</strong><br>
 
-💀 ${bottom3[0].name}
-${bottom3[0].seasonAvg.toFixed(2)}
-(${bottom3[0].diff.toFixed(2)})<br>
-
-🔧 ${bottom3[1].name}
-${bottom3[1].seasonAvg.toFixed(2)}
-(${bottom3[1].diff.toFixed(2)})<br>
-
-😬 ${bottom3[2].name}
-${bottom3[2].seasonAvg.toFixed(2)}
-(${bottom3[2].diff.toFixed(2)})<br>
+💀 ${flop.name}
+${flop.seasonAvg.toFixed(2)}
+(${flop.diff.toFixed(2)})<br>
 
 <br>
+
 </div>
 `;
        sendHeight();
