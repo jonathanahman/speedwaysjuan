@@ -1827,19 +1827,15 @@ function sendHeight() {
 
     setTimeout(() => {
 
-        const h = Math.max(
-            document.body.scrollHeight,
-            document.documentElement.scrollHeight,
-            document.body.offsetHeight,
-            document.documentElement.offsetHeight
-        );
+        const h =
+            document.documentElement.scrollHeight;
 
         window.parent.postMessage({
             type: 'resize-iframe',
             height: h
         }, '*');
 
-    }, 50);
+    }, 100);
 
 }
 
