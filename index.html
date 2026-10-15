@@ -1124,8 +1124,8 @@ if ((hero.score - flop.score) >= 10) {
     simAchievements.push("🎢 Berg- och dalbana. Det skiljer tio eller fler poäng mellan matchvinnaren och floppen!");
 }
 
-if (results.filter(r => r.score <= 4).length >= 3) {
-    simAchievements.push("🤯 Kollektiv kollaps. Tre av dina förare tog fyra eller färre poäng!");
+if (results.filter(r => r.score <= 4).length >= 4) {
+    simAchievements.push("🤯 Kollektiv kollaps. Fyra av dina förare tog fyra eller färre poäng!");
 }
        if (results.every(r => r.delta > 0)) {
     simAchievements.push("🏆 Perfekt kväll - samtliga förare överträffade förväntningarna");
