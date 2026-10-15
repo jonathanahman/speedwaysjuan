@@ -1335,45 +1335,51 @@ sendHeight();
 
     for (let round = 0; round < 14; round++) {
 
-        let total = 0;
+    let total = 0;
 
-        myTeam.forEach(driver => {
+    myTeam.forEach(driver => {
 
-            const expected = driver.avg * 5;
+        const expected = driver.avg * 5;
 
-            const consistency = driver.consistency || 3;
+        const consistency = driver.consistency || 3;
 
-            const varianceMap = {
-                5: 0.23,
-                4: 0.33,
-                3: 0.48,
-                2: 0.58,
-                1: 0.68
-            };
+        const varianceMap = {
+            5: 0.23,
+            4: 0.33,
+            3: 0.48,
+            2: 0.58,
+            1: 0.68
+        };
 
-            const variance = expected * varianceMap[consistency];
+        const variance = expected * varianceMap[consistency];
 
-            total += Math.max(
-                0,
-                Math.round(
-                    expected +
-                    (Math.random() * variance * 2 - variance)
-                )
-            );
-        });
+        const score = Math.max(
+            0,
+            Math.round(
+                expected +
+                (Math.random() * variance * 2 - variance)
+            )
+        );
 
-        if (total >= 46) {
-            wins++;
-            points += 2;
-        }
-        else if (total === 45) {
-            draws++;
-            points += 1;
-        }
-        else {
-            losses++;
-        }
+        total += score;
+
+        seasonStats[driver.name].points += score;
+        seasonStats[driver.name].matches++;
+
+    });
+
+    if (total >= 46) {
+        wins++;
+        points += 2;
     }
+    else if (total === 45) {
+        draws++;
+        points += 1;
+    }
+    else {
+        losses++;
+    }
+}
 
     // Tabellplacering
 
