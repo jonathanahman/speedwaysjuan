@@ -1019,7 +1019,15 @@ function randomTeam() {
         }
         attempts++;
     }
-    if (validTeamFound) { renderTeam(); renderDrivers(); }
+    if (validTeamFound) {
+
+    myTeam = tempTeam;
+
+    saveTeam();
+
+    renderTeam();
+    renderDrivers();
+}
     else { alert("Kunde inte hitta ett lag i rätt snittspann (9.80 - 10.75). Testa att trycka igen!"); }
 }
  function loadSavedTeam() {
