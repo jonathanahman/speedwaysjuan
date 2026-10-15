@@ -1034,6 +1034,9 @@ else if (eventRoll > 0.97) {
 
         total += score;
 
+        seasonStats[driver.name].points += score;
+        seasonStats[driver.name].matches++;
+
         results.push({
     name: driver.name,
     score: score,
@@ -1316,6 +1319,17 @@ sendHeight();
     let draws = 0;
     let losses = 0;
     let points = 0;
+       const seasonStats = {};
+
+    myTeam.forEach(driver => {
+
+        seasonStats[driver.name] = {
+            startAvg: driver.avg,
+            points: 0,
+            matches: 0
+        };
+
+    });
 
     // Grundserie
 
@@ -1706,6 +1720,38 @@ localStorage.setItem(
     JSON.stringify(careerStats)
 );
        updateProgressBox();
+       const playerSeasonResults = [];
+
+Object.keys(seasonStats).forEach(name => {
+
+    const player = seasonStats[name];
+
+    const seasonAvg =
+        player.points / player.matches;
+
+    const diff =
+        seasonAvg - player.startAvg;
+
+    playerSeasonResults.push({
+        name,
+        seasonAvg,
+        diff
+    });
+
+});
+
+playerSeasonResults.sort(
+    (a, b) => b.diff - a.diff
+);
+
+const top3 =
+    playerSeasonResults.slice(0, 3);
+
+const bottom3 =
+    [...playerSeasonResults]
+        .sort((a, b) => a.diff - b.diff)
+        .slice(0, 3);
+       
     
     document.getElementById("simulation-result").innerHTML = `
         <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
@@ -1729,18 +1775,46 @@ localStorage.setItem(
 
             <strong>Slutspelet</strong><br>
 
-            ${playoffText}
+${playoffText}
+<strong style="font-size:20px;">${finish}</strong>
 
-            <br>
+<br>
 
-            <strong>${finish}</strong>
+<strong>📈 Säsongens överprestationer</strong><br>
 
-        </div>
-    `;
+🥇 ${top3[0].name}
+${top3[0].seasonAvg.toFixed(2)}
+(${top3[0].diff >= 0 ? "+" : ""}${top3[0].diff.toFixed(2)})<br>
 
-    sendHeight();
+🥈 ${top3[1].name}
+${top3[1].seasonAvg.toFixed(2)}
+(${top3[1].diff >= 0 ? "+" : ""}${top3[1].diff.toFixed(2)})<br>
+
+🥉 ${top3[2].name}
+${top3[2].seasonAvg.toFixed(2)}
+(${top3[2].diff >= 0 ? "+" : ""}${top3[2].diff.toFixed(2)})<br>
+
+<br>
+
+<strong>📉 Säsongens besvikelser</strong><br>
+
+💀 ${bottom3[0].name}
+${bottom3[0].seasonAvg.toFixed(2)}
+(${bottom3[0].diff.toFixed(2)})<br>
+
+🔧 ${bottom3[1].name}
+${bottom3[1].seasonAvg.toFixed(2)}
+(${bottom3[1].diff.toFixed(2)})<br>
+
+😬 ${bottom3[2].name}
+${bottom3[2].seasonAvg.toFixed(2)}
+(${bottom3[2].diff.toFixed(2)})<br>
+
+<br>
+</div>
+`;
+       sendHeight();
 }
-
 function shareTeam() {
     if(myTeam.length<MAX_PLAYERS){alert("Välj 7 förare innan du delar ditt lag!");return;}
     const tot = myTeam.reduce((sum,d)=>sum+d.avg,0);
