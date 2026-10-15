@@ -292,6 +292,12 @@ container.appendChild(contentDiv);
 
     sendHeight();
 }
+    function saveTeam() {
+    localStorage.setItem(
+        "savedTeam",
+        JSON.stringify(myTeam)
+    );
+}    
 function renderTeam() {
 
     const c = document.getElementById('team');
@@ -737,8 +743,35 @@ if (
 
     return achievements;
 }
-function addDriver(id){ if(myTeam.length>=MAX_PLAYERS){alert("Du kan max välja 7 förare!");return;} const d=drivers.find(x=>x.id===id); if(d){myTeam.push(d);renderTeam();renderDrivers();}}
-function removeDriver(id){ myTeam=myTeam.filter(x=>x.id!==id);renderTeam();renderDrivers(); }
+function addDriver(id) {
+
+    if (myTeam.length >= MAX_PLAYERS) {
+        alert("Du kan max välja 7 förare!");
+        return;
+    }
+
+    const d = drivers.find(x => x.id === id);
+
+    if (d) {
+        myTeam.push(d);
+
+        saveTeam();
+
+        renderTeam();
+        renderDrivers();
+    }
+
+}
+
+function removeDriver(id){
+
+    myTeam = myTeam.filter(x => x.id !== id);
+
+    saveTeam();
+
+    renderTeam();
+    renderDrivers();
+}
     function getConsistencyProfile() {
 
     const avgConsistency =
@@ -986,6 +1019,21 @@ function randomTeam() {
     if (validTeamFound) { renderTeam(); renderDrivers(); }
     else { alert("Kunde inte hitta ett lag i rätt snittspann (9.80 - 10.75). Testa att trycka igen!"); }
 }
+ function loadSavedTeam() {
+
+    const savedTeam =
+        JSON.parse(localStorage.getItem("savedTeam"));
+
+    if (savedTeam && savedTeam.length > 0) {
+
+        myTeam = savedTeam;
+
+        renderTeam();
+        renderDrivers();
+
+    }
+
+}   
    function simulateTeam() {
 
     if (myTeam.length !== 7) {
@@ -1844,10 +1892,19 @@ new ResizeObserver(() => {
 }).observe(document.body);
 
 window.onload = () => {
+
+    loadSavedTeam();
+
     renderDrivers();
     updateProgressBox();
-    window.addEventListener('resize', sendHeight);
+
+    window.addEventListener(
+        'resize',
+        sendHeight
+    );
+
     sendHeight();
+
 };
 </script>
 </body>
