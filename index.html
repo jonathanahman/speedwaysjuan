@@ -1890,8 +1890,9 @@ function sendHeight() {
 
     setTimeout(() => {
 
-        const h =
-            document.documentElement.scrollHeight;
+        const h = document.documentElement.scrollHeight;
+
+        console.log("Ny höjd:", h);
 
         window.parent.postMessage({
             type: 'resize-iframe',
