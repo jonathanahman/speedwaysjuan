@@ -106,7 +106,7 @@ const ACHIEVEMENT_CATEGORIES = {
 
     karriar: {
         name: "Karriärutmärkelser",
-        total: 10,
+        total: 22,
         storageKey: "unlockedCareerAchievements"
     }
 
@@ -790,9 +790,9 @@ function updateProgressBox() {
         savedCareer.slice(-3);
 
     document.getElementById("progress-box").innerHTML =
-        `🏆 Totalt: ${savedLag.length + savedCareer.length}/33<br>
+        `🏆 Totalt: ${savedLag.length + savedCareer.length}/45<br>
          🏅 Lag: ${savedLag.length}/23<br>
-         👑 Karriär: ${savedCareer.length}/10
+         👑 Karriär: ${savedCareer.length}/22
 
          ${savedLag.length > 0
             ? "<br><br><strong>🏅 Upplåsta lagutmärkelser</strong><br>" +
@@ -1374,62 +1374,108 @@ if (finish.includes("🥇")) {
 
 // Endast senaste 10 säsonger
 
-if (careerStats.goldsLast10.length > 10) {
-    careerStats.goldsLast10.shift();
+if (careerStats.golds >= 1) {
+    careerAchievements.push("👑 Svenska mästare - vinn ditt första SM-guld");
 }
-       if (careerStats.golds >= 1) {
-    careerAchievements.push("👑 Svenska mästare");
+
+if (careerStats.golds >= 2) {
+    careerAchievements.push("🏆 Dubbelmästaren - vinn två SM-guld");
+}
+
+if (careerStats.golds >= 3) {
+    careerAchievements.push("🏆 Trippelmästaren - vinn tre SM-guld");
 }
 
 if (careerStats.finals >= 1) {
-    careerAchievements.push("🥈 Finalist");
+    careerAchievements.push("🥈 Finalist - nå en SM-final");
 }
 
 if (careerStats.semifinals >= 1) {
-    careerAchievements.push("🥉 Semifinalist");
+    careerAchievements.push("🥉 Semifinalist - nå semifinal");
 }
 
 if (
     finish.includes("SM-GULD") &&
     playoffText.includes("⚡ Extraheat")
 ) {
-    careerAchievements.push("⚡ Guld efter extraheat - En Mogge special!");
+    careerAchievements.push("⚡ Guld efter extraheat - en Mogge special!");
 }
 
 if (
     finish.includes("Silver") &&
     playoffText.includes("⚡ Extraheat")
 ) {
-    careerAchievements.push("💔 Silver efter extraheat - en Västervik 2026.");
-
+    careerAchievements.push("💔 Silver efter extraheat - en Västervik 2026");
 }
 
 if (wins === 14 && losses === 0 && draws === 0) {
-    careerAchievements.push("🧱 Oslagbara - obesegrade genom grundserien!");
+    careerAchievements.push("🧱 Oslagbara - obesegrade genom grundserien");
 }
 
 if (careerStats.consecutiveGolds >= 3) {
-    careerAchievements.push("👑 Dynastin - tre raka SM-guld!");
+    careerAchievements.push("👑 Dynastin - tre raka SM-guld");
 }
 
 if (careerStats.consecutiveGolds >= 5) {
-    careerAchievements.push("🏛️ Kejsardömet - fem raka SM-guld!");
+    careerAchievements.push("🏛️ Kejsardömet - fem raka SM-guld");
 }
 
 if (careerStats.consecutiveFinalLosses >= 3) {
-    careerAchievements.push("💔 Eviga tvåan");
+    careerAchievements.push("💔 Eviga tvåan - tre raka finalförluster");
 }
 
 if (careerStats.consecutiveSemifinals >= 10) {
-    careerAchievements.push("📈 Evighetsmaskinen - ditt lag har tagit sig till semifinal tio år i rad");
+    careerAchievements.push("📈 Evighetsmaskinen - tio raka semifinaler");
+}
+
+if (careerStats.consecutivePlayoffs >= 10) {
+    careerAchievements.push("🎯 Jämnheten själv - tio raka slutspel");
 }
 
 if (
     careerStats.goldsLast10.filter(x => x === 1).length >= 8
 ) {
-    careerAchievements.push("🏆 Guldregnet - åtta guld senaste tio åren!");
+    careerAchievements.push("🏆 Guldregnet - åtta guld på tio säsonger");
 }
 
+if (
+    finish.includes("SM-GULD") &&
+    swedes >= 5
+) {
+    careerAchievements.push("🇸🇪 Folkhemsmästarna - SM-guld med minst fem svenska förare");
+}
+
+if (
+    finish.includes("SM-GULD") &&
+    position === 6
+) {
+    careerAchievements.push("🦄 Miraklet - SM-guld från sjätteplats");
+}
+
+if (
+    finish.includes("Missade slutspel") &&
+    teamStrength >= 10.5
+) {
+    careerAchievements.push("☢️ Härdsmältan - missade slutspel med ett topplag");
+}
+       if (careerStats.seasonsPlayed >= 500) {
+    careerAchievements.push("👔 Sportchefen - genomför 500 säsonger");
+}
+       if (careerStats.playoffs >= 25) {
+    careerAchievements.push("🏁 Slutspelsveteranen - nådde slutspel 25 gånger");
+}
+       if (careerStats.finals >= 10) {
+    careerAchievements.push("🎩 Finalräven - spelade tio finaler");
+}
+       if (careerStats.golds >= 10) {
+    careerAchievements.push("🥇 Tio titlar - nådde tvåsiffrigt antal SM-guld");
+}
+if (
+    careerStats.seasonsPlayed <= 3 &&
+    careerStats.golds >= 1
+) {
+    careerAchievements.push("🚀 Raketresan - tog SM-guld inom tre säsonger");
+}
 const swedes =
     myTeam.filter(
         d => d.category === "SS" || d.category === "SU21"
@@ -1460,6 +1506,11 @@ if (
     if (!unlockedCareerAchievements.includes(a)) {
         unlockedCareerAchievements.push(a);
     }
+
+           if (careerStats.seasonsPlayed >= 500) {
+    careerAchievements.push("👔 Sportchefen - genomför 500 säsonger");
+}
+
 
 });
 
