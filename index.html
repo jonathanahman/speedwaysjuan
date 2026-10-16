@@ -110,7 +110,7 @@ const ACHIEVEMENT_CATEGORIES = {
 
     lag: {
         name: "Lagutmärkelser",
-        total: 23,
+        total: 24,
         storageKey: "unlockedAchievements"
     },
 
@@ -121,6 +121,61 @@ const ACHIEVEMENT_CATEGORIES = {
     }
 
 };
+    const ALL_LAG_ACHIEVEMENTS = [
+
+    "🇵🇱 Kungahuset",
+    "🇬🇧 Belle Vue Superstars",
+    "🇩🇰 Dansk karisma!",
+    "🇸🇪 Svenska rävar!",
+    "👬 Bröderna Pawlicki",
+    "👬 Bröderna Lindgren",
+    "⚡ Bröderna Holder",
+    "❄️ Eleganterna",
+    "❤️ Mogge-favoriterna",
+    "🏆 Guldmakarna Hansen och Lambert!",
+    "👨‍👦 Familjeband!",
+    "👬 Bröderna Van Dyck",
+
+    "🇵🇱 Drömtrean",
+    "🦚 Flamboyant",
+    "🐷 Gristrion",
+    "🇩🇰 Guldgenerationen",
+    "🇬🇧 Team GB",
+    "🇸🇪 Tre Kronor",
+    "🚀 Framtiden är här",
+    "🥇 VM-pallen",
+    "🍷 Gamla gardet",
+    "🇦🇺 Aussie, Aussie, Aussie!",
+    "💀 Västerviks-dödarna",
+    "💀 Västerviks-flopparna"
+
+];
+    const ALL_CAREER_ACHIEVEMENTS = [
+
+    "👑 Svenska mästare",
+    "🏆 Dubbelmästaren",
+    "🏆 Trippelmästaren",
+    "🥈 Finalist",
+    "🥉 Semifinalist",
+    "⚡ Guld efter extraheat",
+    "💔 Silver efter extraheat",
+    "🧱 Oslagbara",
+    "👑 Dynastin",
+    "🏛️ Kejsardömet",
+    "💔 Eviga tvåan",
+    "📈 Evighetsmaskinen",
+    "🎯 Jämnheten själv",
+    "🏆 Guldregnet",
+    "🇸🇪 Folkhemsmästarna",
+    "🦄 Miraklet",
+    "☢️ Härdsmältan",
+    "👔 Sportchefen",
+    "🏁 Slutspelsveteranen",
+    "🎩 Finalräven",
+    "🥇 Tio titlar",
+    "🚀 Raketresan"
+
+];
 let unlockedAchievements =
     JSON.parse(localStorage.getItem(
         ACHIEVEMENT_CATEGORIES.lag.storageKey
@@ -795,6 +850,24 @@ function updateProgressBox() {
 
     const savedCareer =
         JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
+    const missingLag =
+    ALL_LAG_ACHIEVEMENTS.filter(
+        achievement =>
+            !savedLag.some(
+                unlocked =>
+                    unlocked.startsWith(achievement)
+            )
+    );
+
+const missingCareer =
+    ALL_CAREER_ACHIEVEMENTS.filter(
+        achievement =>
+            !savedCareer.some(
+                unlocked =>
+                    unlocked.startsWith(achievement)
+            )
+    );
+
 
     const missingLag =
         ACHIEVEMENT_CATEGORIES.lag.total -
