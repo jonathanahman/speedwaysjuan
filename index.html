@@ -68,22 +68,12 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 
     <div class="actions">
         <button class="btn-random" onclick="randomTeam()">🎲 Slumpa</button>
-        <button class="btn-random" onclick="simulateTeam()">🏁 Testa laget</button>
         <button class="btn-random" onclick="simulateSeason()">🏆 Säsong</button>
         <button class="btn-random" onclick="toggleStats()">📊 Statistik</button>
         <button class="btn-clear" onclick="clearTeam()">🗑️ Rensa</button>
     </div>
 
     <div id="extra-stats" style="display:none;">
-
-        <div id="record-box"
-             style="text-align:center;margin-top:8px;font-size:14px;font-weight:bold;">
-            🏆 Personbästa: -
-        </div>
-
-        <div id="stats-box"
-             style="text-align:center;margin-top:4px;font-size:13px;">
-            🎲 Simuleringar: 0
         </div>
 
         <div id="progress-box"
@@ -108,16 +98,11 @@ input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border:1px sol
 const BUDGET = 10.750, MAX_PLAYERS = 7, MIN_BUDGET = 9.550;
 const categoryNames = {"US":"🌍 Utländska Seniorer (US)","SS":"🇸🇪 Svenska Seniorer (SS)","UU21":"🌍 Utländska U21 (UU21)","SU21":"🇸🇪 Svenska U21 (SU21)"};
 const ACHIEVEMENT_CATEGORIES = {
+
     lag: {
         name: "Lagutmärkelser",
         total: 23,
         storageKey: "unlockedAchievements"
-    },
-
-    match: {
-        name: "Matchutmärkelser",
-        total: 30,
-        storageKey: "unlockedSimAchievements"
     },
 
     karriar: {
@@ -125,38 +110,19 @@ const ACHIEVEMENT_CATEGORIES = {
         total: 10,
         storageKey: "unlockedCareerAchievements"
     }
-      };   
-    let unlockedAchievements =
+
+};
+
+let unlockedAchievements =
     JSON.parse(localStorage.getItem(
         ACHIEVEMENT_CATEGORIES.lag.storageKey
-    )) || [];
-
-let unlockedSimAchievements =
-    JSON.parse(localStorage.getItem(
-        ACHIEVEMENT_CATEGORIES.match.storageKey
     )) || [];
 
 let unlockedCareerAchievements =
     JSON.parse(localStorage.getItem(
         ACHIEVEMENT_CATEGORIES.karriar.storageKey
     )) || [];
-    
-    let careerStats = JSON.parse(
-    localStorage.getItem("careerStats")
-) || {
-    golds: 0,
-    silvers: 0,
-    finals: 0,
-    semifinals: 0,
-    playoffs: 0,
-
-    consecutiveGolds: 0,
-    consecutiveFinalLosses: 0,
-    consecutiveSemifinals: 0,
-
-    seasonsPlayed: 0,
-    goldsLast10: []
-};
+``
 
 const flags = {
     SE: "🇸🇪",
@@ -179,11 +145,6 @@ const flags = {
 
 let myTeam = Array();
 let openCategories = {"US":false,"SS":false,"UU21":false,"SU21":false};
-    let bestSimulation = 0;
-    let simulations = 0;
-let wins = 0;
-let draws = 0;
-let losses = 0;
     let latestSimAchievements = [];
 
 function renderDrivers() {
@@ -817,11 +778,10 @@ function updateProgressBox() {
     const latestCareer =
         savedCareer.slice(-3);
 
-    document.getElementById("progress-box").innerHTML =
-        `🏆 Totalt: ${savedLag.length + savedMatch.length + savedCareer.length}/63<br>
-         🏅 Lag: ${savedLag.length}/23<br>
-         🎖️ Match: ${savedMatch.length}/30<br>
-         👑 Karriär: ${savedCareer.length}/10
+   document.getElementById("progress-box").innerHTML =
+    `🏆 Totalt: ${savedLag.length + savedCareer.length}/33<br>
+     🏅 Lag: ${savedLag.length}/23<br>
+     👑 Karriär: ${savedCareer.length}/12`;
          ${latestCareer.length > 0
             ? "<br><br>👑 Senaste karriärutmärkelser:<br>" +
               latestCareer.join("<br>")
@@ -1047,308 +1007,6 @@ function randomTeam() {
 
     }
 
-}   
-   function simulateTeam() {
-
-    if (myTeam.length !== 7) {
-        alert("Välj 7 förare först!");
-        return;
-    }
-       
-
-    let total = 0;
-    const results = [];
-    simulations++;
-
-    let output = `
-    <div style="margin-top:10px;padding:12px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
-        <strong>🎲 Testkörning</strong><br><br>
-    `;
-
-    myTeam.forEach(driver => {
-
-        const expected = driver.avg * 5;
-
-        const consistency = driver.consistency || 3;
-
-        const varianceMap = {
-            5: 0.20,
-            4: 0.30,
-            3: 0.45,
-            2: 0.55,
-            1: 0.65
-        };
-
-        const variance = expected * varianceMap[consistency];
-
-        const score = Math.max(
-            0,
-            Math.round(
-                expected +
-                (Math.random() * variance * 2 - variance)
-            )
-        );
-        let eventText = "";
-
-const eventRoll = Math.random();
-
-if (eventRoll < 0.02) {
-    eventText = "🔧 Motorhaveri";
-}
-else if (eventRoll < 0.05) {
-    eventText = "🤕 Känning";
-}
-else if (eventRoll > 0.97) {
-    eventText = "🚀 Toppform";
-}
-
-        total += score;
-
-        results.push({
-    name: driver.name,
-    score: score,
-    expected: expected,
-    delta: score - expected,
-    event: eventText
-});
-
-    });
-
-    // Sortera resultatlistan efter tagna poäng
-    results.sort((a, b) => b.score - a.score);
-
-    // Matchhjälte = flest poäng
-    const hero = results[0];
-
-    // Matchflopp = störst underprestation
-    const flop = [...results].sort((a, b) => a.delta - b.delta)[0];
-       const simAchievements = [];
-       latestSimAchievements = simAchievements;
-       let story = "";
-
-if (total >= 55) {
-    story = `🏆 En uppvisning. ${hero.name} ledde laget till en övertygande seger.`;
-}
-else if (total >= 46) {
-    story = `✅ Stabil laginsats. ${hero.name} var kvällens stora poängplockare.`;
-}
-else if (total >= 40) {
-    story = `⚠️ En ojämn kväll. ${flop.name} fick aldrig riktigt träff.`;
-}
-else {
-    story = `💥 En tung afton. Laget hade svårt att få saker att fungera.`;
-}
-
-if (total >= 60) {
-    simAchievements.push("🚀 Raketbränsle! Ditt lag tog 60 eller fler poäng");
-}
-
-if (total >= 65) {
-    simAchievements.push("👽 Utomjordisk insats! Ditt lag tog 65 eller fler poäng");
-}
-
-if (total <= 35) {
-    simAchievements.push("💥 Härdsmälta. Ditt lag tog 35 eller färre poäng");
-}
-
-if (total === 45) {
-    simAchievements.push("⚖️ Tappade segern på mållinjen!");
-}
-
-if (hero.score >= 15) {
-    simAchievements.push("🌟 Femstjärnig insats. Din matchhjälte tog 15 eller fler poäng.");
-}
-
-if (hero.score >= 17) {
-    simAchievements.push("👑 Kungen av kvällen. Din matchvinnare tog 17 eller fler poäng");
-}
-
-if (hero.score >= 20) {
-    simAchievements.push("☄️ Helt omöjlig. Din toppförare tog 20 eller fler poäng");
-}
-
-if (flop.score <= 2) {
-    simAchievements.push("🛠️ Tillbaks till verkstan. Din floppförare tog två eller färre poäng");
-}
-
-if (flop.score === 0) {
-    simAchievements.push("Olympiska ringarna. Din floppförare tog ingen poäng alls!");
-}
-
-if (results.every(r => r.score >= 6)) {
-    simAchievements.push("🧱 Inga svaga länkar. Ingen av dina förare tog färre än 6 poäng");
-}
-
-if (results.every(r => r.score >= 8)) {
-    simAchievements.push("🚂 Överkörning. Alla dina förare tog minst 8 poäng!");
-}
-
-if (results.filter(r => r.score >= 12).length >= 3) {
-    simAchievements.push("🔥 Trion. Tre av dina förare tog tolv eller fler poäng!");
-}
-
-if ((hero.score - flop.score) >= 10) {
-    simAchievements.push("🎢 Berg- och dalbana. Det skiljer tio eller fler poäng mellan matchvinnaren och floppen!");
-}
-
-if (results.filter(r => r.score <= 4).length >= 4) {
-    simAchievements.push("🤯 Kollektiv kollaps. Fyra av dina förare tog fyra eller färre poäng!");
-}
-       if (results.every(r => r.delta > 0)) {
-    simAchievements.push("🏆 Perfekt kväll - samtliga förare överträffade förväntningarna");
-}
-
-if (results.every(r => r.delta < 0)) {
-    simAchievements.push("😱 Mardröm - samtliga förare underpresterade");
-}
-
-if (results.filter(r => r.score >= 13).length >= 3) {
-    simAchievements.push("🔥 Ketchupeffekt - minst tre förare nådde 13 poäng eller mer");
-}
-
-if (results.every(r => r.score >= 7)) {
-    simAchievements.push("🧱 Betongvägg - ingen förare noterades för mindre än 7 poäng");
-}
-       if (results.filter(r => r.score >= 15).length >= 2) {
-    simAchievements.push("🔥 Dubbelkanonerna - två förare nådde minst 15 poäng");
-}
-
-if (results.filter(r => r.score === 0).length >= 2) {
-    simAchievements.push("👻 Spöklaget - två förare blev poänglösa");
-}
-
-if (
-    hero.score >= 15 &&
-    results.filter(r => r.score >= 12).length >= 3
-) {
-    simAchievements.push("🦄 Enhörningen - MVP på minst 15 poäng och tre förare över 12");
-}
-
-if (
-    total >= 60 &&
-    results.every(r => r.score >= 6)
-) {
-    simAchievements.push("🚢 Osänkbara - 60+ lagpoäng utan någon svag länk");
-}
-
-if (
-    hero.score >= 15 &&
-    flop.score >= 7
-) {
-    simAchievements.push("⚖️ Perfekt balans - stjärnan glänste utan att någon föll igenom");
-}
-
-if (
-    results.filter(r => r.score >= 10).length >= 5
-) {
-    simAchievements.push("🚂 Full fart framåt - fem förare nådde tvåsiffrigt");
-}
-
-if (
-    results.filter(r => r.score <= 4).length >= 4
-) {
-    simAchievements.push("🌪️ Totalt haveri - fyra förare eller fler under 5 poäng");
-}
-
-if (
-    total >= 55 &&
-    hero.score >= 13 &&
-    flop.score >= 6
-) {
-    simAchievements.push("🏅 Komplett laginsats - hög lagpoäng utan några stora svagheter");
-}
-       if (total >= 70) {
-    simAchievements.push("💫 En gång i livet - laget nådde minst 70 poäng");
-}
-
-
-if (results.every(r => r.score >= 10)) {
-    simAchievements.push("⚔️ Sju samurajer - samtliga förare nådde tvåsiffrigt");
-}
-
-if (total < 30) {
-    simAchievements.push("☢️ Chernobyl - total systemkollaps");
-}
-
-if (hero.score === flop.score) {
-    simAchievements.push("⚖️ Alla lika - ingen förare stack ut");
-}
-simAchievements.forEach(a => {
-    if (!unlockedSimAchievements.includes(a)) {
-        unlockedSimAchievements.push(a);
-    }
-});
-
-localStorage.setItem(
-    "unlockedSimAchievements",
-    JSON.stringify(unlockedSimAchievements)
-);
-
-updateProgressBox();
-       
-latestSimAchievements = simAchievements;
-
-document.getElementById("progress-box").innerHTML =
-    `🏆 Totalt: ${
-        unlockedAchievements.length +
-        unlockedSimAchievements.length
-    }/53<br>
-     🏅 Lag: ${unlockedAchievements.length}/23<br>
-     🎖️ Sim: ${unlockedSimAchievements.length}/30`;
-
-results.forEach(driver => {
-    output += `
-        ${driver.name}: <strong>${driver.score}</strong> p ${driver.event}<br>
-    `;
-});
-
-   output += `
-    <br>
-    <strong>🏁 ${total} poäng</strong><br><br>
-
-    🏆 ${hero.name} (${hero.score})<br>
-    💀 ${flop.name} (${flop.score})<br><br>
-`;
-       if (simAchievements.length > 0) {
-
-    output += `
-        <strong>🎖️ Simuleringsutmärkelser</strong><br>
-        ${simAchievements.join("<br>")}
-        <br><br>
-    `;
-}
-    if (total > bestSimulation) {
-    bestSimulation = total;
-}
-
-document.getElementById("record-box").innerHTML =
-    `🏆 Personbästa: ${bestSimulation}`;
-       document.getElementById("stats-box").innerHTML =
-    `🎲 ${simulations} | ✅ ${wins} | ➖ ${draws} | ❌ ${losses}`;
-   
-    if (total >= 46) {
-
-    wins++;
-
-    output += `<span style="color:#16a34a;font-weight:bold;">✅ Vinst</span>`;
-}
-else if (total === 45) {
-
-    draws++;
-
-    output += `<span style="color:#ca8a04;font-weight:bold;">➖ Oavgjort</span>`;
-}
-else {
-
-    losses++;
-
-    output += `<span style="color:#dc2626;font-weight:bold;">❌ Förlust</span>`;
-}
-       output += `</div>`;
-
-document.getElementById("simulation-result").innerHTML = output;
-
-sendHeight();
 }
    function simulatePlayoffMatch(teamStrength, opponentStrength, homeAdvantage = 0) {
 
