@@ -1090,7 +1090,11 @@ else {
     achievements.forEach(a => {
 
     if (!unlockedAchievements.includes(a)) {
+
         unlockedAchievements.push(a);
+
+        showAchievement(a);
+
     }
 
 });
@@ -1645,6 +1649,9 @@ if (
 ) {
     careerAchievements.push("🚀 Raketresan - tog SM-guld inom tre säsonger");
 }
+                  if (careerStats.seasonsPlayed >= 500) {
+    careerAchievements.push("👔 Sportchefen - genomför 500 säsonger");
+}
 
 if (
     finish.includes("SM-GULD") &&
@@ -1669,13 +1676,12 @@ if (
        careerAchievements.forEach(a => {
 
     if (!unlockedCareerAchievements.includes(a)) {
+
         unlockedCareerAchievements.push(a);
+
+        showAchievement(a);
+
     }
-
-           if (careerStats.seasonsPlayed >= 500) {
-    careerAchievements.push("👔 Sportchefen - genomför 500 säsonger");
-}
-
 
 });
 
