@@ -768,8 +768,6 @@ function updateProgressBox() {
     const savedLag =
         JSON.parse(localStorage.getItem("unlockedAchievements")) || [];
 
-    const savedMatch =
-        JSON.parse(localStorage.getItem("unlockedSimAchievements")) || [];
 
     const savedCareer =
         JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
@@ -785,6 +783,7 @@ document.getElementById("progress-box").innerHTML =
         ? "<br><br>👑 Senaste karriärutmärkelser:<br>" +
           latestCareer.join("<br>")
         : ""}`;
+    }
 
 function updateStatus() {
 
