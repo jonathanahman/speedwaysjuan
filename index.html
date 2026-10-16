@@ -783,22 +783,27 @@ function updateProgressBox() {
     const savedLag =
         JSON.parse(localStorage.getItem("unlockedAchievements")) || [];
 
-
     const savedCareer =
         JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
 
     const latestCareer =
         savedCareer.slice(-3);
 
-document.getElementById("progress-box").innerHTML =
-    `🏆 Totalt: ${savedLag.length + savedCareer.length}/33<br>
-     🏅 Lag: ${savedLag.length}/23<br>
-     👑 Karriär: ${savedCareer.length}/12
-     ${latestCareer.length > 0
-        ? "<br><br>👑 Senaste karriärutmärkelser:<br>" +
-          latestCareer.join("<br>")
-        : ""}`;
-    }
+    document.getElementById("progress-box").innerHTML =
+        `🏆 Totalt: ${savedLag.length + savedCareer.length}/33<br>
+         🏅 Lag: ${savedLag.length}/23<br>
+         👑 Karriär: ${savedCareer.length}/10
+
+         ${savedLag.length > 0
+            ? "<br><br><strong>🏅 Upplåsta lagutmärkelser</strong><br>" +
+              savedLag.join("<br>")
+            : ""}
+
+         ${savedCareer.length > 0
+            ? "<br><br><strong>👑 Upplåsta karriärutmärkelser</strong><br>" +
+              savedCareer.join("<br>")
+            : ""}`;
+}
 
 function updateStatus() {
 
