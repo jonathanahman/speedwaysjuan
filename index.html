@@ -225,6 +225,35 @@ let unlockedCareerAchievements =
     JSON.parse(localStorage.getItem(
         ACHIEVEMENT_CATEGORIES.karriar.storageKey
     )) || [];
+    // Städar gamla achievements och tar bort dubletter
+
+unlockedAchievements =
+    unlockedAchievements.map(
+        a => a.split(" - ")[0]
+    );
+
+unlockedAchievements =
+    [...new Set(unlockedAchievements)];
+
+unlockedCareerAchievements =
+    unlockedCareerAchievements.map(
+        a => a.split(" - ")[0]
+    );
+
+unlockedCareerAchievements =
+    [...new Set(unlockedCareerAchievements)];
+
+// Sparar tillbaka de städade listorna
+
+localStorage.setItem(
+    ACHIEVEMENT_CATEGORIES.lag.storageKey,
+    JSON.stringify(unlockedAchievements)
+);
+
+localStorage.setItem(
+    ACHIEVEMENT_CATEGORIES.karriar.storageKey,
+    JSON.stringify(unlockedCareerAchievements)
+);
 
 let careerStats = JSON.parse(
     localStorage.getItem("careerStats")
