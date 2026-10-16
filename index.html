@@ -117,6 +117,22 @@ let unlockedAchievements =
     JSON.parse(localStorage.getItem(
         ACHIEVEMENT_CATEGORIES.lag.storageKey
     )) || [];
+    let careerStats = JSON.parse(
+    localStorage.getItem("careerStats")
+) || {
+    golds: 0,
+    silvers: 0,
+    finals: 0,
+    semifinals: 0,
+    playoffs: 0,
+
+    consecutiveGolds: 0,
+    consecutiveFinalLosses: 0,
+    consecutiveSemifinals: 0,
+
+    seasonsPlayed: 0,
+    goldsLast10: []
+};
 
 let unlockedCareerAchievements =
     JSON.parse(localStorage.getItem(
