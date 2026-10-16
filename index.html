@@ -936,16 +936,23 @@ function updateProgressBox() {
 
          <div class="achievement-list">
 
-            ${savedLag.length > 0
-                ? savedLag.join("<br>")
-                : "Inga upplåsta ännu"}
+            <strong>✅ Upplåsta</strong><br>
 
-            ${missingLag.length > 0
-                ? "<br>" +
-                  missingLag
+            ${
+                savedLag.length > 0
+                ? savedLag.map(a => "✅ " + a).join("<br>")
+                : "Inga upplåsta ännu"
+            }
+
+            <br><br>
+
+            <strong>🔒 Saknas fortfarande</strong><br>
+
+            ${
+                missingLag
                     .map(a => "🔒 " + a)
                     .join("<br>")
-                : ""}
+            }
 
          </div>
 
@@ -955,16 +962,23 @@ function updateProgressBox() {
 
          <div class="achievement-list">
 
-            ${savedCareer.length > 0
-                ? savedCareer.join("<br>")
-                : "Inga upplåsta ännu"}
+            <strong>✅ Upplåsta</strong><br>
 
-            ${missingCareer.length > 0
-                ? "<br>" +
-                  missingCareer
+            ${
+                savedCareer.length > 0
+                ? savedCareer.map(a => "✅ " + a).join("<br>")
+                : "Inga upplåsta ännu"
+            }
+
+            <br><br>
+
+            <strong>🔒 Saknas fortfarande</strong><br>
+
+            ${
+                missingCareer
                     .map(a => "🔒 " + a)
                     .join("<br>")
-                : ""}
+            }
 
          </div>`;
 }
