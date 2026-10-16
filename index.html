@@ -777,15 +777,14 @@ function updateProgressBox() {
     const latestCareer =
         savedCareer.slice(-3);
 
-   document.getElementById("progress-box").innerHTML =
+document.getElementById("progress-box").innerHTML =
     `🏆 Totalt: ${savedLag.length + savedCareer.length}/33<br>
      🏅 Lag: ${savedLag.length}/23<br>
-     👑 Karriär: ${savedCareer.length}/12`;
-         ${latestCareer.length > 0
-            ? "<br><br>👑 Senaste karriärutmärkelser:<br>" +
-              latestCareer.join("<br>")
-            : ""}`;
-}
+     👑 Karriär: ${savedCareer.length}/12
+     ${latestCareer.length > 0
+        ? "<br><br>👑 Senaste karriärutmärkelser:<br>" +
+          latestCareer.join("<br>")
+        : ""}`;
 
 function updateStatus() {
 
