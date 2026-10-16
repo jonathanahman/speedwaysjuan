@@ -1305,6 +1305,10 @@ if (position > 6) {
     }
      }
        const careerAchievements = [];
+       const swedes =
+    myTeam.filter(
+        d => d.category === "SS" || d.category === "SU21"
+    ).length;
 
 careerStats.seasonsPlayed++;
 
@@ -1476,10 +1480,6 @@ if (
 ) {
     careerAchievements.push("🚀 Raketresan - tog SM-guld inom tre säsonger");
 }
-const swedes =
-    myTeam.filter(
-        d => d.category === "SS" || d.category === "SU21"
-    ).length;
 
 if (
     finish.includes("SM-GULD") &&
