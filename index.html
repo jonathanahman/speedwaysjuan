@@ -796,34 +796,57 @@ function updateProgressBox() {
     const savedCareer =
         JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
 
-    const latestCareer =
-        savedCareer.slice(-3);
+    const missingLag =
+        ACHIEVEMENT_CATEGORIES.lag.total -
+        savedLag.length;
 
-document.getElementById("progress-box").innerHTML =
-    `🏆 Totalt: ${savedLag.length + savedCareer.length}/45<br>
-     🏅 Lag: ${savedLag.length}/23<br>
-     👑 Karriär: ${savedCareer.length}/22
+    const missingCareer =
+        ACHIEVEMENT_CATEGORIES.karriar.total -
+        savedCareer.length;
 
-     <br><br>
+    document.getElementById("progress-box").innerHTML =
+        `🏆 Totalt: ${savedLag.length + savedCareer.length}/45<br>
+         🏅 Lag: ${savedLag.length}/23<br>
+         👑 Karriär: ${savedCareer.length}/22
 
-     <strong>🏅 Upplåsta lagutmärkelser</strong>
+         <br><br>
 
-     <div class="achievement-list">
-        ${savedLag.length > 0
-            ? savedLag.join("<br>")
-            : "Inga upplåsta ännu"}
-     </div>
+         <strong>🏅 Lagutmärkelser</strong>
 
-     <br>
+         <div class="achievement-list">
+            ${
+                (savedLag.length > 0
+                    ? savedLag.join("<br>")
+                    : "Inga upplåsta ännu")
+                +
+                (missingLag > 0
+                    ? "<br>" +
+                      Array(missingLag)
+                          .fill("❓ Okänd utmärkelse")
+                          .join("<br>")
+                    : "")
+            }
+         </div>
 
-     <strong>👑 Upplåsta karriärutmärkelser</strong>
+         <br>
 
-     <div class="achievement-list">
-        ${savedCareer.length > 0
-            ? savedCareer.join("<br>")
-            : "Inga upplåsta ännu"}
-     </div>`;
-    }
+         <strong>👑 Karriärutmärkelser</strong>
+
+         <div class="achievement-list">
+            ${
+                (savedCareer.length > 0
+                    ? savedCareer.join("<br>")
+                    : "Inga upplåsta ännu")
+                +
+                (missingCareer > 0
+                    ? "<br>" +
+                      Array(missingCareer)
+                          .fill("❓ Okänd karriärutmärkelse")
+                          .join("<br>")
+                    : "")
+            }
+         </div>`;
+}
     
 
 function updateStatus() {
