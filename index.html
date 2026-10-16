@@ -1130,11 +1130,20 @@ else {
     const achievements = getAchievements();
     const TOTAL_ACHIEVEMENTS = 23;
        
-    achievements.forEach(a => {
+  achievements.forEach(a => {
 
-    if (!unlockedAchievements.includes(a)) {
+    const achievementName =
+        a.split(" - ")[0];
 
-        unlockedAchievements.push(a);
+    if (
+        !unlockedAchievements.includes(
+            achievementName
+        )
+    ) {
+
+        unlockedAchievements.push(
+            achievementName
+        );
 
         showAchievement(a);
 
@@ -1718,9 +1727,18 @@ if (
 }
        careerAchievements.forEach(a => {
 
-    if (!unlockedCareerAchievements.includes(a)) {
+    const achievementName =
+        a.split(" - ")[0];
 
-        unlockedCareerAchievements.push(a);
+    if (
+        !unlockedCareerAchievements.includes(
+            achievementName
+        )
+    ) {
+
+        unlockedCareerAchievements.push(
+            achievementName
+        );
 
         showAchievement(a);
 
