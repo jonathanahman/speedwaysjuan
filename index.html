@@ -850,32 +850,24 @@ function updateProgressBox() {
 
     const savedCareer =
         JSON.parse(localStorage.getItem("unlockedCareerAchievements")) || [];
-    const missingLag =
-    ALL_LAG_ACHIEVEMENTS.filter(
-        achievement =>
-            !savedLag.some(
-                unlocked =>
-                    unlocked.startsWith(achievement)
-            )
-    );
-
-const missingCareer =
-    ALL_CAREER_ACHIEVEMENTS.filter(
-        achievement =>
-            !savedCareer.some(
-                unlocked =>
-                    unlocked.startsWith(achievement)
-            )
-    );
-
 
     const missingLag =
-        ACHIEVEMENT_CATEGORIES.lag.total -
-        savedLag.length;
+        ALL_LAG_ACHIEVEMENTS.filter(
+            achievement =>
+                !savedLag.some(
+                    unlocked =>
+                        unlocked.startsWith(achievement)
+                )
+        );
 
     const missingCareer =
-        ACHIEVEMENT_CATEGORIES.karriar.total -
-        savedCareer.length;
+        ALL_CAREER_ACHIEVEMENTS.filter(
+            achievement =>
+                !savedCareer.some(
+                    unlocked =>
+                        unlocked.startsWith(achievement)
+                )
+        );
 
     document.getElementById("progress-box").innerHTML =
         `🏆 Totalt: ${savedLag.length + savedCareer.length}/45<br>
@@ -887,18 +879,18 @@ const missingCareer =
          <strong>🏅 Lagutmärkelser</strong>
 
          <div class="achievement-list">
-            ${
-                (savedLag.length > 0
-                    ? savedLag.join("<br>")
-                    : "Inga upplåsta ännu")
-                +
-                (missingLag > 0
-                    ? "<br>" +
-                      Array(missingLag)
-                          .fill("❓ Okänd utmärkelse")
-                          .join("<br>")
-                    : "")
-            }
+
+            ${savedLag.length > 0
+                ? savedLag.join("<br>")
+                : "Inga upplåsta ännu"}
+
+            ${missingLag.length > 0
+                ? "<br>" +
+                  missingLag
+                    .map(a => "🔒 " + a)
+                    .join("<br>")
+                : ""}
+
          </div>
 
          <br>
@@ -906,18 +898,18 @@ const missingCareer =
          <strong>👑 Karriärutmärkelser</strong>
 
          <div class="achievement-list">
-            ${
-                (savedCareer.length > 0
-                    ? savedCareer.join("<br>")
-                    : "Inga upplåsta ännu")
-                +
-                (missingCareer > 0
-                    ? "<br>" +
-                      Array(missingCareer)
-                          .fill("❓ Okänd karriärutmärkelse")
-                          .join("<br>")
-                    : "")
-            }
+
+            ${savedCareer.length > 0
+                ? savedCareer.join("<br>")
+                : "Inga upplåsta ännu"}
+
+            ${missingCareer.length > 0
+                ? "<br>" +
+                  missingCareer
+                    .map(a => "🔒 " + a)
+                    .join("<br>")
+                : ""}
+
          </div>`;
 }
     
